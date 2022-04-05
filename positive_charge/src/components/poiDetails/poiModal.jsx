@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDom from 'react-dom'
 import axios from 'axios';
+
+import AddExperience from './AddExperience.jsx';
 
 /*
 Styles here are just for positioning of the modal and will be refactored to scss or sass or whatever we decide to use later
@@ -28,7 +30,9 @@ const overlayStyle = {
 }
 
 
-export default function PoiModal({ open, onClose}) {
+export default function PoiModal({open, onClose}) {
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const love = (path) => {
     // axios.put(`/love${path}`, {love: 1})
@@ -36,6 +40,22 @@ export default function PoiModal({ open, onClose}) {
     //     // send something like loved x thing
     //     console.log(response.data)
     //   })
+  }
+
+  const flag = (path) => {
+    // axios.put(`/flag${path}`, {flag: true})
+    //   .then((response) => {
+    //     // send something like flagged x thing
+    //     console.log(response.data)
+    //   })
+  }
+
+  const addExperience = () => {
+
+  }
+
+  const showTextbox = () => {
+
   }
 
   return open ?
@@ -47,29 +67,31 @@ export default function PoiModal({ open, onClose}) {
         {/* modal itself */}
         <div style={modalStyle}>
 
-          {/* comments section */}
+          {/* experiences section */}
           <div>Experiences Section
 
             <div>
               {/* experience */}
-              experience
-              {/* love button */}
-              <button onClick={() => love('/experience')}>love</button>
+              blah blah was so awesome at this place
+              {/* love button for experiences */}
+              <button onClick={() => love('/experience')}>Love</button>
               {/* flag button */}
-              <button onClick={() => console.log('flag experience')}>flag</button>
+              <button onClick={() => flag('/experience')}>Flag</button>
               {/* photo */}
               <div>photo (optional)</div>
             </div>
 
           </div>
 
-          {/* love button */}
-          <button onClick={() => love('/poi')}>love</button>
-          {/* comment button */}
-          <button onClick={() => console.log('adding comment')}>add experience</button>
+          {/* love button for poi's */}
+          <button onClick={() => love('/poi')}>Love</button>
 
-          {/* flag button */}
-          <button onClick={() => console.log('flag')}>flag</button>
+          {/* add experience button for poi's */}
+          <button onClick={() => setIsOpen(true)}>add experience</button>
+          <AddExperience open={isOpen} onClose={() => setIsOpen(false)}></AddExperience>
+
+          {/* flag button for poi's */}
+          <button onClick={() => flag('/poi')}>Flag</button>
 
           {/* close button */}
           <button onClick={onClose}>Close</button>
@@ -77,6 +99,6 @@ export default function PoiModal({ open, onClose}) {
         </div>
 
       </>,
-    document.getElementById('portal')
+    document.getElementById('modal-portal')
   ) : null;
 }
