@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 import Login from './src/components/login/Login.jsx';
 import Signup from './src/components/login/Signup.jsx';
-
+import Modal from './src/components/poiDetails/Modal.jsx';
 
 class App extends React.Component {
     constructor(props) {
@@ -10,10 +10,13 @@ class App extends React.Component {
     }
     render() {
         return (
-           <div className="app">
-               <Login />
-               <Signup />
-           </div>
+            <>
+            <div className="app">
+                <Login />
+                <Signup />
+            </div>
+                <Modal ></Modal>
+          </>
         )
     }
 }
