@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class Login extends React.Component {
   constructor(props) {
@@ -7,13 +8,22 @@ class Login extends React.Component {
       email: '',
       password: ''
     }
-    this.loginSubmit = this.loginSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  loginSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault();
-    console.log('login clicked');
+    axios.post('/login', {
+      email: this.state.email,
+      password: this.state.password
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
   }
 
   handleChange(e) {
@@ -26,7 +36,7 @@ class Login extends React.Component {
     return (
       <div className="login">
         <h1>Login</h1>
-        <form onSubmit={this.loginSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <label htmlFor="email">Email:
             <input type="email" name="email" onChange={this.handleChange} required />
           </label><br/>
