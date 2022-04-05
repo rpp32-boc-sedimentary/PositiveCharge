@@ -6,6 +6,8 @@
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.0",
@@ -14,7 +16,8 @@
   "scripts": {
     "test": "npm test",
     "client": "webpack --mode development --watch",
-    "server": "npx nodemon ./servers/index.js"
+    "server": "npx nodemon ./servers/index.js",
+    "start": "npm run client & npm run server"
   },
   "eslintConfig": {
     "extends": [
@@ -45,6 +48,7 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^6.7.1",
     "file-loader": "^6.2.0",
+    "nodemon": "^2.0.15",
     "style-loader": "^3.3.1",
     "webpack": "^5.71.0",
     "webpack-cli": "^4.9.2",
