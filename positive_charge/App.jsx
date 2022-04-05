@@ -15,7 +15,9 @@ class App extends React.Component {
                 <Login />
                 <Signup />
             </div>
-                <Modal ></Modal>
+            <div>
+                <Modal></Modal>
+            </div>
           </>
         )
     }
