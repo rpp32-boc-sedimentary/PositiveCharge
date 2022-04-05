@@ -23,3 +23,5 @@ class SeePOI extends React.Component {
   }
 
 }
+
+export default SeePOI;
