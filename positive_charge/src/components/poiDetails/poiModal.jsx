@@ -1,6 +1,10 @@
 import React from 'react'
 import ReactDom from 'react-dom'
+import axios from 'axios';
 
+/*
+Styles here are just for positioning of the modal and will be refactored to scss or sass or whatever we decide to use later
+*/
 const modalStyle = {
   position: 'fixed',
   width: '70%',
@@ -23,7 +27,16 @@ const overlayStyle = {
   zIndex: 1000
 }
 
-export default function PoiModal({ open, onClose }) {
+
+export default function PoiModal({ open, onClose}) {
+
+  const love = (path) => {
+    // axios.put(`/love${path}`, {love: 1})
+    //   .then((response) => {
+    //     // send something like loved x thing
+    //     console.log(response.data)
+    //   })
+  }
 
   return open ?
     ReactDom.createPortal(
@@ -36,19 +49,22 @@ export default function PoiModal({ open, onClose }) {
 
           {/* comments section */}
           <div>Experiences Section
-            <div>experience
-              {/* username */}
-              <div>username</div>
+
+            <div>
               {/* experience */}
-              <div>experience</div>
+              experience
+              {/* love button */}
+              <button onClick={() => love('/experience')}>love</button>
+              {/* flag button */}
+              <button onClick={() => console.log('flag experience')}>flag</button>
               {/* photo */}
               <div>photo (optional)</div>
             </div>
+
           </div>
 
           {/* love button */}
-          <button onClick={() => console.log('loved')}>love</button>
-
+          <button onClick={() => love('/poi')}>love</button>
           {/* comment button */}
           <button onClick={() => console.log('adding comment')}>add experience</button>
 
