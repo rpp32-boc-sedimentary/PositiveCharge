@@ -18,7 +18,7 @@ class App extends React.Component {
                 <AddPOI />
             </div>
             <div>
-                <Modal></Modal>
+                <Modal />
             </div>
           </>
         )

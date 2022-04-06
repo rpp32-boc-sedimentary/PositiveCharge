@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 const authRouter = require('./routes/authRoutes.js');
 const addPOIRouter = require('./routes/addPOIRoutes.js')
 
+const detailsRouter = require('./routes/detailsRoutes.js');
 
 const app = express();
 const port = 3000;
@@ -13,6 +14,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/', authRouter);
 app.post('/addPOI', addPOIRouter);
+
+app.use('/details', detailsRouter);
 
 app.get('/', (req, res) => {
     res.send("Sarcastic hello");

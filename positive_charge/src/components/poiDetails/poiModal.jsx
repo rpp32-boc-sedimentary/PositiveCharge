@@ -35,19 +35,19 @@ export default function PoiModal({open, onClose}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const love = (path) => {
-    // axios.put(`/love${path}`, {love: 1})
-    //   .then((response) => {
-    //     // send something like loved x thing
-    //     console.log(response.data)
-    //   })
+    axios.put(`/details/${path}/love`, {love: 1})
+      .then((response) => {
+        // send something like loved x thing
+        console.log(response.data)
+      })
   };
 
   const flag = (path) => {
-    // axios.put(`/flag${path}`, {flag: true})
-    //   .then((response) => {
-    //     // send something like flagged x thing
-    //     console.log(response.data)
-    //   })
+    axios.put(`/details/${path}/flag`, {flag: true})
+      .then((response) => {
+        // send something like flagged x thing
+        console.log(response.data)
+      })
   };
 
   return open ?
@@ -61,13 +61,13 @@ export default function PoiModal({open, onClose}) {
 
           {/* experiences section */}
           <div>
-            <h3>Experiences Section</h3>
+            {/* <h3>Experiences Section</h3> */}
             <div>
 
               {/* experience */}
               foo bar was so awesome at this foo place
 
-              {/* love button for experiences */}
+              {/* love button for experiences*/}
               <button onClick={() => love('/experience')}>Love</button>
 
               {/* flag button */}
