@@ -1,0 +1,27 @@
+/*
+FILTER COMPONENT
+*/
+
+.smallFilter {
+  font-size: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 50rem;
+
+
+  .sfChild {
+    color: black;
+    background-color: #f1d866;
+    border-radius: 20px;
+  }
+}
+
+.bigFilter {
+  display: flex;
+  flex-direction: column;
+}
+
+.categoryHeader {
+  font-size: 1.5rem;
+}
