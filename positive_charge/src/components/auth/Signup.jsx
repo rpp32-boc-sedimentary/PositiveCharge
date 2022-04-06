@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -28,6 +29,9 @@ class Signup extends React.Component {
     })
     .then((response) => {
       console.log(response.data);
+      if (response.data === 'success') {
+
+      }
     })
     .catch((err) => {
       console.error(err);
@@ -39,17 +43,23 @@ class Signup extends React.Component {
       <div className="signup">
         <h1>Sign Up</h1>
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor="name">Full Name:
+          <div>
+            <label htmlFor="name">Full Name: </label>
             <input type="text" name="name" onChange={this.handleChange} required />
-          </label>
-          <label htmlFor="email">Email:
+          </div>
+          <div>
+            <label htmlFor="email">Email: </label>
             <input type="email" name="email" onChange={this.handleChange} required />
-          </label>
-          <label htmlFor="password">Password:
+          </div>
+          <div>
+            <label htmlFor="password">Password: </label>
             <input type="text" name="password" onChange={this.handleChange} required />
-          </label>
+          </div>
           <input type="submit" value="Sign Up" />
         </form>
+        <div>Already have an account?
+          <Link to="/login">Login</Link>
+        </div>
       </div>
     )
   }
