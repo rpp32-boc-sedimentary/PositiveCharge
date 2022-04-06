@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client';
+import AddPOI from './src/components/addPOI/AddPOI.jsx'
 import Login from './src/components/login/Login.jsx';
 import Signup from './src/components/login/Signup.jsx';
 import Modal from './src/components/poiDetails/Modal.jsx';
@@ -14,6 +15,7 @@ class App extends React.Component {
             <div className="app">
                 <Login />
                 <Signup />
+                <AddPOI />
             </div>
             <div>
                 <Modal></Modal>
@@ -23,4 +25,6 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App/>, document.getElementById('App'));
+const container = document.getElementById('app')
+const root = createRoot(container)
+root.render(<App />);
