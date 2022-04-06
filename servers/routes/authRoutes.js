@@ -10,10 +10,30 @@ authRouter.use((req, res, next) => {
 // temp - delete after DB is set up
 const users = [];
 
+// testing purposes only - delete after
+authRouter.get('/users', (req, res) => {
+  res.send(users);
+})
+
+authRouter.get('/login', (req, res) => {
+  res.redirect('/');
+})
+
+authRouter.get('/signup', (req, res) => {
+  res.redirect('/');
+})
+
 authRouter.post('/login', async (req, res) => {
+  var user = users.find( user => user.email === req.body.email)
+  if (user === null) {
+    return res.status(400).send('Cannot find user');
+  }
   try {
-    var credentials = { email: req.body.email, password: req.body.password }
-    res.status(201).send(credentials);
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      res.status(201).send('Successful login');
+    } else {
+      res.send('Incorrect password');
+    }
   } catch (err) {
     res.status(500).send(err);
   }
