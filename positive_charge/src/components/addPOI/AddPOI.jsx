@@ -27,20 +27,20 @@ function AddPOI(props) {
           value={location}
           onChange={e => {setLocation(e.target.value)}}></input>
           <label htmlFor="point-name-input">Location</label>
-          <select id="category-select">
+          <select id="category-select"
+          value={category}
+          placeholder="Please select a category"
+          onChange={e => {setCategory(e.target.value)}}>
             <option value="food">Food</option>
             <option value="active">Active</option>
+            <option value="culture">Culture</option>
             <option value="other">Other</option>
           </select>
-          type="text"
-          className="text-input"
-          id="category-input"
-          placeholder=""
-          value={location}
-          onChange={e => {setLocation(e.target.value)}}></input>
-          <label htmlFor="point-name-input">Category</label>
+          <label htmlFor="category-select">Category</label>
         </form>
       </div>
     </div>
   )
 }
+
+export default AddPOI
