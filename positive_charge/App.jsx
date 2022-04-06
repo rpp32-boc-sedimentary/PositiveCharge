@@ -1,10 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
-import './src/styles.scss';
+import { createRoot } from 'react-dom/client';
+import AddPOI from './src/components/addPOI/AddPOI.jsx'
 import Login from './src/components/login/Login.jsx';
 import Signup from './src/components/login/Signup.jsx';
+import Modal from './src/components/poiDetails/Modal.jsx';
 import LittleFilter from './src/components/filter/LittleFilter.jsx';
 import BigFilter from './src/components/filter/BigFilter.jsx';
+import './src/styles.scss';
 
 
 class App extends React.Component {
@@ -16,9 +18,15 @@ class App extends React.Component {
     }
     render() {
         return (
-            <div className="app">
-                <Login />
-                <Signup />
+            <>
+                <div className="app">
+                    <Login />
+                    <Signup />
+                    <AddPOI />
+                </div>
+                <div>
+                    <Modal />
+                </div>
                 <div>
                     <hr></hr>
                     <h2>
@@ -28,9 +36,11 @@ class App extends React.Component {
                     <BigFilter />
                     <hr></hr>
                 </div>
-            </div>
+            </>
         )
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('App'));
+const container = document.getElementById('app')
+const root = createRoot(container)
+root.render(<App />);
