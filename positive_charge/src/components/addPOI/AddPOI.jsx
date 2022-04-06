@@ -82,6 +82,7 @@ function AddPOI () {
           <label htmlFor="$$$">$$$</label><br></br><br></br>
 
           <input type="submit" value="Add POI"></input>
+          <br></br><br></br>
         </form>
       </div>
     </div>
