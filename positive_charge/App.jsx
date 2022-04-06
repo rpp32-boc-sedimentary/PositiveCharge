@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
 import { createRoot } from 'react-dom/client';
 import AddPOI from './src/components/addPOI/AddPOI.jsx'
 import Login from './src/components/login/Login.jsx';
