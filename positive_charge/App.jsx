@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route, Outlet, Link } from 'react-router-dom';
-import Login from './src/components/login/Login.jsx';
-import Signup from './src/components/login/Signup.jsx';
+import Login from './src/components/auth/Login.jsx';
+import Signup from './src/components/auth/Signup.jsx';
 
 
 class App extends React.Component {
@@ -21,9 +21,6 @@ class App extends React.Component {
             <li>
               <Link to="/login">Log In / Sign Up</Link>
             </li>
-            {/* <li>
-              <Link to="/signup">Sign Up</Link>
-            </li> */}
           </ul>
         </div>
 

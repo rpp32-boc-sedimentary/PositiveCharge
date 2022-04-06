@@ -1,32 +1,17 @@
 import React from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import Signup from './Signup.jsx';
+import { Link, useNavigate } from 'react-router-dom';
 
-
-class Login extends React.Component {
+class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
       email: '',
       password: ''
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    axios.post('/login', {
-      email: this.state.email,
-      password: this.state.password
-    })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((err) => {
-      console.error(err);
-    })
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(e) {
@@ -35,11 +20,33 @@ class Login extends React.Component {
     })
   }
 
-  render() {
+  handleSubmit(e) {
+    e.preventDefault();
+    axios.post('/signup', {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password
+    })
+    .then((response) => {
+      console.log(response.data);
+      if (response.data === 'success') {
+
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }
+
+  render () {
     return (
-      <div className="login">
-        <h1>Login</h1>
+      <div className="signup">
+        <h1>Sign Up</h1>
         <form onSubmit={this.handleSubmit}>
+          <div>
+            <label htmlFor="name">Full Name: </label>
+            <input type="text" name="name" onChange={this.handleChange} required />
+          </div>
           <div>
             <label htmlFor="email">Email: </label>
             <input type="email" name="email" onChange={this.handleChange} required />
@@ -48,14 +55,14 @@ class Login extends React.Component {
             <label htmlFor="password">Password: </label>
             <input type="text" name="password" onChange={this.handleChange} required />
           </div>
-          <input type="submit" value="Login" />
+          <input type="submit" value="Sign Up" />
         </form>
-        <div>Don't have an account?
-          <Link to="/signup">Sign Up</Link>
+        <div>Already have an account?
+          <Link to="/login">Login</Link>
         </div>
       </div>
     )
   }
 }
 
-export default Login;
+export default Signup;
