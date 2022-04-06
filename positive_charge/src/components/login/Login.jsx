@@ -1,5 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import Signup from './Signup.jsx';
+
 
 class Login extends React.Component {
   constructor(props) {
@@ -37,14 +40,19 @@ class Login extends React.Component {
       <div className="login">
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor="email">Email:
+          <div>
+            <label htmlFor="email">Email: </label>
             <input type="email" name="email" onChange={this.handleChange} required />
-          </label><br/>
-          <label htmlFor="password">Password:
+          </div>
+          <div>
+            <label htmlFor="password">Password: </label>
             <input type="text" name="password" onChange={this.handleChange} required />
-          </label>
+          </div>
           <input type="submit" value="Login" />
         </form>
+        <div>Don't have an account?
+          <Link to="/signup">Sign Up</Link>
+        </div>
       </div>
     )
   }
