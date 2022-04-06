@@ -12,6 +12,7 @@ class App extends React.Component {
 
   render() {
     return (
+      <>
       <BrowserRouter>
         <div>
           <ul>
@@ -31,8 +32,18 @@ class App extends React.Component {
         </Routes>
         <Outlet />
       </BrowserRouter>
+
+      <div>
+        <AddPOI />
+      </div>
+      <div>
+        <Modal />
+      </div>
+      </>
     )
   }
 }
 
-ReactDOM.render(<App/>, document.getElementById('App'));
+const container = document.getElementById('app')
+const root = createRoot(container)
+root.render(<App />);
