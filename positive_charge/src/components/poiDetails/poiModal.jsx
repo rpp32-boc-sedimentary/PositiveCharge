@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import ReactDom from 'react-dom'
+import React, { useState } from 'react';
+import ReactDom from 'react-dom';
 import axios from 'axios';
 
 import AddExperience from './AddExperience.jsx';
@@ -17,7 +17,7 @@ const modalStyle = {
   backgroundColor: '#FFF',
   padding: '50px',
   zIndex: 1000
-}
+};
 
 const overlayStyle = {
   position: 'fixed',
@@ -27,7 +27,7 @@ const overlayStyle = {
   bottom: 0,
   backgroundColor: 'rgba(0, 0, 0, .8)',
   zIndex: 1000
-}
+};
 
 
 export default function PoiModal({open, onClose}) {
@@ -40,7 +40,7 @@ export default function PoiModal({open, onClose}) {
     //     // send something like loved x thing
     //     console.log(response.data)
     //   })
-  }
+  };
 
   const flag = (path) => {
     // axios.put(`/flag${path}`, {flag: true})
@@ -48,15 +48,7 @@ export default function PoiModal({open, onClose}) {
     //     // send something like flagged x thing
     //     console.log(response.data)
     //   })
-  }
-
-  const addExperience = () => {
-
-  }
-
-  const showTextbox = () => {
-
-  }
+  };
 
   return open ?
     ReactDom.createPortal(
@@ -68,19 +60,23 @@ export default function PoiModal({open, onClose}) {
         <div style={modalStyle}>
 
           {/* experiences section */}
-          <div>Experiences Section
-
+          <div>
+            <h3>Experiences Section</h3>
             <div>
+
               {/* experience */}
-              blah blah was so awesome at this place
+              foo bar was so awesome at this foo place
+
               {/* love button for experiences */}
               <button onClick={() => love('/experience')}>Love</button>
+
               {/* flag button */}
               <button onClick={() => flag('/experience')}>Flag</button>
+
               {/* photo */}
               <div>photo (optional)</div>
-            </div>
 
+            </div>
           </div>
 
           {/* love button for poi's */}

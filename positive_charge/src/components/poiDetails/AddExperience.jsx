@@ -30,15 +30,30 @@ const overlayStyle = {
 
 export default function AddExperience({open, onClose}) {
 
+  const [experience, setExperience] = useState('');
+
+  const shareExperience = (path) => {
+    axios.post(path, {experience})
+      .then((result) => {
+        alert(result.data)
+      })
+  }
+
   return open ?
     ReactDom.createPortal(
       <>
         {/* background */}
         <div style={overlayStyle} />
 
-
         <div style={modalStyle}>
           add experience section
+          <form onSubmit={() => shareExperience('/experiences')}>
+            <label>
+              Let other's know your experience
+              <input type="text" onChange={event => setExperience(event.target.value)}/>
+            </label>
+            <input type="submit" value="Share Experience" />
+        </form>
           <button onClick={onClose}>Close</button>
 
         </div>

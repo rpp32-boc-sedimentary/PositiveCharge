@@ -3,7 +3,7 @@ import PoiModal from './PoiModal.jsx';
 
 export default function Modal() {
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <div>
