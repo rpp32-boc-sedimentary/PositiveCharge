@@ -60,8 +60,6 @@ router.route('/experiences')
       res.status(500).send(err.message)
     }
   })
-
-router.route('/experiences')
   .delete(async (req, res, next) => {
     try {
       // imported model func
