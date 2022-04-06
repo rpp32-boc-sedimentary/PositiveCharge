@@ -24,20 +24,20 @@ class App extends React.Component {
                 <li>
                 <Link to="/login">Log In / Sign Up</Link>
                 </li>
+                <li>
+                    <Link to="addPOI">Add a Point of Interest</Link>
+                </li>
             </ul>
             </div>
 
             <Routes>
                 <Route path="/" />
                 <Route path="/login" element={<Login />} />
-                    <Route path="signup" element={<Signup />} />
+                <Route path="signup" element={<Signup />} />
+                <Route path="addPOI" element={<AddPOI />} />
             </Routes>
             <Outlet />
         </BrowserRouter>
-
-        <div>
-            <AddPOI />
-        </div>
         <div>
             <Modal />
         </div>
