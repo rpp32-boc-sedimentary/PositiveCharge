@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client';
 import AddPOI from './src/components/addPOI/AddPOI.jsx'
-
+import Login from './src/components/login/Login.jsx';
+import Signup from './src/components/login/Signup.jsx';
 
 
 class App extends React.Component {
@@ -11,10 +13,14 @@ class App extends React.Component {
     render() {
         return (
            <div className="app">
+               <Login />
+               <Signup />
                <AddPOI />
            </div>
         )
     }
 }
 
-ReactDOM.render(<App/>, document.getElementById('algoVisualizer'));
+const container = document.getElementById('app')
+const root = createRoot(container)
+root.render(<App />);
