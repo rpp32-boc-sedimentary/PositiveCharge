@@ -32,31 +32,31 @@ class App extends React.Component {
           </div>
 
           <Routes>
-              <Route path="/" />
-              <Route path="/login" element={<Login />} />
-              <Route path="signup" element={<Signup />} />
+            <Route path="/" />
+            <Route path="/login" element={<Login />} />
+            <Route path="signup" element={<Signup />} />
           </Routes>
           <Outlet />
           </BrowserRouter>
 
         <div>
-            <AddPOI />
+          <AddPOI />
         </div>
         <div>
-            <Modal />
+          <Modal />
         </div>
         <div>
-            <hr></hr>
-            <h2>
-                Filter Component
-            </h2>
-            <LittleFilter />
-            <BigFilter />
-            <hr></hr>
+          <hr></hr>
+          <h2>
+            Filter Component
+          </h2>
+          <LittleFilter />
+          <BigFilter />
+          <hr></hr>
         </div>
       </>
-        )
-    }
+    )
+  }
 }
 
 const container = document.getElementById('app')
