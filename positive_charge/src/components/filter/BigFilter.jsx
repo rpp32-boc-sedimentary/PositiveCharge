@@ -1,7 +1,7 @@
 import React, { useState }  from 'react';
+import ReactDOM from 'react-dom';
 
-export default function BigFilter() {
-
+const BigFilter = ({ modalState, setModalState, manageModalState }) => {
   const [distance, setDistance] = useState('');
 
   const prices = {
@@ -28,8 +28,10 @@ export default function BigFilter() {
     setPrice(prices);
   }
 
-    return (
-      <>
+  return(
+    <>
+    { modalState ?
+      <div className="bigModal">
         <div>Filters</div>
         <div>
          {distance !== '' ? distance : null }
@@ -92,9 +94,18 @@ export default function BigFilter() {
           </label>
         </div>
 
-        <button>Cancel</button>
+        <button onClick={ manageModalState }>Cancel</button>
         <button>Apply Filters</button>
-      </>
-    )
+      </div>
+      : null }
+    </>
 
+  )
 }
+
+
+
+export default BigFilter;
+
+
+

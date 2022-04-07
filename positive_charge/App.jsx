@@ -51,7 +51,6 @@ class App extends React.Component {
             Filter Component
           </h2>
           <LittleFilter />
-          <BigFilter />
           <hr></hr>
         </div>
       </>

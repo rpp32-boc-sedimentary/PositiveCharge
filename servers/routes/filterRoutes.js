@@ -7,10 +7,13 @@ const client2 = yelp.client(process.env.YELP_KEY_2);
 
 router.get('/', (req, res) => {
   client.search({
-    location: '52 w 9th st. upland, ca',
+    location: '54 w 9th st. upland, ca',
+    term: 'restaurants',
+    categories: null,
     radius: 400
   })
     .then(data => {
+      console.log('data', data)
       let parsed = JSON.parse(data.body).businesses;
       let allBusDetails = [];
       let allIds = [];
