@@ -9,7 +9,7 @@ router.route('/view')
     } catch (err) {
       res.status(500).send(err.message)
     }
-  })
+  });
 
 router.route('/poi/love')
   .put(async (req, res, next) => {
@@ -19,7 +19,7 @@ router.route('/poi/love')
     } catch (err) {
       res.status(500).send(err.message)
     }
-  })
+  });
 
 router.route('/poi/flag')
   .put(async (req, res, next) => {
@@ -29,7 +29,7 @@ router.route('/poi/flag')
     } catch (err) {
       res.status(500).send(err.message)
     }
-  })
+  });
 
 router.route('/experience/love')
   .put(async (req, res, next) => {
@@ -39,7 +39,7 @@ router.route('/experience/love')
     } catch (err) {
       res.status(500).send(err.message)
     }
-  })
+  });
 
 router.route('/experience/flag')
   .put(async (req, res, next) => {
@@ -67,6 +67,6 @@ router.route('/experiences')
     } catch (err) {
       res.status(500).send(err.message)
     }
-  })
+  });
 
 module.exports = router;
