@@ -40,8 +40,9 @@ authRouter.get('/signup', (req, res) => {
 })
 
 authRouter.post('/login', async (req, res) => {
-  var user = users.find( user => user.email === req.body.email)
+  var user = users.find( user => user.email === req.body.email.toLowerCase())
   if (user === undefined) {
+    console.log('Cannot find user');
     return res.status(400).send('Cannot find user');
   }
   try {
@@ -55,11 +56,14 @@ authRouter.post('/login', async (req, res) => {
       );
       res.cookie('token', accessToken, { httpOnly: true });
       res.status(201).json({ accessToken });
+      console.log('Logged in');
     } else {
       res.send('Incorrect password');
+      console.log('Incorrect password');
     }
   } catch (err) {
     res.status(500).send(err);
+    console.error(err);
   }
 })
 
@@ -72,12 +76,10 @@ authRouter.post('/signup', async (req, res) => {
     if (oldUser !== undefined) {
       return res.status(409).send('User already exists. Please login.')
     }
-    // var salt = await bcrypt.genSalt();
     var hashedPass = await bcrypt.hash(password, 10);
     var newUser = { name: name, email: email, password: hashedPass };
     users.push(newUser);
 
-    // res.redirect('/login');
     res.status(201).send('Added new user');
   } catch (err) {
     res.status(500).send(err);
