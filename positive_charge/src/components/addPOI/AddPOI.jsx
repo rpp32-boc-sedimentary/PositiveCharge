@@ -81,6 +81,8 @@ function AddPOI () {
           <input type="radio" className="radio-button price-input" name="price" id="$$$" value="$$$" onClick={e => setPrice(e.target.value)}></input>
           <label htmlFor="$$$">$$$</label><br></br><br></br>
 
+          {/* Check if user is a business user, if so, show checkbox for "this is my business" */}
+
           <input type="submit" value="Add POI"></input>
           <br></br><br></br>
         </form>
