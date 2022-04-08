@@ -27,13 +27,13 @@ class Map extends React.Component {
                     </Popup>
                 </Marker>
                 <MapDestination destinations = {this.state.destinations}></MapDestination>
-                <Routing
+                {/* <Routing
                     startingLat={this.state.lat}
                     startingLong={this.state.long}
                     endingLat={this.state.destinations[1][0]}
                     endingLong={this.state.destinations[1][1]}
                     isDriving = {this.state.isDriving}
-                ></Routing>
+                ></Routing> */}
             </MapContainer>
         )
     }
