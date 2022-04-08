@@ -9,9 +9,14 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
     "bcrypt": "^5.0.1",
+<<<<<<< HEAD
     "corslite": "0.0.7",
+=======
+    "cookie-parser": "^1.4.6",
+>>>>>>> 41cc3b9e7da03e812a99adc2d220f230fb8b0633
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
     "jest": "^27.5.1",
     "leaflet": "^1.7.1",
     "leaflet-routing-machine": "^3.2.12",
