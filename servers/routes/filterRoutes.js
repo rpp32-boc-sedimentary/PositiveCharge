@@ -4,17 +4,24 @@ require('dotenv').config();
 const yelp = require('yelp-fusion');
 const client = yelp.client(process.env.YELP_API_KEY);
 const client2 = yelp.client(process.env.YELP_KEY_2);
+const axios = require('axios');
 
 router.get('/', (req, res) => {
   client.search({
-    location: '54 w 9th st. upland, ca',
-    term: 'restaurants',
+    location: '10151 arrow rte, rancho cucamonga',
+    term: 'bakery',
     categories: null,
-    radius: 400
+    radius: 500,
+    attributes: null
   })
     .then(data => {
-      console.log('data', data)
+      console.log('data', data.jsonBody.businesses)
       let parsed = JSON.parse(data.body).businesses;
+      let busAndCar = [];
+      data.jsonBody.businesses.forEach(item => {
+        busAndCar.push(item.name, item.categories)
+      })
+      console.log('busAndCar', busAndCar)
       let allBusDetails = [];
       let allIds = [];
       parsed.forEach(item => {
@@ -49,4 +56,5 @@ router.get('/', (req, res) => {
 })
 
 
-module.exports = router;
+
+module.exports = router

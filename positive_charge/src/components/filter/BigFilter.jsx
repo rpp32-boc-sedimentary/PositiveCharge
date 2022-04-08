@@ -2,7 +2,11 @@ import React, { useState }  from 'react';
 import ReactDOM from 'react-dom';
 
 const BigFilter = ({ modalState, setModalState, manageModalState }) => {
+
   const [distance, setDistance] = useState('');
+  const handleDistance = (e) => {
+    setDistance(e.target.value);
+  }
 
   const prices = {
     free: '',
@@ -11,11 +15,6 @@ const BigFilter = ({ modalState, setModalState, manageModalState }) => {
     $$$: ''
   }
   const [price, setPrice] = useState(prices);
-
-  const handleDistance = (e) => {
-    setDistance(e.target.value);
-  }
-
   const handlePrice = (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -28,7 +27,7 @@ const BigFilter = ({ modalState, setModalState, manageModalState }) => {
     setPrice(prices);
   }
 
-  return(
+  return (
     <>
     { modalState ?
       <div className="bigModal">
