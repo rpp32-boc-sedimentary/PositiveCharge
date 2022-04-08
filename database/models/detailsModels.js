@@ -6,7 +6,7 @@ exports.detailsModels = {
   },
 
   lovePoi: async () => {
-
+    return 'loved that poi'
   },
 
   flagPoi: async () => {

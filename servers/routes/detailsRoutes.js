@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+
+
 router.route('/view')
   .get(async (req, res, next) => {
     try {
@@ -15,7 +17,8 @@ router.route('/poi/love')
   .put(async (req, res, next) => {
     try {
       // imported model func
-      res.status(201).send('loved a poi')
+      const result = await router.detailsModels.lovePoi()
+      res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
     }

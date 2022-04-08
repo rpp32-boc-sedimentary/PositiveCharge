@@ -22,7 +22,7 @@
   "scripts": {
     "test": "npm test",
     "client": "webpack --mode development --watch",
-    "server": "npx nodemon ./servers/index.js",
+    "server": "npx nodemon ./servers/server.js",
     "start": "npm run client & npm run server"
   },
   "eslintConfig": {
