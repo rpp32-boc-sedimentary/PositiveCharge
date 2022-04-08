@@ -5,7 +5,7 @@ import AddPOI from './src/components/addPOI/AddPOI.jsx'
 import Login from './src/components/auth/Login.jsx';
 import Signup from './src/components/auth/Signup.jsx';
 import Modal from './src/components/poiDetails/Modal.jsx';
-
+import SeePOI from './src/components/seePOI/seePOI.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -19,10 +19,13 @@ class App extends React.Component {
             <div>
             <ul>
                 <li>
-                <Link to="/">Home</Link>
+                  <Link to="/">Home</Link>
                 </li>
                 <li>
-                <Link to="/login">Log In / Sign Up</Link>
+                  <Link to="/login">Log In / Sign Up</Link>
+                </li>
+                <li>
+                    <Link to="/seePOI">seePOI</Link>
                 </li>
             </ul>
             </div>
@@ -30,7 +33,9 @@ class App extends React.Component {
             <Routes>
                 <Route path="/" />
                 <Route path="/login" element={<Login />} />
-                    <Route path="signup" element={<Signup />} />
+                <Route path="signup" element={<Signup />} />
+                <Route path='/seePOI' element={<SeePOI />}/>
+                <Route path='/addPOI' element={<AddPOI />}/>
             </Routes>
             <Outlet />
         </BrowserRouter>
