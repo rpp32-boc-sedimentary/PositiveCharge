@@ -9,11 +9,25 @@ authRouter.use((req, res, next) => {
   next()
 })
 
+function verifyToken(req, res, next) {
+  var token = req.cookies.token;
+  if (!token) {
+    return res.status(403).send('Token required for authentication');
+  }
+  jwt.verify(token, process.env.ACCESS_KEY, (err, user) => {
+    if (err) {
+      return res.status(403).send('Invalid token');
+    }
+    req.user = user;
+    next();
+  })
+}
+
 // temp - delete after DB is set up
 const users = [];
 
 // testing purposes only - delete after
-authRouter.get('/users', (req, res) => {
+authRouter.get('/users', verifyToken, (req, res) => {
   res.send(users);
 })
 
@@ -32,8 +46,15 @@ authRouter.post('/login', async (req, res) => {
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
-      const accessToken = jwt.sign({ user: req.body.email }, process.env.ACCESS_TOKEN);
-      res.status(201).send('Successful login. ' + 'Access Token: ', accessToken);
+      const accessToken = jwt.sign(
+        { user: req.body.email },
+        process.env.ACCESS_KEY,
+        {
+          expiresIn: "2m"
+        }
+      );
+      res.cookie('token', accessToken, { httpOnly: true });
+      res.status(201).json({ accessToken });
     } else {
       res.send('Incorrect password');
     }
@@ -63,4 +84,14 @@ authRouter.post('/signup', async (req, res) => {
   }
 })
 
-module.exports = authRouter;
+authRouter.post('/logout', (req, res) => {
+  res.status(202).clearCookie('token').send('cookie cleared');
+  // Future goal: store tokens with remaining time to live in redis as a blacklist
+  //    Login should be compared against the blacklist to ensure someone with a ...
+  //    ...copy of the cookie cannot login
+})
+
+module.exports = {
+  authRouter,
+  verifyToken
+}
