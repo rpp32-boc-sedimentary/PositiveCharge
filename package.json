@@ -11,11 +11,8 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-<<<<<<< HEAD
     "jsonwebtoken": "^8.5.1",
-=======
     "pg": "^8.7.3",
->>>>>>> 47ffd4aaa5e50ebb6a3620557973b18c0db0b936
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0",
