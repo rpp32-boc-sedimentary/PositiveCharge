@@ -50,7 +50,7 @@ export default function PoiModal({open, onClose}) {
       })
   };
 
-  return open ?
+  return open &&
     ReactDom.createPortal(
       <>
         {/* background */}
@@ -96,5 +96,5 @@ export default function PoiModal({open, onClose}) {
 
       </>,
     document.getElementById('modal-portal')
-  ) : null;
+  );
 }
