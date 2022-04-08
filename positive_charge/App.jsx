@@ -5,6 +5,10 @@ import AddPOI from './src/components/addPOI/AddPOI.jsx'
 import Login from './src/components/auth/Login.jsx';
 import Signup from './src/components/auth/Signup.jsx';
 import Modal from './src/components/poiDetails/Modal.jsx';
+import LittleFilter from './src/components/filter/LittleFilter.jsx';
+import BigFilter from './src/components/filter/BigFilter.jsx';
+import './src/styles.scss';
+
 
 
 class App extends React.Component {
@@ -16,30 +20,38 @@ class App extends React.Component {
     return (
       <>
         <BrowserRouter>
-            <div>
+          <div>
             <ul>
-                <li>
+              <li>
                 <Link to="/">Home</Link>
-                </li>
-                <li>
-                <Link to="/login">Log In / Sign Up</Link>
-                </li>
+              </li>
+              <li>
+                  <Link to="/login">Log In / Sign Up</Link>
+              </li>
             </ul>
-            </div>
+          </div>
 
-            <Routes>
-                <Route path="/" />
-                <Route path="/login" element={<Login />} />
-                    <Route path="signup" element={<Signup />} />
-            </Routes>
-            <Outlet />
-        </BrowserRouter>
+          <Routes>
+            <Route path="/" />
+            <Route path="/login" element={<Login />} />
+            <Route path="signup" element={<Signup />} />
+          </Routes>
+          <Outlet />
+          </BrowserRouter>
 
         <div>
-            <AddPOI />
+          <AddPOI />
         </div>
         <div>
-            <Modal />
+          <Modal />
+        </div>
+        <div>
+          <hr></hr>
+          <h2>
+            Filter Component
+          </h2>
+          <LittleFilter />
+          <hr></hr>
         </div>
       </>
     )
