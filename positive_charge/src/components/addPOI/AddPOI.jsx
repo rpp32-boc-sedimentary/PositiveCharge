@@ -49,14 +49,17 @@ function AddPOI () {
           </input><br></br><br></br>
 
           <label htmlFor="point-name-input">Location: </label>
-          <input
+          <input id="autocomplete" placeholder="Enter a place" type="text" />
+
+          {/* <input
           type="text"
           className="text-input"
           id="location-input"
           placeholder=""
           value={location}
           onChange={e => setLocation(e.target.value)}
-          ></input><br></br><br></br>
+          ></input> */}
+          <br></br><br></br>
 
           <label htmlFor="category-select">Category: </label>
           <select id="category-select"

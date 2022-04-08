@@ -12,8 +12,21 @@
     <div id="modal-portal"></div>
     <div id="exp-portal"></div>
     <script type="text/javascript" src="bundle.js"></script>
+    <script>
+      let autocomplete;
+      function initAutocomplete() {
+        autocomplete = new google.maps.places.Autocomplete(
+          document.getElementById('autocomplete'),
+          {
+            types: ['establishment'],
+            componentRestrictions: {'country': ['US']},
+            fields: ['place_id', 'geometry', 'name']
+          }
+        )
+      }
+    </script>
     <script async
-      src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap">
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZmKIxRLOMTufnC13rHM7vzzeWGRJ-kKE&libraries=places&callback=initAutocomplete">
     </script>
   </body>
 </html>
