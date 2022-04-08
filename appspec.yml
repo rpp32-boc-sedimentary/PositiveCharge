@@ -88,13 +88,13 @@ files:
   #     runas:
 # During the BeforeInstall deployment lifecycle event, run the commands
 #   in the script specified in "location".
-  # BeforeInstall:
-  #   - location:
-  #     timeout:
-  #     runas:
-  #   - location:
-  #     timeout:
-  #     runas:
+  BeforeInstall:
+    - location: /home/ec2-user/app/codeDeployScripts/removePreviousBuild.sh
+      timeout: 30
+      runas: ec2-user
+    # - location:
+    #   timeout:
+    #   runas:
 # During the AfterInstall deployment lifecycle event, run the commands
 #   in the script specified in "location".
   # AfterInstall:
@@ -106,10 +106,10 @@ files:
   #     runas:
 # During the ApplicationStart deployment lifecycle event, run the commands
 #   in the script specified in "location".
-  # ApplicationStart:
-  #   - location:
-  #     timeout:
-  #     runas:
+  ApplicationStart:
+    - location: /home/ec2-user/app/codeDeployScripts/buildAndRunDeployment.sh
+      timeout: 150
+      runas: ec2-user
   #   - location:
   #     timeout:
   #     runas:
