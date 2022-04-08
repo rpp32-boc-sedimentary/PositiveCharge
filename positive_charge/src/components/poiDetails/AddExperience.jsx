@@ -40,7 +40,7 @@ export default function AddExperience({open, onClose}) {
       })
   }
 
-  return open ?
+  return open &&
     ReactDom.createPortal(
       <>
         {/* background */}
@@ -60,5 +60,5 @@ export default function AddExperience({open, onClose}) {
         </div>
       </>,
     document.getElementById('exp-portal')
-  ) : null;
+  );
 }

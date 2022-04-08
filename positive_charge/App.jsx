@@ -7,6 +7,7 @@ import Signup from './src/components/auth/Signup.jsx';
 import Modal from './src/components/poiDetails/Modal.jsx';
 import LittleFilter from './src/components/filter/LittleFilter.jsx';
 import BigFilter from './src/components/filter/BigFilter.jsx';
+import SeePOI from './src/components/seePOI/seePOI.jsx';
 import './src/styles.scss';
 
 
@@ -28,6 +29,9 @@ class App extends React.Component {
               <li>
                   <Link to="/login">Log In / Sign Up</Link>
               </li>
+              <li>
+                    <Link to="/seePOI">seePOI</Link>
+                </li>
             </ul>
           </div>
 
@@ -35,6 +39,7 @@ class App extends React.Component {
             <Route path="/" />
             <Route path="/login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
+            <Route path='/seePOI' element={<SeePOI />}/>
           </Routes>
           <Outlet />
           </BrowserRouter>
