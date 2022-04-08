@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 
 class Login extends React.Component {
@@ -8,7 +8,9 @@ class Login extends React.Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      user: null,
+      error: null
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -21,10 +23,13 @@ class Login extends React.Component {
       password: this.state.password
     })
     .then((response) => {
-      console.log(response.data);
+      let user = response.data;
+      console.log(user);
+      this.setState({ user });
+      this.props.logIn();
     })
-    .catch((err) => {
-      console.error(err);
+    .catch((error) => {
+      this.setState({ error });
     })
   }
 
@@ -35,8 +40,13 @@ class Login extends React.Component {
   }
 
   render() {
+    let { user, error } = this.state;
     return (
       <div className="login">
+        { error && <p>{error}</p>}
+        { user && (
+          <Navigate to="/" replace={true} />
+        )}
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
           <div>
