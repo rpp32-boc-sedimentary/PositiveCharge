@@ -25,4 +25,4 @@ yarn-error.log*
 
 request.rest
 
-*public/bundle.js
+bundle.js
