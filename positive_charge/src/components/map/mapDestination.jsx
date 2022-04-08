@@ -8,7 +8,7 @@ var MapDestination = (props) => {
             return (
                 <Marker position={[dest[0], dest[1]]} key={index}>
                     <Popup>
-                        Custom Customizable Number;
+                        {index + 1}
                     </Popup>
                 </Marker>
             )
