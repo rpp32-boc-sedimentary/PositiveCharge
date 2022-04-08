@@ -8,14 +8,20 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
     "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "pg": "^8.7.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
+<<<<<<< HEAD
     "underscore": "^1.13.2",
     "web-vitals": "^2.1.4"
+=======
+    "web-vitals": "^2.1.4",
+    "yelp-fusion": "^3.0.0"
+>>>>>>> 7bde344f1c7392465623e1c42edb4bc284b8c8b6
   },
   "scripts": {
     "test": "npm test",
@@ -52,7 +58,9 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^6.7.1",
     "file-loader": "^6.2.0",
+    "node-sass": "^7.0.1",
     "nodemon": "^2.0.15",
+    "sass-loader": "^12.6.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.71.0",
     "webpack-cli": "^4.9.2",
