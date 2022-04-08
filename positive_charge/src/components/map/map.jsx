@@ -32,7 +32,7 @@ class Map extends React.Component {
                     startingLong={this.state.long}
                     endingLat={this.state.destinations[1][0]}
                     endingLong={this.state.destinations[1][1]}
-                    isWalking = {this.state.isDriving}
+                    isDriving = {this.state.isDriving}
                 ></Routing>
             </MapContainer>
         )
