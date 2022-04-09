@@ -9,26 +9,16 @@ class Map extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            lat: 32.877063,
-            long: -117.234024,
-            destinations: [
-                {lat: 32.878071, long: -117.236941, destinationName: 'Center Hall'}, 
-                {lat: 32.879749, long:-117.236921, destinationName: 'PC'}, 
-                {lat: 32.881146, long: -117.237586, destinationName: 'Geisel'}
-            ],
+            lat: 39.595244,
+            long: -104.7049212,
+            destinations: this.props.props,
             isDriving: false,
             directions: [],
-            currDestination: {lat: 32.881146, long: -117.237586}
+            //currDestination: {lat: 32.881146, long: -117.237586}
+            currDestination: {}
         }
         this.getDirections = this.getDirections.bind(this);
-    }
-    componentDidUpdate() {
-        for(var i = 0; i < this.state.destinations.length; i++) {
-            if (this.state.destinations[i].lat === this.state.currDestination.lat) {
-                console.log(this.state.destinations[i].destinationName);
-            }
-        }
-        //console.log(this.state.currDestination);
+        console.log('passed in props', this.props);
     }
 
     getDirections(event) {
