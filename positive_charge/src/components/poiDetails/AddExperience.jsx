@@ -33,7 +33,6 @@ export default function AddExperience({open, onClose}) {
   const [experience, setExperience] = useState('');
 
   const shareExperience = (path) => {
-    alert(experience)
     axios.post(`/details${path}`, {experience})
       .then((result) => {
         alert(result.data)
