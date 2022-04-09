@@ -15,7 +15,7 @@ router.route('/view')
     }
   });
 
-router.put('/poi/love', async (req, res, next) => {
+router.put('/poi/love', verifyToken, async (req, res, next) => {
     try {
       const result = await router.detailsModels.lovePoi()
       res.status(201).send(result)
@@ -24,7 +24,7 @@ router.put('/poi/love', async (req, res, next) => {
     }
   });
 
-router.put('/poi/flag', async (req, res, next) => {
+router.put('/poi/flag', verifyToken, async (req, res, next) => {
     try {
       const result = await router.detailsModels.flagPoi();
       res.status(201).send(result)
@@ -33,7 +33,7 @@ router.put('/poi/flag', async (req, res, next) => {
     }
   });
 
-router.put('/experience/love', async (req, res, next) => {
+router.put('/experience/love', verifyToken, async (req, res, next) => {
     try {
       const result = await router.detailsModels.loveExp('3');
       res.status(201).send(result)
@@ -42,7 +42,7 @@ router.put('/experience/love', async (req, res, next) => {
     }
   });
 
-router.put('/experience/flag', async (req, res, next) => {
+router.put('/experience/flag', verifyToken, async (req, res, next) => {
     try {
       const result = await router.detailsModels.flagExp('1');
       res.status(201).send(result)
@@ -51,7 +51,7 @@ router.put('/experience/flag', async (req, res, next) => {
     }
   })
 
-router.post('/experiences', async (req, res, next) => {
+router.post('/experiences', verifyToken, async (req, res, next) => {
     try {
       const result = await router.detailsModels.addExperience('this is the test experience');
       res.status(201).send(result)
@@ -59,7 +59,7 @@ router.post('/experiences', async (req, res, next) => {
       res.status(500).send(err.message)
     }
   })
-  .delete(async (req, res, next) => {
+  .delete(verifyToken, async (req, res, next) => {
     const result = await router.detailsModels.deleteExperience();
     try {
       res.status(201).send(result)
