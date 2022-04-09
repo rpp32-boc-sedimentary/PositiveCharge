@@ -1,21 +1,22 @@
 const express = require('express');
 const router = express.Router();
+
+// add verifyToken when I get the access token
 const {verifyToken} = require('./authRoutes.js')
 
 
 router.route('/view')
   .get(async (req, res, next) => {
+    const result = await router.detailsModels.grabview();
     try {
-      // imported model func
-      res.status(201).send('fetched poi details for modal')
+      res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
     }
   });
 
-router.put('/poi/love', verifyToken, async (req, res, next) => {
+router.put('/poi/love', async (req, res, next) => {
     try {
-      // imported model func
       const result = await router.detailsModels.lovePoi()
       res.status(201).send(result)
     } catch (err) {
@@ -23,45 +24,45 @@ router.put('/poi/love', verifyToken, async (req, res, next) => {
     }
   });
 
-router.put('/poi/flag', verifyToken, async (req, res, next) => {
+router.put('/poi/flag', async (req, res, next) => {
     try {
-      // imported model func
-      res.status(201).send('flagged a poi')
+      const result = await router.detailsModels.flagPoi();
+      res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
     }
   });
 
-router.put('/experience/love', verifyToken, async (req, res, next) => {
+router.put('/experience/love', async (req, res, next) => {
     try {
-      // imported model func
-      res.status(201).send('loved an experience')
+      const result = await router.detailsModels.loveExp('3');
+      res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
     }
   });
 
-router.put('/experience/flag', verifyToken, async (req, res, next) => {
+router.put('/experience/flag', async (req, res, next) => {
     try {
-      // imported model func
-      res.status(201).send('flagged an experience')
+      const result = await router.detailsModels.flagExp('1');
+      res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
     }
   })
 
-router.post('/experiences', verifyToken, async (req, res, next) => {
+router.post('/experiences', async (req, res, next) => {
     try {
-      // imported model func
-      res.status(201).send('added an experience')
+      const result = await router.detailsModels.addExperience('this is the test experience');
+      res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
     }
   })
   .delete(async (req, res, next) => {
+    const result = await router.detailsModels.deleteExperience();
     try {
-      // imported model func
-      res.status(201).send('deleted an experience')
+      res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
     }
