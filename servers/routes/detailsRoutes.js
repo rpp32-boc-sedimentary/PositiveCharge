@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const {verifyToken} = require('./authRoutes.js')
 
 
 router.route('/view')
@@ -13,8 +13,7 @@ router.route('/view')
     }
   });
 
-router.route('/poi/love')
-  .put(async (req, res, next) => {
+router.put('/poi/love', verifyToken, async (req, res, next) => {
     try {
       // imported model func
       const result = await router.detailsModels.lovePoi()
@@ -24,8 +23,7 @@ router.route('/poi/love')
     }
   });
 
-router.route('/poi/flag')
-  .put(async (req, res, next) => {
+router.put('/poi/flag', verifyToken, async (req, res, next) => {
     try {
       // imported model func
       res.status(201).send('flagged a poi')
@@ -34,8 +32,7 @@ router.route('/poi/flag')
     }
   });
 
-router.route('/experience/love')
-  .put(async (req, res, next) => {
+router.put('/experience/love', verifyToken, async (req, res, next) => {
     try {
       // imported model func
       res.status(201).send('loved an experience')
@@ -44,8 +41,7 @@ router.route('/experience/love')
     }
   });
 
-router.route('/experience/flag')
-  .put(async (req, res, next) => {
+router.put('/experience/flag', verifyToken, async (req, res, next) => {
     try {
       // imported model func
       res.status(201).send('flagged an experience')
@@ -54,8 +50,7 @@ router.route('/experience/flag')
     }
   })
 
-router.route('/experiences')
-  .post(async (req, res, next) => {
+router.post('/experiences', verifyToken, async (req, res, next) => {
     try {
       // imported model func
       res.status(201).send('added an experience')
