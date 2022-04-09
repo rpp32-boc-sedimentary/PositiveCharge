@@ -5,6 +5,7 @@ const yelp = require('yelp-fusion');
 const client = yelp.client(process.env.YELP_API_KEY);
 const client2 = yelp.client(process.env.YELP_KEY_2);
 const axios = require('axios');
+const { request, gql, GraphQLClient } = require('graphql-request');
 
 router.get('/', (req, res) => {
   client.search({
@@ -54,6 +55,50 @@ router.get('/', (req, res) => {
       console.log('error from yelp api', err);
     })
 })
+
+router.get('/graphql', (req, res) => {
+
+  async function main() {
+    const endpoint = 'https://api.yelp.com/v3/graphql';
+
+    const gClient = new GraphQLClient(endpoint, {
+      headers: { 'Authorization': `Bearer ${process.env.YELP_API_KEY}` }
+    });
+    const query = gql`
+      {
+        search(location: "10151 arrow rte., rancho cucamonga, ca", term: "museums", radius: 10000) {
+          total
+          business {
+            id
+            is_closed
+            hours {
+              open {
+                start
+                end
+                day
+              }
+              is_open_now
+            }
+            name
+            location {
+              formatted_address
+            }
+            price
+            distance
+          }
+        }
+      }
+    `
+    const data = await gClient.request(query, req.body)
+    res.status(200).send(data);
+    console.log((data.search.business))
+  }
+  main().catch((err) => {
+    console.error(err)
+  })
+})
+
+
 
 
 

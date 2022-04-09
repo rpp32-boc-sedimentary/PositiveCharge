@@ -27,7 +27,7 @@ const LittleFilter = () => {
 
   // DELETE Later, for testing purposes
   const getYelpData = () => {
-    axios.get('/filter')
+    axios.get('/filter/graphql')
       .then(data => {
         console.log('data', data);
       })
