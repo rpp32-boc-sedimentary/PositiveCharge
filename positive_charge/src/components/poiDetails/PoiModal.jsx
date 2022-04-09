@@ -33,7 +33,7 @@ const overlayStyle = {
 export default function PoiModal({open, onClose, detail}) {
 
   const [isOpen, setIsOpen] = useState(false);
-
+  console.log(detail)
   const love = (path) => {
     axios.put(`/details/${path}/love`, {love: 1})
       .then((response) => {
@@ -58,7 +58,7 @@ export default function PoiModal({open, onClose, detail}) {
 
         {/* modal itself */}
         <div style={modalStyle}>
-
+          <h2>{detail.poiName}</h2>
           {/* experiences section */}
           <div>
             <div>
