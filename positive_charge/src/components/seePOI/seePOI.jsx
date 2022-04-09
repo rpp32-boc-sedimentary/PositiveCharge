@@ -6,6 +6,7 @@ import Signup from '../auth/Signup.jsx';
 import Modal from '../poiDetails/Modal.jsx';
 import LittleFilter from '../filter/LittleFilter.jsx';
 import BigFilter from '../filter/BigFilter.jsx';
+import Map from '../map/map.jsx';
 const axios = require('axios');
 
 
@@ -42,7 +43,7 @@ class SeePOI extends React.Component {
       }
       modifiedData.push(mapRequiredData);
     }
-    this.setState({mapData: modifiedData}, () => {console.log('map', this.state)})
+    this.setState({mapData: modifiedData})
   }
 
   componentDidMount () {
@@ -51,14 +52,7 @@ class SeePOI extends React.Component {
   }
 
   tester (){console.log('tester button', this.state)};
-  // componentDidUpdate(prevProps) {
-  //   if(this.props.id !== prevProps.id) {
-  //     this.setState({
-  //       id: this.props.id
-  //     })
-  //     this.getQuestionData(this.props.id, 1, 100)
-  //   }
-  // }
+
 
   render() {
     return(
@@ -66,7 +60,7 @@ class SeePOI extends React.Component {
         <div className='returnCharger'><Link to='/'>Find a different charger</Link></div>
         <div className='login'><Link to='/login'>Log In</Link></div><div className='signup'><Link to='/signup'>Sign up</Link></div>
         <h3 className='seePOIListHeader'>Experiences Near You</h3>
-        <div className='map'>Map placeholder</div>
+        <div className='map'><Map props={this.state.mapData}></Map></div>
         <div className='POIList'>POI list placeholder</div>
         <div className='filters'><LittleFilter /></div>
         <div className='addPOI'><Link to='/addPOI'>Add a Point of Interest</Link></div>
