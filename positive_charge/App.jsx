@@ -8,6 +8,7 @@ import Modal from './src/components/poiDetails/Modal.jsx';
 import LittleFilter from './src/components/filter/LittleFilter.jsx';
 import BigFilter from './src/components/filter/BigFilter.jsx';
 import SeePOI from './src/components/seePOI/seePOI.jsx';
+import FindChargingStations from './src/components/findChargingStations/FindChargingStations.jsx';
 import './src/styles.scss';
 import axios from 'axios';
 
@@ -82,7 +83,9 @@ class App extends React.Component {
             <Route path='/seePOI' element={<SeePOI />}/>
           </Routes>
           </BrowserRouter>
-
+        <div>
+          <FindChargingStations />
+        </div>
         <div>
           <AddPOI />
         </div>
