@@ -84,6 +84,9 @@ class App extends React.Component {
               <li>
                 <Link to="/seePOI">seePOI</Link>
               </li>
+              <li>
+                <Link to="/addPOI">Add POI</Link>
+              </li>
             </ul>
           </div>
 
@@ -93,12 +96,9 @@ class App extends React.Component {
             <Route path="signup" element={<Signup />} />
             <Route path="/logout" element={this.state.isLoggedIn ? <Navigate to="/" replace={true} /> : null} />
             <Route path='/seePOI' element={<SeePOI />}/>
+            <Route path="/addPOI" element={<AddPOI />} />
           </Routes>
         </BrowserRouter>
-
-        <div>
-          <AddPOI />
-        </div>
         <div>
           <Modal />
         </div>

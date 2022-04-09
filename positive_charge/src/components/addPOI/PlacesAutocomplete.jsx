@@ -46,7 +46,6 @@ const PlacesAutocomplete = (props) => {
         .then((results) => getLatLng(results[0]))
         .then(({ lat, lng }) => {
           console.log("📍 Coordinates: ", { lat, lng });
-          props.setCoordinates(JSON.stringify({ lat, lng }))
           props.setLat(lat)
           props.setLng(lng)
         })
@@ -75,7 +74,7 @@ const PlacesAutocomplete = (props) => {
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="Where are you going?"
+        placeholder="Enter a place"
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && <ul>{renderSuggestions()}</ul>}
