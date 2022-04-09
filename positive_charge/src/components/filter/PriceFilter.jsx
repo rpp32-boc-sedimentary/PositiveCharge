@@ -18,13 +18,16 @@ const PriceFilter = ({ priceModalState, setPriceModalState, managePriceModalStat
     setPrice( { ...price, [name]: value } );
   }
 
-
+  const handlePriceApply = (e) => {
+    e.preventDefault();
+    managePriceModalState();
+  }
 
   return (
     <>
       { priceModalState ?
         <div>
-            <form className='priceFilterModal'>
+            <form className='priceFilterModal' onSubmit={ handlePriceApply }>
 
               <div className='ckButton'>
                 <label>

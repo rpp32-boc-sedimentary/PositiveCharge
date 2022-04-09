@@ -39,9 +39,7 @@ const LittleFilter = () => {
 
   return (
     <div className="smallFilter">
-      {'Small Filter Bar'}
       <select className="sfChild">
-
         <option>Recommended</option>
         <option>Distance</option>
         <option>Likes</option>
