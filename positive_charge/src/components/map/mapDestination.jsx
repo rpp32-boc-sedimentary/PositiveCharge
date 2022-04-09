@@ -6,10 +6,15 @@ var MapDestination = (props) => {
     return(
         props.destinations.map((dest, index) => {
             return (
-                <Marker position={[dest[0], dest[1]]} key={index}>
-                    <Popup>
-                        {index + 1}
-                    </Popup>
+                <Marker 
+                    position={[dest.lat, dest.long]} 
+                    key={index} 
+                    eventHandlers={{
+                        click: props.getDirections
+                    }}>
+                        <Popup>
+                            {index + 1}
+                        </Popup>
                 </Marker>
             )
         })
