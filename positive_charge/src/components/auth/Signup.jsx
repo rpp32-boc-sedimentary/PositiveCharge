@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -8,7 +8,9 @@ class Signup extends React.Component {
     this.state = {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      status: null,
+      error: null
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,19 +30,24 @@ class Signup extends React.Component {
       password: this.state.password
     })
     .then((response) => {
-      console.log(response.data);
-      if (response.data === 'success') {
-
+      let status = response.data;
+      if (status === 'Added new user') {
+        this.setState({ status })
       }
     })
-    .catch((err) => {
-      console.error(err);
+    .catch((error) => {
+      this.setState({ error });
     })
   }
 
   render () {
+    let { status, error } = this.state;
     return (
       <div className="signup">
+        { error && <p>{error}</p>}
+        { status && (
+          <Navigate to="/login" replace={true} />
+        )}
         <h1>Sign Up</h1>
         <form onSubmit={this.handleSubmit}>
           <div>
