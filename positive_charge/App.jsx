@@ -102,14 +102,6 @@ class App extends React.Component {
         <div>
           <Modal />
         </div>
-        <div>
-          <hr></hr>
-          <h2>
-            Filter Component
-          </h2>
-          <LittleFilter />
-          <hr></hr>
-        </div>
       </>
     )
   }
