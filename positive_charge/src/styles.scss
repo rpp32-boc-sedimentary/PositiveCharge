@@ -13,7 +13,52 @@ FILTER COMPONENT
   .sfChild {
     color: black;
     background-color: #f1d866;
-    border-radius: 20px;
+    border-radius: 4px;
+  }
+
+  .priceFilterModal {
+
+    background: white;
+    display: flex;
+    flex-direction: column;
+
+    .ckButton {
+      background-color: rgb(182, 181, 181);
+      border: 1px solid rgb(52, 49, 49);
+      height: auto;
+      float: left;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .ckButton label {
+      float: left;
+      width: 4.0em;
+    }
+
+    .ckButton label span {
+      text-align: center;
+      padding: 3px 0px;
+      display: block;
+    }
+    .ckButton label input {
+      position: absolute;
+      top: -20px;
+    }
+
+    .ckButton input:hover + span {
+      background-color: rgb(243, 226, 183);
+    }
+
+    .ckButton input:checked + span {
+      background-color: orange;
+      color: black;
+    }
+
+    .ckButton input:checked:hover + span {
+      background-color: rgb(205, 138, 5);
+      color: black;
+    }
   }
 }
 
@@ -27,12 +72,14 @@ FILTER COMPONENT
 }
 
 .bigModal {
-  width: 800px;
+  width: 300px;
   height: 500px;
   background: rgb(255, 255, 255);
   color: #000;
   display: grid;
   border-radius: 10px;
+  border-color: black;
+  border-width: medium;
   position: absolute;
 }
 
@@ -41,6 +88,10 @@ MAP COMPONENT
 */
 #map {
   height: 50vw;
+}
+
+.leaflet-routing-container{
+  display: none;
 }
 
 /*
