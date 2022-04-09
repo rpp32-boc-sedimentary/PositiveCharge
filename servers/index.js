@@ -6,6 +6,7 @@ const { authRouter, verifyToken } = require('./routes/authRoutes.js');
 const addPOIRouter = require('./routes/addPOIRoutes.js');
 const detailsRouter = require('./routes/detailsRoutes.js');
 const filterRouter = require('./routes/filterRoutes.js');
+const seePOIRouter = require('./routes/seePOIRoutes.js');
 
 const _ = require('underscore');
 
@@ -25,6 +26,7 @@ module.exports = (database) => {
   app.use('/', authRouter);
   app.post('/addPOI', addPOIRouter);
   app.use('/details', detailsRouter);
+  app.post('/getPOI', seePOIRouter);
 
   return app;
 }
