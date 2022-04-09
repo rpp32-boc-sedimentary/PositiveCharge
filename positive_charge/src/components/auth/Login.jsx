@@ -23,13 +23,19 @@ class Login extends React.Component {
       password: this.state.password
     })
     .then((response) => {
-      let user = response.data;
-      console.log(user);
-      this.setState({ user });
-      this.props.logIn();
+      console.log('response.data: ', response.data)
+      if ((response.data !== 'Incorrect password') && (response.data !== 'Cannot find user')) {
+        let user = response.data;
+        this.setState({ user });
+        this.props.logIn(user);
+      } else {
+        let error = response.data;
+        this.setState({ error })
+      }
     })
     .catch((error) => {
-      this.setState({ error });
+      console.error(error);
+      // this.setState({ error });
     })
   }
 
