@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import PlacesAutocomplete from './PlacesAutocomplete.jsx'
 
 function AddPOI () {
   const [pointName, setPointName] = useState('')
   const [location, setLocation] = useState('')
+  const [lat, setLat] = useState('')
+  const [lng, setLng] = useState('')
   const [category, setCategory] = useState('food')
   const [price, setPrice] = useState('')
 
@@ -25,6 +28,12 @@ function AddPOI () {
       })
     }
   }
+
+  useEffect(() => {
+    if (lat && lng) {
+      console.log('lat:', lat, 'lng:', lng, typeof lat, typeof lng)
+    }
+  }, [lat, lng])
 
   //placeholder validation function
   function validatePoiInfo(data) {
@@ -49,16 +58,10 @@ function AddPOI () {
           </input><br></br><br></br>
 
           <label htmlFor="point-name-input">Location: </label>
-          <input id="autocomplete" placeholder="Enter a place" type="text" />
+          <PlacesAutocomplete setCoordinates={setLocation} setLat={setLat} setLng={setLng}/>
 
-          {/* <input
-          type="text"
-          className="text-input"
-          id="location-input"
-          placeholder=""
-          value={location}
-          onChange={e => setLocation(e.target.value)}
-          ></input> */}
+          <p id="place-geometry">Latitude and longitude (for demonstration purposes only): {location}</p>
+
           <br></br><br></br>
 
           <label htmlFor="category-select">Category: </label>
