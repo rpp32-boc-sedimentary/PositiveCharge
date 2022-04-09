@@ -73,6 +73,7 @@ class App extends React.Component {
   render() {
     return (
       <>
+        { this.state.isLoggedIn ? <h3>Welcome back!</h3> : null }
         <BrowserRouter>
           <div>
             <ul>
