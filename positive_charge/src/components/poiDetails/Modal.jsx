@@ -9,11 +9,12 @@ export default function Modal() {
     // need to add some poi id here
     axios.get(`/details/view`)
       .then((response) => {
-        console.log(response.data)
+        grabDetails(response.data)
       })
   }
 
   const [isOpen, setIsOpen] = useState(false);
+  const [details, grabDetails] = useState([]);
 
   return (
     <>
@@ -22,8 +23,7 @@ export default function Modal() {
           getDetails()
           setIsOpen(true)
         }}>Open Modal (add this click handler later to each POI on the map)</button>
-        <PoiModal open={isOpen} onClose={() => setIsOpen(false)}>
-        </PoiModal>
+        <PoiModal open={isOpen} onClose={() => setIsOpen(false)} detail={details} />
       </div>
     </>
   )

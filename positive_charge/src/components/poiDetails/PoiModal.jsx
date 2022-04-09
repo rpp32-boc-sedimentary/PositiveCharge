@@ -30,7 +30,7 @@ const overlayStyle = {
 };
 
 
-export default function PoiModal({open, onClose}) {
+export default function PoiModal({open, onClose, detail}) {
 
   const [isOpen, setIsOpen] = useState(false);
 
