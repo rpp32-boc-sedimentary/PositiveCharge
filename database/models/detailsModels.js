@@ -1,16 +1,19 @@
+const dummy = require('../dummyData/details.js');
 
 exports.detailsModels = {
 
-  grabview: async () => {
-
+  grabview: async (poiId) => {
+    return dummy.detailData;
   },
 
-  lovePoi: async () => {
-    return 'loved that poi'
+  lovePoi: async (poiId) => {
+    dummy.detailData.poiLoves++;
+    return dummy.detailData;
   },
 
   flagPoi: async () => {
-
+    dummy.detailData.flagStatus = !dummy.detailData.flagStatus;
+    return dummy.detailData;
   },
 
   loveExp: async () => {

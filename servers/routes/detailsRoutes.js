@@ -13,7 +13,7 @@ router.route('/view')
     }
   });
 
-router.put('/poi/love', verifyToken, async (req, res, next) => {
+router.put('/poi/love', async (req, res, next) => {
     try {
       // imported model func
       const result = await router.detailsModels.lovePoi()
@@ -23,7 +23,7 @@ router.put('/poi/love', verifyToken, async (req, res, next) => {
     }
   });
 
-router.put('/poi/flag', verifyToken, async (req, res, next) => {
+router.put('/poi/flag', async (req, res, next) => {
     try {
       // imported model func
       res.status(201).send('flagged a poi')
@@ -32,7 +32,7 @@ router.put('/poi/flag', verifyToken, async (req, res, next) => {
     }
   });
 
-router.put('/experience/love', verifyToken, async (req, res, next) => {
+router.put('/experience/love', async (req, res, next) => {
     try {
       // imported model func
       res.status(201).send('loved an experience')
@@ -41,7 +41,7 @@ router.put('/experience/love', verifyToken, async (req, res, next) => {
     }
   });
 
-router.put('/experience/flag', verifyToken, async (req, res, next) => {
+router.put('/experience/flag', async (req, res, next) => {
     try {
       // imported model func
       res.status(201).send('flagged an experience')
@@ -50,7 +50,7 @@ router.put('/experience/flag', verifyToken, async (req, res, next) => {
     }
   })
 
-router.post('/experiences', verifyToken, async (req, res, next) => {
+router.post('/experiences', async (req, res, next) => {
     try {
       // imported model func
       res.status(201).send('added an experience')
