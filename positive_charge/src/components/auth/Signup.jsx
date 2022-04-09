@@ -36,7 +36,8 @@ class Signup extends React.Component {
       }
     })
     .catch((error) => {
-      this.setState({ error });
+      this.setState({ error: 'User with that email already exists.' });
+      console.error(error);
     })
   }
 
