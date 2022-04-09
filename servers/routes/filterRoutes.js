@@ -66,7 +66,7 @@ router.get('/graphql', (req, res) => {
     });
     const query = gql`
       {
-        search(location: "10151 arrow rte., rancho cucamonga, ca", term: "museums", radius: 10000) {
+        search(location: "san francisco, ca", term: "burritos", radius: 200) {
           total
           business {
             id
