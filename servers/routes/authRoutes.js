@@ -51,7 +51,7 @@ authRouter.post('/login', async (req, res) => {
         { user: req.body.email },
         process.env.ACCESS_KEY,
         {
-          expiresIn: "2m"
+          expiresIn: "45m"
         }
       );
       res.cookie('token', accessToken, { httpOnly: true });

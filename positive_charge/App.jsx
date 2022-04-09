@@ -69,8 +69,8 @@ class App extends React.Component {
               </li>
               {this.greeting()}
               <li>
-                    <Link to="/seePOI">seePOI</Link>
-                </li>
+                <Link to="/seePOI">seePOI</Link>
+              </li>
             </ul>
           </div>
 
@@ -81,7 +81,7 @@ class App extends React.Component {
             <Route path="/logout" element={this.state.isLoggedIn ? <Navigate to="/" replace={true} /> : null} />
             <Route path='/seePOI' element={<SeePOI />}/>
           </Routes>
-          </BrowserRouter>
+        </BrowserRouter>
 
         <div>
           <AddPOI />
