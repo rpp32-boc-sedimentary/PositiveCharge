@@ -21,7 +21,6 @@ class SeePOI extends React.Component {
     };
     this.getPOIData = this.getPOIData.bind(this);
     this.filterForMap = this.filterForMap.bind(this);
-    this.tester = this.tester.bind(this);
   }
 
   getPOIData (lat, long, dist) {

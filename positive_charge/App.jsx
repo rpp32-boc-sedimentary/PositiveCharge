@@ -23,6 +23,18 @@ class App extends React.Component {
     this.logOut = this.logOut.bind(this);
   }
 
+  componentDidMount() {
+    axios.get('/verify')
+    .then((result) => {
+      if (result.data === 'verified') {
+        this.setState({ isLoggedIn: true });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }
+
   logIn() {
     this.setState({
       isLoggedIn: true
@@ -61,6 +73,7 @@ class App extends React.Component {
   render() {
     return (
       <>
+        { this.state.isLoggedIn ? <h3>Welcome back!</h3> : null }
         <BrowserRouter>
           <div>
             <ul>
@@ -69,8 +82,11 @@ class App extends React.Component {
               </li>
               {this.greeting()}
               <li>
-                    <Link to="/seePOI">seePOI</Link>
-                </li>
+                <Link to="/seePOI">seePOI</Link>
+              </li>
+              <li>
+                <Link to="/addPOI">Add POI</Link>
+              </li>
             </ul>
           </div>
 
@@ -80,12 +96,9 @@ class App extends React.Component {
             <Route path="signup" element={<Signup />} />
             <Route path="/logout" element={this.state.isLoggedIn ? <Navigate to="/" replace={true} /> : null} />
             <Route path='/seePOI' element={<SeePOI />}/>
+            <Route path="/addPOI" element={<AddPOI />} />
           </Routes>
-          </BrowserRouter>
-
-        <div>
-          <AddPOI />
-        </div>
+        </BrowserRouter>
         <div>
           <Modal />
         </div>
