@@ -4,6 +4,7 @@ import "leaflet-routing-machine";
 import "./lrm-tomtom.js";
 
 const createRoutineMachineLayer = (props) => {
+    console.log('Hi there');
     
     var instance = props.isDriving 
     ? L.Routing.control({
@@ -38,6 +39,7 @@ const createRoutineMachineLayer = (props) => {
         router: new L.Routing.TomTom('lfI3k6sv1agp5oZhWAARgrVhbQQuYx0k', 
         {travelMode: 'pedestrian'})
     })
+    //instance.setWaypoints([L.latLng(props.endingLat, props.endingLong), instance.options.waypoints[0]]);
 
     return instance;
 };

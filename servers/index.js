@@ -6,6 +6,7 @@ const { authRouter, verifyToken } = require('./routes/authRoutes.js');
 const addPOIRouter = require('./routes/addPOIRoutes.js');
 const detailsRouter = require('./routes/detailsRoutes.js');
 const filterRouter = require('./routes/filterRoutes.js');
+const mapRouter = require('./routes/mapRouter.js');
 
 const _ = require('underscore');
 // database is the pool object with your methods on it
@@ -27,9 +28,11 @@ module.exports = (database) => {
   app.use('/', authRouter);
   app.post('/addPOI', addPOIRouter);
   app.use('/details', detailsRouter);
+  app.use('/map', mapRouter);
 
   // Filter route for testing purposes. Will be removed later
 
+  
   app.get('/', (req, res) => {
     res.send("Sarcastic hello");
   })
