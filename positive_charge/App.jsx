@@ -70,7 +70,7 @@ class App extends React.Component {
     } else {
       return (
         <li>
-          <Link to="/login">Log In / Sign Up</Link>
+          <Link to="/login">Log In </Link> / <Link to="/signup">Sign Up</Link>
         </li>
       )
     }
