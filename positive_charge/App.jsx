@@ -23,6 +23,18 @@ class App extends React.Component {
     this.logOut = this.logOut.bind(this);
   }
 
+  componentDidMount() {
+    axios.get('/verify')
+    .then((result) => {
+      if (result.data === 'verified') {
+        this.setState({ isLoggedIn: true });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }
+
   logIn() {
     this.setState({
       isLoggedIn: true
