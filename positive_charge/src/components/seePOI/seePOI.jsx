@@ -51,7 +51,6 @@ class SeePOI extends React.Component {
 
   }
 
-  tester (){console.log('tester button', this.state)};
 
 
   render() {
