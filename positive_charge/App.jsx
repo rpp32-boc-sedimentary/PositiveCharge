@@ -17,7 +17,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: false
+      isLoggedIn: false,
+      userName: null
     }
     this.logIn = this.logIn.bind(this);
     this.logOut = this.logOut.bind(this);
@@ -26,8 +27,11 @@ class App extends React.Component {
   componentDidMount() {
     axios.get('/verify')
     .then((result) => {
-      if (result.data === 'verified') {
-        this.setState({ isLoggedIn: true });
+      if (result.data !== 'Token required for authentication') {
+        this.setState({
+          isLoggedIn: true,
+          userName: result.data
+        });
       }
     })
     .catch((err) => {
@@ -35,9 +39,10 @@ class App extends React.Component {
     })
   }
 
-  logIn() {
+  logIn(user) {
     this.setState({
-      isLoggedIn: true
+      isLoggedIn: true,
+      userName: user
     })
   }
 
@@ -71,9 +76,10 @@ class App extends React.Component {
   }
 
   render() {
+    let { isLoggedIn, userName } = this.state;
     return (
       <>
-        { this.state.isLoggedIn ? <h3>Welcome back!</h3> : null }
+        { isLoggedIn ? <h3>Welcome back, {userName} !</h3> : null }
         <BrowserRouter>
           <div>
             <ul>
