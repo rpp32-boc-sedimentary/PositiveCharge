@@ -61,9 +61,7 @@ export default function PoiModal({open, onClose}) {
 
           {/* experiences section */}
           <div>
-            {/* <h3>Experiences Section</h3> */}
             <div>
-
               {/* experience */}
               foo bar was so awesome at this foo place
 
