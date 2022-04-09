@@ -47,7 +47,7 @@ authRouter.post('/login', async (req, res) => {
   var user = users.find( user => user.email === req.body.email.toLowerCase())
   if (user === undefined) {
     console.log('Cannot find user');
-    return res.status(400).send('Cannot find user');
+    return res.send('Cannot find user');
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
