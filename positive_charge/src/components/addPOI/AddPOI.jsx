@@ -12,6 +12,8 @@ function AddPOI () {
   const [chargerLng, setChargerLng] = useState('')
   const [dist, setDist] = useState('')
   const [walkTime, setWalkTime] = useState('')
+  // const [priceGuideButton, setPriceGuideButton] = useState('Show Price Guidelines')
+  // const [priceGuide, setPriceGuide] = useState('')
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -85,6 +87,23 @@ function AddPOI () {
     return true
   }
 
+  // function handleShowPriceGuidelinesClick() {
+  //   if (priceGuideButton === 'Show Price Guidelines') {
+  //     setPriceGuideButton('Hide Price Guidelines')
+  //   } else {
+  //     setPriceGuideButton('ShowPriceGuidelines')
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   if (priceGuideButton === 'ShowPriceGuidelines') {
+  //     setPriceGuide('')
+  //   } else {
+  //     setPriceGuide('$: Inexpensive (for food, less than $10 per meal), $$: Moderate (for food, between $10 and $25 per meal), $$$: Expensive (for food, more than $25 per meal)'
+  //     )
+  //   }
+  // }, [priceGuideButton])
+
   return (
     <div className="add-poi-form-container">
       <div className="add-poi-form-wrapper">
@@ -144,6 +163,9 @@ function AddPOI () {
 
           <input type="radio" className="radio-button price-input" name="price" id="$$$" value="$$$" onClick={e => setPrice(e.target.value)}></input>
           <label htmlFor="$$$">$$$</label><br></br><br></br>
+
+          {/* <button onClick={() => {handleShowPriceGuidelinesClick()}}>{priceGuideButton}</button>
+          <p>{priceGuide}</p> */}
 
           {/* Check if user is a business user, if so, show checkbox for "this is my business" */}
 
