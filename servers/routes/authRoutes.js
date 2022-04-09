@@ -39,6 +39,10 @@ authRouter.get('/signup', (req, res) => {
   res.redirect('/');
 })
 
+authRouter.get('/verify', verifyToken, (req, res) => {
+  res.send('verified');
+})
+
 authRouter.post('/login', async (req, res) => {
   var user = users.find( user => user.email === req.body.email.toLowerCase())
   if (user === undefined) {
@@ -51,7 +55,7 @@ authRouter.post('/login', async (req, res) => {
         { user: req.body.email },
         process.env.ACCESS_KEY,
         {
-          expiresIn: "2m"
+          expiresIn: "1h"
         }
       );
       res.cookie('token', accessToken, { httpOnly: true });
