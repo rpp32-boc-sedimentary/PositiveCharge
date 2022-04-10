@@ -27,7 +27,15 @@ const LittleFilter = () => {
 
   // DELETE Later, for testing purposes
   const getYelpData = () => {
-    axios.get('/filter/graphql')
+
+    let lat = 37.776447823372365;
+    let long = -122.43286289002232;
+    axios.get('/filter/graphql', {
+      params: {
+        lat: lat,
+        long: long
+      }
+    })
       .then(data => {
         console.log('data', data);
       })

@@ -11,7 +11,6 @@ const PriceFilter = ({ priceModalState, setPriceModalState, managePriceModalStat
 
   const [price, setPrice] = useState(prices);
   const handlePrice = (e) => {
-    console.log('hel')
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
