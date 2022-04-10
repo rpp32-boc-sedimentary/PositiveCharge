@@ -5,8 +5,6 @@ import AddPOI from './src/components/addPOI/AddPOI.jsx'
 import Login from './src/components/auth/Login.jsx';
 import Signup from './src/components/auth/Signup.jsx';
 import Modal from './src/components/poiDetails/Modal.jsx';
-import LittleFilter from './src/components/filter/LittleFilter.jsx';
-import BigFilter from './src/components/filter/BigFilter.jsx';
 import SeePOI from './src/components/seePOI/seePOI.jsx';
 import './src/styles.scss';
 import axios from 'axios';
