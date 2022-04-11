@@ -71,5 +71,12 @@ router.get('/graphql', (req, res) => {
 })
 
 
+router.get('/selectedFilters', (req, res) => {
+  let test = req.query;
+  console.log('test', test);
+
+  //query the db based on filters selected
+})
+
 
 module.exports = router;

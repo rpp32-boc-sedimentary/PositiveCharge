@@ -1,26 +1,7 @@
 import React, { useState } from 'react';
 
-const PriceFilter = ({ priceModalState, setPriceModalState, managePriceModalState}) => {
+const PriceFilter = ({ priceModalState, setPriceModalState, managePriceModalState, price, setPrice, handlePrice, handlePriceApply }) => {
 
-  const prices = {
-    free: '',
-    $: '',
-    $$: '',
-    $$$: ''
-  }
-
-  const [price, setPrice] = useState(prices);
-  const handlePrice = (e) => {
-    const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-    setPrice( { ...price, [name]: value } );
-  }
-
-  const handlePriceApply = (e) => {
-    e.preventDefault();
-    managePriceModalState();
-  }
 
   return (
     <>
@@ -59,7 +40,6 @@ const PriceFilter = ({ priceModalState, setPriceModalState, managePriceModalStat
               <input type='submit' value='Save'/>
             </form>
         </div>
-
       : null }
     </>
   )
