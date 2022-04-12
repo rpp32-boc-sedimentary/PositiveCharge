@@ -49,7 +49,7 @@ class SeePOI extends React.Component {
   }
 
   walkTime (distance) {
-    let walk = Math.round(((distance/84) + Number.EPSILON) * 100) /100;
+    let walk = Math.round((distance/84));
     return walk
   }
 
@@ -77,7 +77,7 @@ class SeePOI extends React.Component {
         <div className='returnCharger'><Link to='/'>Find a different charger</Link></div>
         <div className='login'><Link to='/login'>Log In</Link></div><div className='signup'><Link to='/signup'>Sign up</Link></div>
         <h3 className='seePOIListHeader'>Experiences Near You</h3>
-        <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData}></Map> : <div className='loading'> Loading...</div>}</div>
+        {/* <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData}></Map> : <div className='loading'> Loading...</div>}</div> */}
         <PoiList props={this.state.data} walkTime={this.walkTime}></PoiList>
         <div className='filters'><LittleFilter /></div>
         <div className='addPOI'><Link to='/addPOI'>Add a Point of Interest</Link></div>
