@@ -5,8 +5,8 @@ import axios from 'axios';
 
 const LittleFilter = () => {
 
-
   ///////////////// temporary usage
+  const sample = [{fruit: 'apple', hours: 'open'}, {fruit: 'tree', hours: 'open'},{fruit: 'quack', hours: 'closed'}];
   let categories = ['food', 'museums', 'cafes', 'landmarks', 'parks'];
   const getRandomCategory = (max) => {
     return Math.floor(Math.random() * max);
@@ -52,10 +52,16 @@ const LittleFilter = () => {
 
 
   const [openState, setOpenState] = useState(false);
+  const [openToggle, setOpenToggle] = useState(false);
   const manageOpenState = (e) => {
     e.preventDefault();
     setOpenState(!openState);
   };
+  const manageOpenToggle = (e) => {
+    e.preventDefault();
+    setOpenToggle(!openToggle);
+  };
+
 
   const[dynamicState, setDynamicState] = useState(false);
   const manageDynamicState = (e) => {
@@ -63,16 +69,17 @@ const LittleFilter = () => {
     setDynamicState(!dynamicState);
   };
 
-  useEffect( () => { applyFilter(openState, dynamicState, price) }, [dynamicState, openState, finalPricesSelected] );
+  useEffect( () => { applyFilter(openState, dynamicState, price) }, [dynamicState, openToggle, finalPricesSelected] );
 
 //create a send function that fires anytime a filter is clicked
-  const applyFilter = (openState, dynamicState, price) => {
+  const applyFilter = (openState, dynamicState, price, distance) => {
 
     axios.get('/filter/selectedFilters', {
       params: {
         open: openState,
         dynamic: dynamicState,
-        price: price
+        price: price,
+        distance: distance,
       }
     })
       .then(data => {
@@ -104,14 +111,29 @@ const LittleFilter = () => {
 
 /////////////////////////////Big Filter state and functions/////////////////////
 
+  const [distance, setDistance] = useState('');
+  const handleDistance = (e) => {
+    setDistance(e.target.value);
+  }
 
+  const clearFilters = () => {
+    setDistance('');
+    setPrice(prices);
+  }
 
 
 
 
 ////////////////////////////////////////////////////////////////////////////////
 
+/*
+function to calculate distances between latitude and longitude
 
+look into calculating walking time
+*/
+
+
+//////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -125,8 +147,8 @@ const LittleFilter = () => {
         <option>Likes</option>
       </select>
       <button className="sfChild" onClick={ manageModalState } >More Filters</button>
-      <BigFilter modalState={ modalState } setModalState={ setModalState } manageModalState={ manageModalState }/>
-      <button className="sfChild" onClick={ manageOpenState }>Open Now</button>
+      <BigFilter modalState={ modalState } setModalState={ setModalState } manageModalState={ manageModalState } distance={ distance } setDistance={ setDistance } handleDistance={ handleDistance } price={ price } setPrice={ setPrice } handlePrice={ handlePrice } clearFilters={ clearFilters } />
+      <button className="sfChild" onClick={ () => { manageOpenState(); openToggle(); } }>Open Now</button>
       <button className="sfChild" onClick={ managePriceModalState }>Price</button>
       <PriceFilter priceModalState={ priceModalState } setPriceModalState={ setPriceModalState } managePriceModalState={ managePriceModalState } price={ price } setPrice={ setPrice } handlePrice={ handlePrice } handlePriceApply={ handlePriceApply } />
       <button className="sfChild" onClick={ manageDynamicState }>{ randomCategory }</button>
