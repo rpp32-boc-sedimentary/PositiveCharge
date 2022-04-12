@@ -11,10 +11,10 @@ const pool = new Pool({
   idleTimeoutMillis: 1000
 });
 
-pool.testModelFunc = async (param) => {
+pool.addPOI = async (data) => {
   const query = `SELECT * FROM test`;
   const result = await pool.query(query);
-  console.log(result.rows);
+  console.log('result in models', result.rows);
   return;
 }
 

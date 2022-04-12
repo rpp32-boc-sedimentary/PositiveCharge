@@ -1,27 +1,25 @@
 const express = require('express')
-const addPOIRouter = express.Router()
-const jwt = require('jsonwebtoken');
+const router = express.Router()
+const {verifyToken} = require('./authRoutes.js')
 
-function verifyToken(req, res, next) {
-  var token = req.cookies.token;
-  if (!token) {
-    return res.status(403).send('Token required for authentication');
-  }
-  jwt.verify(token, process.env.ACCESS_KEY, (err, user) => {
-    if (err) {
-      return res.status(403).send('Invalid token');
-    }
-    req.user = user;
-    next();
-  })
-}
-
-addPOIRouter.post('/addPOI', verifyToken, async (req, res) => {
+router.post('/addPOI', verifyToken, async (req, res, next) => {
+  console.log('in the route')
   try {
-    res.status(201).send(req.body)
+    const result = await router.pool.addPOI()
+    console.log('result in route', result)
+    res.status(201).send(result)
   } catch(err) {
+    console.log('error in route', err)
     res.status(500).send(err)
   }
 })
 
-module.exports = addPOIRouter;
+// router.post('/addPOI', verifyToken, async (req, res, next) => {
+//   console.log('in the route')
+//   router.pool.addPOI().then(result => {
+//     console.log('result in route', result)
+//     res.send(result)
+//   })
+// })
+
+module.exports = router;
