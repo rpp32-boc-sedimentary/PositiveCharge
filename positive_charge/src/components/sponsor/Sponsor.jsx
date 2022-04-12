@@ -5,10 +5,6 @@ function Sponsor() {
 
   const [fromDate, setFrom] = useState('');
   const [toDate, setTo] = useState('');
-  const [name, setName] = useState('');
-  const [cardNum, setCardNum] = useState('');
-  const [exp, setExp] = useState('');
-  const [securityCode, setSecurityCode] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
