@@ -5,7 +5,7 @@ const {verifyToken} = require('./authRoutes.js')
 
 router.route('/view')
   .get(async (req, res, next) => {
-    const result = await router.pool.grabview();
+    const result = await router.grabview();
     try {
       res.status(201).send(result)
     } catch (err) {
