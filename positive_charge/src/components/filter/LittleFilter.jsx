@@ -3,83 +3,99 @@ import BigFilter from './BigFilter.jsx';
 import PriceFilter from './PriceFilter.jsx';
 import axios from 'axios';
 
-const LittleFilter = () => {
+class LittleFilter extends React.Component {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      modalState: false,
+      priceModalState: false,
+      price: {
+        free: '',
+        $: '',
+        $$: '',
+        $$$: ''
+      },
+      dynamicState: false,
+      distance: '',
+    }
+
+    this.handleModalState = this.handleModalState.bind(this);
+    this.handlePriceModalState = this.handlePriceModalState.bind(this);
+    this.handleDynamicState = this.handleDynamicState.bind(this);
+    this.handlePrice = this.handlePrice.bind(this);
+    this.handleDistance = this.handleDistance.bind(this);
+    this.clearFilters = this.clearFilters.bind(this);
+    this.getYelpDataTest = this.getYelpDataTest.bind(this);
+    this.applyFilter = this.applyFilter.bind(this);
+    this.handleBigFilterApply = this.handleBigFilterApply.bind(this);
+  }
   ///////////////// temporary usage
-  const sample = [{fruit: 'apple', hours: 'open'}, {fruit: 'tree', hours: 'open'},{fruit: 'quack', hours: 'closed'}];
-  let categories = ['food', 'museums', 'cafes', 'landmarks', 'parks'];
-  const getRandomCategory = (max) => {
-    return Math.floor(Math.random() * max);
-  };
-  let randomCategory = categories[getRandomCategory(categories.length)];
+  // let categories = ['food', 'museums', 'cafes', 'landmarks', 'parks'];
+  // const getRandomCategory = (max) => {
+  //   return Math.floor(Math.random() * max);
+  // };
+  // let randomCategory = categories[getRandomCategory(categories.length)];
   //////////////////////////
 
-  const [modalState, setModalState] = useState(false);
-  const manageModalState = () => {
-    setModalState(!modalState);
+  handleModalState = () => {
+    this.setState({
+      modalState: !this.state.modalState
+    })
   };
 
-  const [priceModalState, setPriceModalState] = useState(false);
-  const managePriceModalState = () => {
-    setPriceModalState(!priceModalState);
+  handlePriceModalState = () => {
+    console.log('hello')
+    this.setState({
+      priceModalState: !this.state.priceModalState
+    })
   };
 
-  const prices = {
-    free: '',
-    $: '',
-    $$: '',
-    $$$: ''
-  }
+  //add function to change the color of the button when clicked
+  handleDynamicState = (e) => {
+    e.preventDefault();
+    this.setState({
+      dynamicState: !this.state.dynamic
+    }, () => {
+      this.applyFilter();
+    })
+  };
 
-  const [price, setPrice] = useState(prices);
-  const handlePrice = (e) => {
+  handlePrice = (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    setPrice( { ...price, [name]: value } );
+    let prices = this.state.price
+    prices = { ...prices, [name]: value };
+    this.setState({
+      price: prices
+    })
   };
 
-  const [finalPricesSelected, setfinalPricesSelected] = useState(prices);
-  const managefinalPricesSelected = (finalPrices) => {
-    setfinalPricesSelected(finalPrices)
+  handleDistance = (e) => {
+    this.setState({
+      distance: e.target.value
+    })
   };
 
-  const handlePriceApply = (e) => {
+  handlePriceApply = (e) => {
     e.preventDefault();
-    managefinalPricesSelected(price)
-    managePriceModalState();
+    this.applyFilter();
+    this.handlePriceModalState();
   };
 
-
-  const [openState, setOpenState] = useState(false);
-  const [openToggle, setOpenToggle] = useState(false);
-  const manageOpenState = (e) => {
+  handleBigFilterApply = (e) => {
     e.preventDefault();
-    setOpenState(!openState);
-  };
-  const manageOpenToggle = (e) => {
-    e.preventDefault();
-    setOpenToggle(!openToggle);
-  };
+    this.applyFilter();
+    this.handleModalState();
+  }
 
-
-  const[dynamicState, setDynamicState] = useState(false);
-  const manageDynamicState = (e) => {
-    e.preventDefault();
-    setDynamicState(!dynamicState);
-  };
-
-  useEffect( () => { applyFilter(openState, dynamicState, price) }, [dynamicState, openToggle, finalPricesSelected] );
-
-//create a send function that fires anytime a filter is clicked
-  const applyFilter = (openState, dynamicState, price, distance) => {
-
+  applyFilter = () => {
     axios.get('/filter/selectedFilters', {
       params: {
-        open: openState,
-        dynamic: dynamicState,
-        price: price,
-        distance: distance,
+        dynamic: this.state.dynamicState,
+        price: this.state.price,
+        distance: this.state.distance,
       }
     })
       .then(data => {
@@ -88,10 +104,10 @@ const LittleFilter = () => {
       .catch(err => {
         console.error('error applying filters', err);
       })
-  }
+  };
 
   // DELETE Later, for testing purposes
-  const getYelpDataTest = () => {
+  getYelpDataTest = () => {
 
     let lat = 37.776447823372365;
     let long = -122.43286289002232;
@@ -107,19 +123,19 @@ const LittleFilter = () => {
       .catch(err => {
         console.log('error', err);
       })
-  }
+  };
 
-/////////////////////////////Big Filter state and functions/////////////////////
-
-  const [distance, setDistance] = useState('');
-  const handleDistance = (e) => {
-    setDistance(e.target.value);
-  }
-
-  const clearFilters = () => {
-    setDistance('');
-    setPrice(prices);
-  }
+  clearFilters = () => {
+    this.setState({
+      distance: '',
+      price: {
+        free: '',
+        $: '',
+        $$: '',
+        $$$: ''
+      }
+    });
+  };
 
 
 
@@ -138,23 +154,24 @@ look into calculating walking time
 
 
   //when someone clicks on a filter, check the status of all of the filters and then update the list of all states and send it back
+  render() {
 
-  return (
-    <div className="smallFilter">
-      <select className="sfChild">
-        <option>Recommended</option>
-        <option>Distance</option>
-        <option>Likes</option>
-      </select>
-      <button className="sfChild" onClick={ manageModalState } >More Filters</button>
-      <BigFilter modalState={ modalState } setModalState={ setModalState } manageModalState={ manageModalState } distance={ distance } setDistance={ setDistance } handleDistance={ handleDistance } price={ price } setPrice={ setPrice } handlePrice={ handlePrice } clearFilters={ clearFilters } />
-      <button className="sfChild" onClick={ () => { manageOpenState(); openToggle(); } }>Open Now</button>
-      <button className="sfChild" onClick={ managePriceModalState }>Price</button>
-      <PriceFilter priceModalState={ priceModalState } setPriceModalState={ setPriceModalState } managePriceModalState={ managePriceModalState } price={ price } setPrice={ setPrice } handlePrice={ handlePrice } handlePriceApply={ handlePriceApply } />
-      <button className="sfChild" onClick={ manageDynamicState }>{ randomCategory }</button>
-      <button className="sfChild" onClick={ getYelpDataTest }>getYelpDataTest</button>
-    </div>
-  )
+    return (
+      <div className="smallFilter">
+        <select className="sfChild">
+          <option>Recommended</option>
+          <option>Distance</option>
+          <option>Likes</option>
+        </select>
+        <button className="sfChild" onClick={ this.handleModalState } >More Filters</button>
+        {this.state.modalState ? <BigFilter manageModalState={ this.handleModalState } distance = {this.state.distance} handleDistance={ this.handleDistance } price={this.state.price} handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } /> : null}
+        <button className="sfChild" onClick={ this.handlePriceModalState }>Price</button>
+        {this.state.priceModalState ?  <PriceFilter priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null}
+        <button className="sfChild" onClick={ this.handleDynamicState }>Cafes</button>
+        <button className="sfChild" onClick={ this.getYelpDataTest }>getYelpDataTest</button>
+      </div>
+    )
+  }
 }
 
-export default LittleFilter;
+export default LittleFilter

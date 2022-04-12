@@ -1,38 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const PriceFilter = ({ priceModalState, setPriceModalState, managePriceModalState, price, setPrice, handlePrice, handlePriceApply }) => {
-
+const PriceFilter = (props) => {
 
   return (
     <>
-      { priceModalState ?
         <div>
-            <form className='priceFilterModal' onSubmit={ handlePriceApply }>
+            <form className='priceFilterModal' onSubmit={ props.handlePriceApply }>
 
               <div className='ckButton'>
                 <label>
-                  <input type='checkbox' name='free' checked={price.free} onChange={ handlePrice } />
+                  <input type='checkbox' name='free' checked={props.price.free} onChange={ props.handlePrice } />
                   <span>Free</span>
                 </label>
               </div>
 
               <div className='ckButton'>
                 <label>
-                  <input type='checkbox' name='$' checked={price.$} onChange={ handlePrice } />
+                  <input type='checkbox' name='$' checked={props.price.$} onChange={ props.handlePrice } />
                   <span>$</span>
                 </label>
               </div>
 
               <div className='ckButton'>
                 <label>
-                  <input type='checkbox' name='$$' checked={price.$$} onChange={ handlePrice }  />
+                  <input type='checkbox' name='$$' checked={props.price.$$} onChange={ props.handlePrice }  />
                   <span>$$</span>
                 </label>
               </div>
 
               <div className='ckButton'>
                 <label>
-                  <input type='checkbox' name='$$$' checked={price.$$$} onChange={ handlePrice }  />
+                  <input type='checkbox' name='$$$' checked={props.price.$$$} onChange={ props.handlePrice }  />
                   <span>$$$</span>
                 </label>
               </div>
@@ -40,7 +38,6 @@ const PriceFilter = ({ priceModalState, setPriceModalState, managePriceModalStat
               <input type='submit' value='Save'/>
             </form>
         </div>
-      : null }
     </>
   )
 }
