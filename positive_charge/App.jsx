@@ -9,6 +9,7 @@ import LittleFilter from './src/components/filter/LittleFilter.jsx';
 import BigFilter from './src/components/filter/BigFilter.jsx';
 import SeePOI from './src/components/seePOI/seePOI.jsx';
 import FindChargingStations from './src/components/findChargingStations/FindChargingStations.jsx';
+import Sponsor from './src/components/sponsor/Sponsor.jsx';
 import './src/styles.scss';
 import axios from 'axios';
 
@@ -82,7 +83,7 @@ class App extends React.Component {
       <>
         { isLoggedIn ? <h3>Welcome back, {userName} !</h3> : null }
         <BrowserRouter>
-          <div>
+          <div className="links">
             <ul>
               <li>
                 <Link to="/">Home</Link>
@@ -94,6 +95,9 @@ class App extends React.Component {
               <li>
                 <Link to="/addPOI">Add POI</Link>
               </li>
+              <li>
+                <Link to="/sponsor">Sponsor</Link>
+              </li>
             </ul>
           </div>
 
@@ -104,6 +108,7 @@ class App extends React.Component {
             <Route path="/logout" element={this.state.isLoggedIn ? <Navigate to="/" replace={true} /> : null} />
             <Route path='/seePOI' element={<SeePOI />}/>
             <Route path="/addPOI" element={<AddPOI />} />
+            <Route path="/sponsor" element={<Sponsor />} />
           </Routes>
         </BrowserRouter>
         <div>
