@@ -2,6 +2,11 @@ import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import MapDestination from './mapDestination.jsx';
 import Routing from './routing.jsx';
+import Directions from './directions.jsx';
+import axios from 'axios';
+import L from 'leaflet';
+
+
 
 class Map extends React.Component {
     constructor(props) {
@@ -21,7 +26,7 @@ class Map extends React.Component {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Marker position={[this.state.lat, this.state.long]}>
+                <Marker position={[this.state.lat, this.state.long]} icon={L.icon({iconUrl: './img/personMarker.png', iconSize: [90, 90]})}>
                     <Popup>
                     A pretty CSS3 popup. <br /> Easily customizable.
                     </Popup>
