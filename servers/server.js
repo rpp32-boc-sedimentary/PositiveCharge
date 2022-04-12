@@ -1,5 +1,5 @@
 const makeApp = require('./index.js');
-const { pool } = require('../database/database.js');
+const { pool } = require('../database/models.js');
 const port = 3000;
 
 const app = makeApp(pool);
