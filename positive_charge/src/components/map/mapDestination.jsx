@@ -1,5 +1,6 @@
 import React from 'react';
 import { Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
 
 
 var MapDestination = (props) => {
@@ -8,7 +9,8 @@ var MapDestination = (props) => {
             return (
                 <Marker 
                     position={[dest.lat, dest.long]} 
-                    key={index} 
+                    key={index}
+                    icon={L.icon({iconUrl: './img/experience.png', iconSize: [90, 90]})}
                     eventHandlers={{
                         click: props.getDirections
                     }}>

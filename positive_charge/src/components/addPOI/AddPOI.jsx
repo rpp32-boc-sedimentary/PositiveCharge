@@ -8,11 +8,11 @@ function AddPOI () {
   const [lng, setLng] = useState('')
   const [category, setCategory] = useState('food')
   const [price, setPrice] = useState('')
-  const [chargerLat, setChargerLat] = useState('')
-  const [chargerLng, setChargerLng] = useState('')
-  const [dist, setDist] = useState('')
-  const [walkTime, setWalkTime] = useState('')
   const [showCostGuide, setShowCostGuide] = useState(false)
+  const [noName, setNoName] = useState(false)
+  const [noCoords, setNoCoords] = useState(false)
+  const [noPrice, setNoPrice] = useState(false)
+  const [canSubmit, setCanSubmit] = useState(true)
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -27,8 +27,6 @@ function AddPOI () {
       axios.post('/addPOI', data)
       .then(response => {
         console.log('response in component', response)
-        setChargerLat(createNearbyCoordinate(lat))
-        setChargerLng(createNearbyCoordinate(lng))
       })
       .catch(err => {
         console.error(err)
@@ -36,55 +34,34 @@ function AddPOI () {
     }
   }
 
-  function createNearbyCoordinate(coordinate) {
-    console.log('typeof coordinate', typeof coordinate)
-    let newCoordinate
-    let random = Math.random()
-    let changeAmount = random*0.01
-    let changePositive = true
-    if (random > 0.5) {
-      changePositive = false
-    } if (changePositive) {
-      newCoordinate = coordinate + changeAmount
-    } else {
-      newCoordinate = coordinate - changeAmount
-    } return newCoordinate
-  }
-
-  useEffect(() => {
-    if (lat && lng && chargerLat && chargerLng) {
-      let point1 = { lat, lng}
-      let point2 = {
-        lat: chargerLat,
-        lng: chargerLng
-      }
-      console.log('point 1', point1, 'point2', point2)
-      setDist(Math.round(haversineDistance(point1, point2)))
-    }
-  }, [lat, lng, chargerLat, chargerLng])
-
-  useEffect(() => {
-    if (dist) {
-      setWalkTime(Math.round(dist/84))
-    }
-  }, [dist])
-
-  function haversineDistance(point1, point2) {
-    var R = 3958.8; // Radius of the Earth in miles
-    var rlat1 = point1.lat * (Math.PI/180); // Convert degrees to radians
-    var rlat2 = point2.lat * (Math.PI/180); // Convert degrees to radians
-    var difflat = rlat2-rlat1; // Radian difference (latitudes)
-    var difflon = (point2.lng-point1.lng) * (Math.PI/180); // Radian difference (longitudes)
-
-    var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
-    console.log('d in miles', d)
-    return d * 1609.34;
-  }
-
-  //placeholder validation function
   function validatePoiInfo(data) {
-    return true
+    let isValid = true
+    if (pointName === '') {
+      isValid = false
+      setNoName(true)
+    } if (lat === '' || lng === '') {
+      isValid = false
+      setNoCoords(true)
+    } if (price === '') {
+      isValid = false
+      setNoPrice(true)
+    }
+    return isValid
   }
+
+  useEffect(() => {
+    if (pointName !== '') {
+      setNoName(false)
+    } if (lat !== '' && lng !== '') {
+      setNoCoords(false)
+    } if (price !== '') {
+      setNoPrice(false)
+    } if (!noPrice && !noName && !noCoords) {
+      setCanSubmit(true)
+    } else {
+      setCanSubmit(false)
+    }
+  }, [pointName, lat, lng, price, noPrice, noName, noCoords])
 
   return (
     <div className="add-poi-form-container">
@@ -99,25 +76,13 @@ function AddPOI () {
           id="point-name-input"
           placeholder=""
           value={pointName}
-          onChange={e => setPointName(e.target.value)}
-          >
+          onChange={e =>
+            setPointName(e.target.value)}
+        >
           </input><br></br><br></br>
 
           <label htmlFor="point-name-input">Location: </label>
           <PlacesAutocomplete setLat={setLat} setLng={setLng}/>
-          {lat &&
-          <p>POI latitude: {lat}</p>}
-          {lng &&
-          <p>POI longitude: {lng}</p>}
-          {chargerLat &&
-          <p>Charger latitude: {chargerLng}</p>}
-          {chargerLng &&
-          <p>Charger longitude: {chargerLat}</p>}
-          {dist &&
-          <p>Distance in meters: {dist}</p>}
-          {walkTime &&
-          <p>Walking time in minutes: {walkTime}</p>}
-          {/* <p id="place-geometry">Latitude and longitude (for demonstration purposes only): {location}</p> */}
 
           <br></br><br></br>
 
@@ -159,8 +124,15 @@ function AddPOI () {
 
           {/* Check if user is a business user, if so, show checkbox for "this is my business" */}
 
-          <input type="submit" value="Add POI"></input>
-          <br></br><br></br>
+          <input type="submit" value="Add POI" disabled={!canSubmit}></input>
+          <br/>
+          {noName &&
+          <p className="warning">Please add a name</p>}
+          {noCoords &&
+          <p className="warning">Please select a valid address</p>}
+          {noPrice &&
+          <p className="warning">Please select a price level</p>}
+          <br />
         </form>
       </div>
     </div>

@@ -39,27 +39,32 @@ authRouter.get('/signup', (req, res) => {
   res.redirect('/');
 })
 
+authRouter.get('/sponsor', (req, res) => {
+  res.redirect('/');
+})
+
 authRouter.get('/verify', verifyToken, (req, res) => {
-  res.send('verified');
+  res.send(req.user.name);
 })
 
 authRouter.post('/login', async (req, res) => {
   var user = users.find( user => user.email === req.body.email.toLowerCase())
   if (user === undefined) {
     console.log('Cannot find user');
-    return res.status(400).send('Cannot find user');
+    return res.send('Cannot find user');
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
       const accessToken = jwt.sign(
-        { user: req.body.email },
+        { name: user.name, email: req.body.email },
         process.env.ACCESS_KEY,
-        {
-          expiresIn: "1h"
-        }
+        // {
+        //   expiresIn: "1h"
+        // }
       );
       res.cookie('token', accessToken, { httpOnly: true });
-      res.status(201).json({ accessToken });
+      // res.status(201).json({ accessToken });
+      res.status(201).send(user.name);
       console.log('Logged in');
     } else {
       res.send('Incorrect password');

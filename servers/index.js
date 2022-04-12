@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const { authRouter, verifyToken } = require('./routes/authRoutes.js');
+const { authRouter } = require('./routes/authRoutes.js');
 const addPOIRouter = require('./routes/addPOIRoutes.js');
 const detailsRouter = require('./routes/detailsRoutes.js');
 const filterRouter = require('./routes/filterRoutes.js');
@@ -13,6 +13,7 @@ const _ = require('underscore');
 
 module.exports = (database) => {
   const app = express();
+
 
   _.extend(authRouter, database);
   _.extend(addPOIRouter, database);
@@ -31,7 +32,6 @@ module.exports = (database) => {
 
   // Filter route for testing purposes. Will be removed later
 
-  
   app.get('/', (req, res) => {
     res.send("Sarcastic hello");
   })

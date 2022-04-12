@@ -52,7 +52,7 @@ class Signup extends React.Component {
         <h1>Sign Up</h1>
         <form onSubmit={this.handleSubmit}>
           <div>
-            <label htmlFor="name">Full Name: </label>
+            <label htmlFor="name">Name: </label>
             <input type="text" name="name" onChange={this.handleChange} required />
           </div>
           <div>

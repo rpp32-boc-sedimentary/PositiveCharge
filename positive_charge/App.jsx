@@ -9,6 +9,7 @@ import LittleFilter from './src/components/filter/LittleFilter.jsx';
 import BigFilter from './src/components/filter/BigFilter.jsx';
 import SeePOI from './src/components/seePOI/seePOI.jsx';
 import FindChargingStations from './src/components/findChargingStations/FindChargingStations.jsx';
+import Sponsor from './src/components/sponsor/Sponsor.jsx';
 import './src/styles.scss';
 import axios from 'axios';
 
@@ -18,7 +19,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: false
+      isLoggedIn: false,
+      userName: null
     }
     this.logIn = this.logIn.bind(this);
     this.logOut = this.logOut.bind(this);
@@ -27,8 +29,11 @@ class App extends React.Component {
   componentDidMount() {
     axios.get('/verify')
     .then((result) => {
-      if (result.data === 'verified') {
-        this.setState({ isLoggedIn: true });
+      if (result.data !== 'Token required for authentication') {
+        this.setState({
+          isLoggedIn: true,
+          userName: result.data
+        });
       }
     })
     .catch((err) => {
@@ -36,9 +41,10 @@ class App extends React.Component {
     })
   }
 
-  logIn() {
+  logIn(user) {
     this.setState({
-      isLoggedIn: true
+      isLoggedIn: true,
+      userName: user
     })
   }
 
@@ -65,18 +71,19 @@ class App extends React.Component {
     } else {
       return (
         <li>
-          <Link to="/login">Log In / Sign Up</Link>
+          <Link to="/login">Log In </Link> / <Link to="/signup">Sign Up</Link>
         </li>
       )
     }
   }
 
   render() {
+    let { isLoggedIn, userName } = this.state;
     return (
       <>
-        { this.state.isLoggedIn ? <h3>Welcome back!</h3> : null }
+        { isLoggedIn ? <h3>Welcome back, {userName} !</h3> : null }
         <BrowserRouter>
-          <div>
+          <div className="links">
             <ul>
               <li>
                 <Link to="/">Home</Link>
@@ -88,6 +95,9 @@ class App extends React.Component {
               <li>
                 <Link to="/addPOI">Add POI</Link>
               </li>
+              <li>
+                <Link to="/sponsor">Sponsor</Link>
+              </li>
             </ul>
           </div>
 
@@ -98,6 +108,7 @@ class App extends React.Component {
             <Route path="/logout" element={this.state.isLoggedIn ? <Navigate to="/" replace={true} /> : null} />
             <Route path='/seePOI' element={<SeePOI />}/>
             <Route path="/addPOI" element={<AddPOI />} />
+            <Route path="/sponsor" element={<Sponsor />} />
           </Routes>
         </BrowserRouter>
         <div>
