@@ -11,6 +11,7 @@ const pool = new Pool({
   idleTimeoutMillis: 1000
 });
 
+// Details models
 pool.lovePoi = async (poiId) => {
   const query = `INSERT INTO test (name) VALUES ('this is a test')`;
   const love = await pool.query(query)
@@ -25,56 +26,44 @@ pool.grabview = async (poiId) => {
   return
 }
 
-pool.testModelFunc = async (param) => {
-  const query = `SELECT * FROM test`;
-  const result = await pool.query(query);
-  console.log(result.rows);
-  return;
+pool.grabview = async (poiId) => {
+
 }
 
+pool.lovePoi = async (poiId) => {
+
+}
+
+pool.flagPoi = async (poiId) => {
+
+}
+
+pool.loveExp = async (expId) => {
+
+}
+
+pool.flagExp = async (expId) => {
+
+}
+
+pool.addExperience = async (exp) => {
+
+}
+
+pool.deleteExperience = async (expId) => {
+
+}
+
+// ADD POI models
+
+// Auth models
+
+// details models
+
+// filter models
+
+// map models
+
+// SEE POI models
+
 module.exports = { pool };
-
-// exports.detailsModels = {
-
-  // grabview: async (poiId) => {
-  //   return dummy.detailData;
-  // },
-
-  // lovePoi: async (poiId) => {
-
-  //   const query = `INSERT INTO test (name) VALUES ('this is a test')`;
-
-  // },
-
-//   flagPoi: async (poiId) => {
-//     dummy.detailData.flagStatus = !dummy.detailData.flagStatus;
-//     return dummy.detailData;
-//   },
-
-//   loveExp: async (expId) => {
-//     dummy.detailData.experiences[expId].expLoves++;
-//     return dummy.detailData;
-//   },
-
-//   flagExp: async (expId) => {
-//     dummy.detailData.experiences[expId].flagStatus = !dummy.detailData.experiences[expId].flagStatus;
-//     return dummy.detailData;
-//   },
-
-//   addExperience: async (exp) => {
-//     dummy.detailData.experiences['4'] = {
-//       expId: 4,
-//       expLoves: 0,
-//       flagStatus: false,
-//       experience: exp,
-//       photos: null
-//     }
-//     return dummy.detailData;
-//   },
-
-//   deleteExperience: async (expId) => {
-//     delete dummy.detailData.experiences[expId];
-//     return dummy.detailData;
-//   }
-
-// }
