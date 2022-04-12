@@ -12,8 +12,7 @@ function AddPOI () {
   const [chargerLng, setChargerLng] = useState('')
   const [dist, setDist] = useState('')
   const [walkTime, setWalkTime] = useState('')
-  // const [priceGuideButton, setPriceGuideButton] = useState('Show Price Guidelines')
-  // const [priceGuide, setPriceGuide] = useState('')
+  const [showCostGuide, setShowCostGuide] = useState(false)
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -87,23 +86,6 @@ function AddPOI () {
     return true
   }
 
-  // function handleShowPriceGuidelinesClick() {
-  //   if (priceGuideButton === 'Show Price Guidelines') {
-  //     setPriceGuideButton('Hide Price Guidelines')
-  //   } else {
-  //     setPriceGuideButton('ShowPriceGuidelines')
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (priceGuideButton === 'ShowPriceGuidelines') {
-  //     setPriceGuide('')
-  //   } else {
-  //     setPriceGuide('$: Inexpensive (for food, less than $10 per meal), $$: Moderate (for food, between $10 and $25 per meal), $$$: Expensive (for food, more than $25 per meal)'
-  //     )
-  //   }
-  // }, [priceGuideButton])
-
   return (
     <div className="add-poi-form-container">
       <div className="add-poi-form-wrapper">
@@ -151,7 +133,7 @@ function AddPOI () {
             <option value="other">Other</option>
           </select><br></br><br></br>
 
-          <h3>Price</h3>
+          <h3>Cost</h3>
           <input type="radio" className="radio-button price-input" name="price" id="free" value="free" onClick={e => setPrice(e.target.value)}></input>
           <label htmlFor="free">Free</label>
 
@@ -162,10 +144,18 @@ function AddPOI () {
           <label htmlFor="$$">$$</label>
 
           <input type="radio" className="radio-button price-input" name="price" id="$$$" value="$$$" onClick={e => setPrice(e.target.value)}></input>
-          <label htmlFor="$$$">$$$</label><br></br><br></br>
+          <label htmlFor="$$$">$$$</label><br></br>
 
-          {/* <button onClick={() => {handleShowPriceGuidelinesClick()}}>{priceGuideButton}</button>
-          <p>{priceGuide}</p> */}
+          {!showCostGuide &&
+          <p onClick={() => setShowCostGuide(true)}>Show Cost Guidelines</p>}
+
+          {showCostGuide &&
+          <>
+          <p>Cost Guidelines</p>
+          <p>$: Low. For restaurants, the average meal costs less than $15</p>
+          <p>$$: Medium. For restaurants, the average meal costs $15 - $30</p>
+          <p>$$$: High. For restaurants, the average meal costs more than $30</p>
+          </>}
 
           {/* Check if user is a business user, if so, show checkbox for "this is my business" */}
 
