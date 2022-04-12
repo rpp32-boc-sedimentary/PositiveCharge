@@ -1,25 +1,18 @@
-const { Pool } = require('pg');
+const detailsModels = require('./models/detailsModels.js');
+const addPOImodels = require('./models/addPOImodels');
+const authModels = require('./models/authModels');
+const filterModels = require('./models/filterModels');
+const mapModels = require('./models/mapModels');
+const seePOIModels = require('./models/seePOIModels');
 const _ = require('underscore');
 
-// imported model functions for details feature
-const detailsModels = require('./models/detailsModels.js')
+const pool = {};
 
-
-// need these parameters for the db to set up connection
-const pool = new Pool({
-  // host: process.env.DB_Host,
-  // user: process.env.DB_User,
-  // port: process.env.DB_Port,
-  // password: process.env.DB_Password,
-  // database: process.env.DB_Name,
-  // max: 100,
-  // connectionTimeoutMillis: 1000,
-  // idleTimeoutMillis: 1000
-});
-
-
-// add your object with model methods on it too the pool here
-// pool gets imported in server.js
-_.extend(pool, detailsModels)
+_.extend(pool, detailsModels);
+_.extend(pool, addPOImodels);
+_.extend(pool, authModels);
+_.extend(pool, filterModels);
+_.extend(pool, mapModels);
+_.extend(pool, seePOIModels);
 
 module.exports = { pool };
