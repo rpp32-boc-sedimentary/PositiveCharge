@@ -9,14 +9,12 @@ const PoiList = (props) => {
       <div className='loading'>Loading POI</div>
     )
   } else if (props.props !== undefined) {
-    let eachPOI = props.props.businesses.map((item, index) => {
+    let eachPOI = props.props.map((item, index) => {
 
       return (
-        <Link to='/moreDetails' state={{data:item}} >
-        <div key={item.id}>
-        <span className='listNumber'>{index + 1}</span><span className='POIName' >{item.name} </span> <span className='likes'>{item.rating} yelp rating </span> <span className='distance' >{props.walkTime(item.distance)} min walk</span>
+        <div className={item.id} key={index}>
+        <span className='listNumber'>{index + 1}</span> <Link to='/moreDetails' state={{data:item}} ><span className='POIName' >{item.name} </span></Link> <span className='likes'>{item.rating} yelp rating </span> <span className='distance' >{props.walkTime(item.distance)} min walk</span>
         </div>
-        </Link>
       )
     })
 
