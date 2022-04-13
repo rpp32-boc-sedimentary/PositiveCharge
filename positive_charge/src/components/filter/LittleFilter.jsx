@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BigFilter from './BigFilter.jsx';
 import PriceFilter from './PriceFilter.jsx';
 import axios from 'axios';
+import dummyData from '../../../../database/dummyData/pois.js'
 
 class LittleFilter extends React.Component {
   constructor(props) {
@@ -18,6 +19,8 @@ class LittleFilter extends React.Component {
       },
       dynamicState: false,
       distance: '',
+      categories: [],
+      categoriesChecked: {}
     }
 
     this.handleModalState = this.handleModalState.bind(this);
@@ -29,6 +32,8 @@ class LittleFilter extends React.Component {
     this.getYelpDataTest = this.getYelpDataTest.bind(this);
     this.applyFilter = this.applyFilter.bind(this);
     this.handleBigFilterApply = this.handleBigFilterApply.bind(this);
+    this.findCategories = this.findCategories.bind(this);
+    this.handleDynamicCategories = this.handleDynamicCategories.bind(this);
   }
   ///////////////// temporary usage
   // let categories = ['food', 'museums', 'cafes', 'landmarks', 'parks'];
@@ -45,7 +50,6 @@ class LittleFilter extends React.Component {
   };
 
   handlePriceModalState = () => {
-    console.log('hello')
     this.setState({
       priceModalState: !this.state.priceModalState
     })
@@ -69,13 +73,25 @@ class LittleFilter extends React.Component {
     prices = { ...prices, [name]: value };
     this.setState({
       price: prices
-    })
+    });
+  };
+
+
+  handleDynamicCategories = (e) => {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    let categoriesChecked = this.state.categoriesChecked;
+    categoriesChecked = { ...categoriesChecked, [name]: value };
+    this.setState({
+      categoriesChecked
+    });
   };
 
   handleDistance = (e) => {
     this.setState({
       distance: e.target.value
-    })
+    });
   };
 
   handlePriceApply = (e) => {
@@ -88,7 +104,7 @@ class LittleFilter extends React.Component {
     e.preventDefault();
     this.applyFilter();
     this.handleModalState();
-  }
+  };
 
   applyFilter = () => {
     axios.get('/filter/selectedFilters', {
@@ -108,7 +124,8 @@ class LittleFilter extends React.Component {
 
   // DELETE Later, for testing purposes
   getYelpDataTest = () => {
-
+    let cats = this.findCategories(dummyData.poiData);
+    console.log('cats', cats);
     let lat = 37.776447823372365;
     let long = -122.43286289002232;
     axios.get('/filter/graphql', {
@@ -138,7 +155,30 @@ class LittleFilter extends React.Component {
   };
 
 
+  //move this function into a helper file later
+  findCategories = (data) => {
+    let categories = {};
+    data.forEach(item => {
+      categories[item.category] = true;
+    });
+    let catKeys = Object.keys(categories);
+    let categoriesChecked = {};
+    catKeys.forEach(key => {
+      categoriesChecked[key] = '';
+    });
+    //create an object with empty string values for categories and set the categories checked to it
+    this.setState({
+      categoriesChecked
+    }, () => {
+      console.log('cck', this.state.categoriesChecked)
+    });
+  }
 
+  componentDidMount = () => {
+    this.findCategories(dummyData.poiData);
+  }
+
+  //now that categories are filled, need to make dynamic checkboxes depending on what exists in state
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -152,8 +192,6 @@ look into calculating walking time
 //////////////////////////////////////////////////////////////////////////////
 
 
-
-  //when someone clicks on a filter, check the status of all of the filters and then update the list of all states and send it back
   render() {
 
     return (
@@ -164,9 +202,13 @@ look into calculating walking time
           <option>Likes</option>
         </select>
         <button className="sfChild" onClick={ this.handleModalState } >More Filters</button>
-        {this.state.modalState ? <BigFilter manageModalState={ this.handleModalState } distance = {this.state.distance} handleDistance={ this.handleDistance } price={this.state.price} handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } /> : null}
+
+        { this.state.modalState ? <BigFilter manageModalState={ this.handleModalState } distance = { this.state.distance } handleDistance={ this.handleDistance } price={ this.state.price } handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } categoriesChecked={ this.state.categoriesChecked } handleDynamicCategories={ this.handleDynamicCategories } /> : null }
+
         <button className="sfChild" onClick={ this.handlePriceModalState }>Price</button>
-        {this.state.priceModalState ?  <PriceFilter priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null}
+
+        { this.state.priceModalState ?  <PriceFilter priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
+
         <button className="sfChild" onClick={ this.handleDynamicState }>Cafes</button>
         <button className="sfChild" onClick={ this.getYelpDataTest }>getYelpDataTest</button>
       </div>
@@ -174,4 +216,4 @@ look into calculating walking time
   }
 }
 
-export default LittleFilter
+export default LittleFilter;

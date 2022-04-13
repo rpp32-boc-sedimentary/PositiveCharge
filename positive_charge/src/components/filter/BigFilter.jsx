@@ -1,4 +1,5 @@
 import React from 'react';
+import CategoryBoxes from './CategoryBoxes.jsx';
 
 const BigFilter = (props) => {
 
@@ -52,16 +53,9 @@ const BigFilter = (props) => {
           </label>
         </div>
 
-        <div className="categoryHeader">Suggested</div>
+        <div className="categoryHeader">Categories</div>
         <div className="bigFilter">
-          <label>
-            Good For Kids
-            <input type="checkbox" name="Good for kids" />
-          </label>
-          <label>
-            Dogs Allowed
-            <input type="checkbox" />
-          </label>
+          { Object.keys(props.categoriesChecked).length > 0 ? <CategoryBoxes categoriesChecked={ props.categoriesChecked } handleDynamicCategories={ props.handleDynamicCategories } /> : null }
         </div>
 
         <button onClick={ props.manageModalState }>Cancel</button>
