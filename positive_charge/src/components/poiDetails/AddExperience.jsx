@@ -28,12 +28,15 @@ const overlayStyle = {
 }
 
 
-export default function AddExperience({open, onClose}) {
+export default function AddExperience({open, onClose, name}) {
 
   const [experience, setExperience] = useState('');
 
   const shareExperience = (path) => {
-    axios.post(`/details${path}`, {experience})
+    axios.post(`/details${path}`, {
+      experience: experience,
+      id: name.props.id
+    })
       .then((result) => {
         alert(result.data)
       })
@@ -46,7 +49,6 @@ export default function AddExperience({open, onClose}) {
         <div style={overlayStyle} />
 
         <div style={modalStyle}>
-          add experience section
           <form onSubmit={() => shareExperience('/experiences')}>
             <label>
               Let other's know your experience

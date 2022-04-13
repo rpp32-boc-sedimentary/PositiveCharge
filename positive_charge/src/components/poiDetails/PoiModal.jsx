@@ -82,7 +82,7 @@ export default function PoiModal({open, onClose, detail, name}) {
 
           {/* add experience button for poi's */}
           <button onClick={() => setIsOpen(true)}>add experience</button>
-          <AddExperience open={isOpen} onClose={() => setIsOpen(false)}></AddExperience>
+          <AddExperience open={isOpen} onClose={() => setIsOpen(false)} name={name}></AddExperience>
 
           {/* flag button for poi's */}
           <button onClick={() => flag('/poi')}>Flag</button>

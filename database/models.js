@@ -15,14 +15,14 @@ const pool = new Pool({
 pool.lovePoi = async (poiId) => {
   const query = `INSERT INTO test (name) VALUES ('this is a test')`;
   const love = await pool.query(query)
-  console.log(love.rows)
+  // console.log(love.rows)
   return;
 }
 
 pool.grabview = async (poiId) => {
   const query = `SELECT * FROM test`;
   const love = await pool.query(query)
-  console.log(love.rows)
+  // console.log(love.rows)
   return
 }
 
@@ -42,8 +42,8 @@ pool.flagExp = async (expId) => {
 
 }
 
-pool.addExperience = async (exp) => {
-
+pool.addExperience = async (params) => {
+  console.log(`my experience is ${params[0]} and the id is ${params[1]}`)
 }
 
 pool.deleteExperience = async (expId) => {
