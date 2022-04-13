@@ -12,9 +12,9 @@ router.get('/', (req, res) => {
     axios.get(`https://api.tomtom.com/routing/1/calculateRoute/${coords.startingLat}%2C${coords.startingLong}%3A${coords.endingLat}%2C${coords.endingLong}/json`, 
         {params: {instructionsType: 'text', travelMode: 'pedestrian', key: 'lfI3k6sv1agp5oZhWAARgrVhbQQuYx0k'}})
     .then(response => {
-        var returningShit = response.data.routes[0].guidance;
+        var guidance = response.data.routes[0].guidance;
         //console.log('Response from getting directions', returningShit);
-        res.send(returningShit);
+        res.send(guidance);
     })
     .catch(err => {
         console.log('Failed while trying to grab directions: ' + err);
