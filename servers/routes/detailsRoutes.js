@@ -52,10 +52,10 @@ router.put('/experience/flag', verifyToken, async (req, res, next) => {
 router.post('/experiences', verifyToken, async (req, res, next) => {
   const [experience, id] = [req.body.experience, req.body.id];
     try {
-      const result = await router.addExperience([experience, id]);
+      const result = await router.addExperience([id, experience]);
       res.status(201).send(result)
     } catch (err) {
-      res.status(500).send(err.message)
+      res.status(500).send(err)
     }
   })
   .delete(verifyToken, async (req, res, next) => {

@@ -43,7 +43,15 @@ pool.flagExp = async (expId) => {
 }
 
 pool.addExperience = async (params) => {
-  console.log(`my experience is ${params[0]} and the id is ${params[1]}`)
+  try {
+    const query = `INSERT INTO experiences
+      (poi_id, experience, loves, flag_status, photos)
+      VALUES ($1, $2, 0, false, null)`;
+    const addingExperience = await pool.query(query, params)
+    return 'Thanks for sharing with the community!!';
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
 pool.deleteExperience = async (expId) => {

@@ -38,7 +38,10 @@ export default function AddExperience({open, onClose, name}) {
       id: name.props.id
     })
       .then((result) => {
-        alert(result.data)
+        alert('Thanks for sharing with the community!')
+      })
+      .catch((err) => {
+        console.log(err)
       })
   }
 
