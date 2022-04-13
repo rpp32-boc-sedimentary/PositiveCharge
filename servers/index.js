@@ -14,6 +14,7 @@ const _ = require('underscore');
 module.exports = (database) => {
   const app = express();
 
+
   _.extend(authRouter, database);
   _.extend(addPOIRouter, database);
   _.extend(detailsRouter, database);
@@ -32,7 +33,10 @@ module.exports = (database) => {
 
   // Filter route for testing purposes. Will be removed later
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8b42819669c7816f01f98db0d8f0d5aa6535dec3
   app.get('/', (req, res) => {
     res.send("Sarcastic hello");
   })

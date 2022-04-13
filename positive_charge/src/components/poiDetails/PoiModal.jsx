@@ -30,10 +30,10 @@ const overlayStyle = {
 };
 
 
-export default function PoiModal({open, onClose}) {
+export default function PoiModal({open, onClose, detail}) {
 
   const [isOpen, setIsOpen] = useState(false);
-
+  console.log(detail)
   const love = (path) => {
     axios.put(`/details/${path}/love`, {love: 1})
       .then((response) => {
@@ -58,12 +58,10 @@ export default function PoiModal({open, onClose}) {
 
         {/* modal itself */}
         <div style={modalStyle}>
-
+          <h2>{detail.poiName}</h2>
           {/* experiences section */}
           <div>
-            {/* <h3>Experiences Section</h3> */}
             <div>
-
               {/* experience */}
               foo bar was so awesome at this foo place
 

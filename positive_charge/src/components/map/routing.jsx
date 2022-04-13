@@ -3,11 +3,7 @@ import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
 import "./lrm-tomtom.js";
 
-
-
 const createRoutineMachineLayer = (props) => {
-    console.log('Hi there');
-    
     var instance = props.isDriving 
     ? L.Routing.control({
         waypoints: [
@@ -41,10 +37,8 @@ const createRoutineMachineLayer = (props) => {
         router: new L.Routing.TomTom('lfI3k6sv1agp5oZhWAARgrVhbQQuYx0k', 
         {travelMode: 'pedestrian'})
     })
-    //instance = instance.setWaypoints([L.latLng(props.endingLat, props.endingLong), instance.options.waypoints[1]]);
     return instance;
 };
-
 const Routing = createControlComponent(createRoutineMachineLayer);
 
 export default Routing;

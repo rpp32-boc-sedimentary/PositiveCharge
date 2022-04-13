@@ -24,24 +24,27 @@ class SeePOI extends React.Component {
     this.filterForMap = this.filterForMap.bind(this);
     this.mapPOI = this.mapPOI.bind(this);
     this.walkTime = this.walkTime.bind(this);
+    this.changeDisplay = this.changeDisplay.bind(this);
   }
 
   getPOIData (lat, long, dist) {
     axios.post('/getPOI', {data:{lat: this.state.lat, long: this.state.long, dist: this.state.dist}})
     .then(result => {
-      this.setState({data: JSON.parse(result.data.body)}, () => {
-        this.filterForMap();
+      this.setState({all: JSON.parse(result.data.body)}, () => {
+        this.setState({data: this.state.all.businesses.slice(0,5)}, () => {
+          this.filterForMap();
+        })
       })
     })
   }
 
   filterForMap () {
     let modifiedData = [];
-    for(let i = 0; i < this.state.data.businesses.length; i++) {
+    for(let i = 0; i < this.state.data.length; i++) {
       let mapRequiredData = {
-        lat: this.state.data.businesses[i].coordinates.latitude,
-        long: this.state.data.businesses[i].coordinates.longitude,
-        destinationName: this.state.data.businesses[i].name
+        lat: this.state.data[i].coordinates.latitude,
+        long: this.state.data[i].coordinates.longitude,
+        destinationName: this.state.data[i].name
       }
       modifiedData.push(mapRequiredData);
     }
@@ -49,7 +52,7 @@ class SeePOI extends React.Component {
   }
 
   walkTime (distance) {
-    let walk = Math.round(((distance/84) + Number.EPSILON) * 100) /100;
+    let walk = Math.round((distance/84));
     return walk
   }
 
@@ -61,6 +64,12 @@ class SeePOI extends React.Component {
         </div>
       )
     })
+  }
+
+  changeDisplay (newBusinesses) {
+    this.setState({data: newBusinesses}, () => {
+      this.filterForMap();
+    });
   }
 
   componentDidMount () {
@@ -77,9 +86,9 @@ class SeePOI extends React.Component {
         <div className='returnCharger'><Link to='/'>Find a different charger</Link></div>
         <div className='login'><Link to='/login'>Log In</Link></div><div className='signup'><Link to='/signup'>Sign up</Link></div>
         <h3 className='seePOIListHeader'>Experiences Near You</h3>
-        <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData}></Map> : <div className='loading'> Loading...</div>}</div>
-        <PoiList props={this.state.data} walkTime={this.walkTime}></PoiList>
-        <div className='filters'><LittleFilter /></div>
+        {/* <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData}></Map> : <div className='loading'> Loading...</div>}</div> */}
+        <div className='poiList'>{this.state.data !== undefined ? <PoiList props={this.state.data} walkTime={this.walkTime}></PoiList> : <div className='loading'> Loading...</div>} </div>
+        <div className='filters'><LittleFilter changeDisplay={this.changeDisplay} allData={this.state.all} exampleInputForCDfunc={this.state.data}/></div>
         <div className='addPOI'><Link to='/addPOI'>Add a Point of Interest</Link></div>
       </div>
     )

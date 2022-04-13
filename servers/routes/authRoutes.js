@@ -39,6 +39,10 @@ authRouter.get('/signup', (req, res) => {
   res.redirect('/');
 })
 
+authRouter.get('/sponsor', (req, res) => {
+  res.redirect('/');
+})
+
 authRouter.get('/verify', verifyToken, (req, res) => {
   res.send(req.user.name);
 })
