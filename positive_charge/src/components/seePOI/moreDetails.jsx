@@ -13,7 +13,7 @@ const MoreDetails = (props) => {
       <div>
         <span className='moreDetailsName'>{data.name}  {data.phone}</span> <br></br>
         <span className='moreDetailsAddress'>{data.location.address1}, {data.location.city} {data.location.country}</span> <br></br>
-        <Modal props={data.id}/>
+        <Modal props={data}/>
       </div>
       </>
     )

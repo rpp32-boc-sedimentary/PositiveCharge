@@ -26,10 +26,6 @@ pool.grabview = async (poiId) => {
   return
 }
 
-pool.grabview = async (poiId) => {
-
-}
-
 pool.lovePoi = async (poiId) => {
 
 }

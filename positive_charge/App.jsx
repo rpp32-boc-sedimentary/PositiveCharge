@@ -113,9 +113,6 @@ class App extends React.Component {
             <Route path='/modal' element={<Modal />}></Route>
           </Routes>
         </BrowserRouter>
-        <div>
-          <Modal />
-        </div>
       </>
     )
   }
