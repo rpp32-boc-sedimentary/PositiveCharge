@@ -58,7 +58,7 @@ router.get('/graphql', (req, res) => {
     const museumData = await gClient.request(returnQuery(museums, lat, long), req.body);
     const landData = await gClient.request(returnQuery(lAndH, lat, long), req.body);
     const parkData = await gClient.request(returnQuery(parks, lat, long), req.body);
-    // console.log('cafe', cafeData.search.business);
+    console.log('cafe', cafeData.search);
     // console.log('food', foodData.search.business);
     // console.log('museum', museumData.search.business);
     // console.log('landmarks', landData.search.business);
