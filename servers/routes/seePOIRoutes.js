@@ -23,7 +23,7 @@ seePOIRouter.post('/getPOI', async (req, res) => {
       longitude: long,
       radius: dist,
       categories: 'Food, Cafes, Museums, Landmarks & Historical, Parks',
-      limit: 5,
+      limit: 20,
       sort_by: 'rating',
       open_now: true
   })
