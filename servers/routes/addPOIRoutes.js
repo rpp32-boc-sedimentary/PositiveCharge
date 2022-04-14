@@ -15,4 +15,5 @@ router.post('/addPOI', verifyToken, async (req, res, next) => {
   }
 })
 
+
 module.exports = router;
