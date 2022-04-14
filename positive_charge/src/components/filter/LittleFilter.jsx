@@ -21,7 +21,6 @@ class LittleFilter extends React.Component {
       },
       dynamicState: false,
       distance: '',
-      //categories: [],
       categoriesChecked: {},
       //need to get user location passed by props
       userLocation: {lat: 37.776447823372365, long: -122.43286289002232},
@@ -38,11 +37,10 @@ class LittleFilter extends React.Component {
     this.handleDistance = this.handleDistance.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
     this.getYelpDataTest = this.getYelpDataTest.bind(this);
-    //this.applyFilter = this.applyFilter.bind(this);
     this.handleBigFilterApply = this.handleBigFilterApply.bind(this);
-    //this.findCategories = this.findCategories.bind(this);
     this.handleDynamicCategories = this.handleDynamicCategories.bind(this);
     this.findTimeToTravel = this.findTimeToTravel.bind(this);
+    this.handleCategoryButton = this.handleCategoryButton.bind(this);
 
   }
   ///////////////// temporary usage
@@ -96,6 +94,10 @@ class LittleFilter extends React.Component {
     this.setState({
       categoriesChecked
     });
+  };
+
+  handleCategoryButton = (e) => {
+    console.log(e.target.value);
   };
 
   handleDistance = (e) => {
@@ -171,7 +173,8 @@ class LittleFilter extends React.Component {
     let categoriesInData = helpers.findCategories(this.state.sampleData);
     this.setState({
       categoriesChecked: categoriesInData
-    })
+    });
+
   }
 
 
@@ -217,8 +220,8 @@ class LittleFilter extends React.Component {
 
         { this.state.priceModalState ?  <PriceFilter priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
 
-        <CategoryButtons catgories={ this.state.categoriesChecked }/>
-        <button className="sfChild" onClick={ this.handleDynamicState }>Cafes</button>
+        <CategoryButtons categories={ this.state.categoriesChecked } handleCategoryButton={ this.handleCategoryButton }/>
+
         <button className="sfChild" onClick={ this.findTimeToTravel }>Calc Time to Walk</button>
       </div>
     )

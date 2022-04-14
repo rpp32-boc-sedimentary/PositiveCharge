@@ -3,6 +3,7 @@
 
 const findCategories = (data) => {
   let categories = {};
+
   data.forEach(item => {
     categories[item.category] = true;
   });
@@ -29,17 +30,17 @@ const filterOnPrice = (selectedFilter, data) => {
 };
 
 const filterOnCategories = (selectedFilter, data) => {
-  let categoryFiltered = [];
   if (!selectedFilter.food && !selectedFilter.museum && !selectedFilter.cafe && !selectedFilter.park && !selectedFilter['landmarks & historical']) {
     return data;
   }
+  let categoryFiltered = [];
   data.forEach(item => {
     if (selectedFilter[item]) {
       categoryFiltered.push(item);
     }
   });
   return categoryFiltered;
-}
+};
 
 module.exports = {
   filterOnPrice,
