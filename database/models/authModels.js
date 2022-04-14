@@ -18,4 +18,27 @@ pool.testModelFunc = async (param) => {
   return;
 }
 
+pool.addUser = async (params) => {
+  try {
+    var query = `INSERT INTO users (name, email, password)
+    VALUES ($1, $2, $3)`;
+    var result = await pool.query(query, params);
+    return 'Added new user';
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.getUser = async (param) => {
+  try {
+    var query = `SELECT * FROM users WHERE email = $1`;
+    var user = await pool.query(query, param);
+    return user.rows;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
 module.exports = { pool };

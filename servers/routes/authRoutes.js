@@ -3,6 +3,7 @@ const express = require('express');
 const authRouter = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { pool } = require('../../database/models/authModels');
 
 authRouter.use((req, res, next) => {
   console.log('Time: ', Date.now());
@@ -23,14 +24,6 @@ function verifyToken(req, res, next) {
   })
 }
 
-// temp - delete after DB is set up
-const users = [];
-
-// testing purposes only - delete after
-authRouter.get('/users', verifyToken, (req, res) => {
-  res.send(users);
-})
-
 authRouter.get('/login', (req, res) => {
   res.redirect('/');
 })
@@ -44,13 +37,15 @@ authRouter.get('/verify', verifyToken, (req, res) => {
 })
 
 authRouter.post('/login', async (req, res) => {
-  var user = users.find( user => user.email === req.body.email.toLowerCase())
-  if (user === undefined) {
+  var email = req.body.email.toLowerCase();
+  var user = await pool.getUser([email]);
+  console.log('user = ', user);
+  if (user.length < 1) {
     console.log('Cannot find user');
     return res.send('Cannot find user');
   }
   try {
-    if (await bcrypt.compare(req.body.password, user.password)) {
+    if (await bcrypt.compare(req.body.password, user[0].password)) {
       const accessToken = jwt.sign(
         { name: user.name, email: req.body.email },
         process.env.ACCESS_KEY,
@@ -60,7 +55,7 @@ authRouter.post('/login', async (req, res) => {
       );
       res.cookie('token', accessToken, { httpOnly: true });
       // res.status(201).json({ accessToken });
-      res.status(201).send(user.name);
+      res.status(201).send(user[0].name);
       console.log('Logged in');
     } else {
       res.send('Incorrect password');
@@ -77,15 +72,15 @@ authRouter.post('/signup', async (req, res) => {
   email = email.toLowerCase();
 
   try {
-    var oldUser = await users.find(user => user.email === email)
-    if (oldUser !== undefined) {
+    // var oldUser = await users.find(user => user.email === email)
+    var oldUser = await pool.getUser([email]); //test
+    console.log('oldUser = ', oldUser);
+    if (oldUser.length > 0) {
       return res.status(409).send('User already exists. Please login.')
     }
     var hashedPass = await bcrypt.hash(password, 10);
-    var newUser = { name: name, email: email, password: hashedPass };
-    users.push(newUser);
-
-    res.status(201).send('Added new user');
+    var newUser = await pool.addUser([name, email, hashedPass]);
+    res.status(201).send(newUser);
   } catch (err) {
     res.status(500).send(err);
   }
