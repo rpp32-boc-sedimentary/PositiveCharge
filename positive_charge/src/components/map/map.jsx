@@ -20,6 +20,7 @@ class Map extends React.Component {
             currDestination: {}
         }
         this.getDirections = this.getDirections.bind(this);
+        this.haversine = this.haversine.bind(this);
         this.routingRef = React.createRef();
     }
 
@@ -30,6 +31,26 @@ class Map extends React.Component {
                 L.latLng(this.state.currDestination.lat, this.state.currDestination.long)
             ])
         }
+    }
+
+    //Finds distance between two points in miles or feet depending on which is more appropriate
+    haversine(lat1, lat2, lon1, lon2) {
+        lon1 =  lon1 * Math.PI / 180;
+        lon2 = lon2 * Math.PI / 180;
+        lat1 = lat1 * Math.PI / 180;
+        lat2 = lat2 * Math.PI / 180;
+
+        // Haversine formula
+        let dlon = lon2 - lon1;
+        let dlat = lat2 - lat1;
+        let a = Math.pow(Math.sin(dlat / 2), 2)
+            + Math.cos(lat1) * Math.cos(lat2)
+            * Math.pow(Math.sin(dlon / 2),2);
+        let c = 2 * Math.asin(Math.sqrt(a));
+        let r = 3956;
+        let distance = (c * r);
+
+        return distance < 0.1 ? `. Continue for ${parseInt(distance * 5028)} feet` : `. Continue for ${+(Math.round(distance + "e+2") + "e-2")} miles`;
     }
 
     getDirections(event) {
@@ -43,9 +64,18 @@ class Map extends React.Component {
         })
         .then(response => {
             var directions = [];
-            response.data.instructions.forEach((direction) => {
+            console.log(response.data);
+            // response.data.instructions.forEach((direction) => {
+            //     directions.push(direction.message);
+            // })
+            var instructions = response.data.guidance.instructions;
+            instructions.forEach((direction) => {
                 directions.push(direction.message);
-            })
+            });
+            for(var index = 0; index < instructions.length - 1; index++) {
+                var distance = this.haversine(instructions[index].point.latitude, instructions[index + 1].point.latitude, instructions[index].point.longitude, instructions[index + 1].point.longitude)
+                directions[index] += distance;
+            }
             this.setState({
                 directions: directions,
                 currDestination: { lat: event.latlng.lat, long: event.latlng.lng }
@@ -59,14 +89,14 @@ class Map extends React.Component {
     render() {
         return (
             <div>
-                <MapContainer center={[this.state.lat, this.state.long]} zoom={13} id="map">
+                <MapContainer center={[this.state.lat, this.state.long]} zoom={18} id="map">
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <Marker position={[this.state.lat, this.state.long]} icon={L.icon({ iconUrl: './img/personMarker.png', iconSize: [90, 90] })}>
                         <Popup>
-                            A pretty CSS3 popup. <br /> Easily customizable.
+                            Your Location
                         </Popup>
                     </Marker>
                     <MapDestination
