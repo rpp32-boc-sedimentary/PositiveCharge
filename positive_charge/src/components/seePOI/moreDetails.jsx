@@ -6,8 +6,6 @@ const MoreDetails = (props) => {
   const location = useLocation();
   const data = location.state.data;
 
-  console.log('this is it', data);
-
     return (
       <>
       <div>

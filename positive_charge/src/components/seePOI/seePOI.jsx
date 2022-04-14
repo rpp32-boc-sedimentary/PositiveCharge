@@ -18,7 +18,7 @@ class SeePOI extends React.Component {
     this.state = {
       lat: 39.595244,
       long: -104.7049212,
-      dist: 600
+      dist: 1000
     };
     this.getPOIData = this.getPOIData.bind(this);
     this.filterForMap = this.filterForMap.bind(this);
@@ -88,7 +88,7 @@ class SeePOI extends React.Component {
         <h3 className='seePOIListHeader'>Experiences Near You</h3>
         {/* <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData}></Map> : <div className='loading'> Loading...</div>}</div> */}
         <div className='poiList'>{this.state.data !== undefined ? <PoiList props={this.state.data} walkTime={this.walkTime}></PoiList> : <div className='loading'> Loading...</div>} </div>
-        <div className='filters'><LittleFilter changeDisplay={this.changeDisplay} allData={this.state.all} exampleInputForCDfunc={this.state.data}/></div>
+        <div className='filters'>{this.state.data !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} allData={this.state.all} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div>
         <div className='addPOI'><Link to='/addPOI'>Add a Point of Interest</Link></div>
       </div>
     )

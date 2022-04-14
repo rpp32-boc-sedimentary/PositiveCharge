@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function Modal(data) {
 
   const getDetails = (id) => {
-    console.log('fetching details')
+    console.log('fetching details');
     // need to add some poi id here
     axios.get(`/details/view`)
       .then((response) => {
