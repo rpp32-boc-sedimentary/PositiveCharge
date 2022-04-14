@@ -18,7 +18,7 @@ class SeePOI extends React.Component {
     this.state = {
       lat: 39.595244,
       long: -104.7049212,
-      dist: 1000
+      dist: 1260
     };
     this.getPOIData = this.getPOIData.bind(this);
     this.filterForMap = this.filterForMap.bind(this);
