@@ -12,11 +12,24 @@ const pool = new Pool({
 });
 
 // Details models
-pool.grabview = async (poiId) => {
-  const query = `SELECT * FROM test`;
-  const love = await pool.query(query)
-  // console.log(love.rows)
-  return
+pool.grabview = async (params) => {
+  /*
+  grab the
+  poi => loves, flag_status
+  experience => experiences, loves, flag_status
+  foriegn key in experience poi_id
+  */
+  const query =
+  `SELECT
+     loves, flag_status, experience, exp_loves, exp_flag_status
+   FROM
+     pois, experiences
+   WHERE
+     pois.yelp_id = experiences.poi_id
+   AND
+     experiences.poi_id = $1`;
+  const grabDetails = await pool.query(query, params)
+  return grabDetails.rows;
 }
 
 pool.lovePoi = async (poiId) => {
@@ -44,13 +57,12 @@ pool.addExperience = async (params) => {
   let addPoiParams = [params[0], params[2], params[3], params[4]];
 
   let addExperienceQuery = `INSERT INTO experiences
-  (poi_id, experience, loves, flag_status, photos)
+  (poi_id, experience, exp_loves, exp_flag_status, photos)
   VALUES ($1, $2, 0, false, null)`;
 
   let addPoiQuery = `INSERT INTO pois
   (name, address, price, category, yelp_id, loves, flag_status, long, lat, sponsored)
-  VALUES
-  ($2, null, null, null, $1, 0, false, $3, $4, false)`;
+  VALUES ($2, null, null, null, $1, 0, false, $3, $4, false)`;
 
   try {
     let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);

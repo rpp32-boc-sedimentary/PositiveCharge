@@ -4,10 +4,12 @@ import axios from 'axios';
 
 export default function Modal(data) {
 
-  const getDetails = (id) => {
-    console.log('fetching details');
-    // need to add some poi id here
-    axios.get(`/details/view`)
+  const getDetails = (data) => {
+    axios.get(`/details/view`, {
+      params: {
+        id: data.props.id
+      }
+    })
       .then((response) => {
         grabDetails(response.data)
       })
@@ -20,7 +22,7 @@ export default function Modal(data) {
     <>
       <div>
         <button onClick={() => {
-          getDetails()
+          getDetails(data)
           setIsOpen(true)
         }}>See what everyone is saying about {data.props.name}</button>
         <PoiModal open={isOpen} onClose={() => setIsOpen(false)} detail={details} name={data}/>

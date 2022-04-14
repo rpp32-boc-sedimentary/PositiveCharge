@@ -33,7 +33,7 @@ const overlayStyle = {
 export default function PoiModal({open, onClose, detail, name}) {
 
   const [isOpen, setIsOpen] = useState(false);
-  console.log(detail)
+
   const love = (path) => {
     axios.put(`/details/${path}/love`, {love: 1})
       .then((response) => {
@@ -62,8 +62,10 @@ export default function PoiModal({open, onClose, detail, name}) {
           {/* experiences section */}
           <div>
             <div>
-              {/* experience */}
-              foo bar was so awesome at this foo place
+              {/* experience
+              the detail prop has an array of objects with the data i need
+              to render */}
+              {detail[0]?.experience ? detail[0].experience : null}
 
               {/* love button for experiences*/}
               <button onClick={() => love('/experience')}>Love</button>
