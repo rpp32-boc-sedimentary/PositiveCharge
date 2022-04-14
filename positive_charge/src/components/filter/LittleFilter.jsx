@@ -3,7 +3,7 @@ import BigFilter from './BigFilter.jsx';
 import PriceFilter from './PriceFilter.jsx';
 import axios from 'axios';
 
-const LittleFilter = (props) => {
+const LittleFilter = () => {
 
   const [modalState, setModalState] = useState(false);
   const manageModalState = () => {
