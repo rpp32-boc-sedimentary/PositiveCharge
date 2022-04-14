@@ -64,7 +64,6 @@ class Map extends React.Component {
         })
         .then(response => {
             var directions = [];
-            console.log(response.data);
             // response.data.instructions.forEach((direction) => {
             //     directions.push(direction.message);
             // })
@@ -80,7 +79,6 @@ class Map extends React.Component {
                 directions: directions,
                 currDestination: { lat: event.latlng.lat, long: event.latlng.lng }
             })
-            console.log('state.currDestination: ', this.state.currDestination);
         })
         .catch(err => {
             console.log("Failed to reach /map route", err);
