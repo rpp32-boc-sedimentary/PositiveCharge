@@ -1,12 +1,18 @@
 const express = require('express')
-const addPOIRouter = express.Router()
+const router = express.Router()
+const {verifyToken} = require('./authRoutes.js')
 
-addPOIRouter.post('/addPOI', async (req, res) => {
+router.post('/addPOI', verifyToken, async (req, res, next) => {
+  console.log('in the route')
+  console.log('req.body', req.body)
+  const result = await router.addPOI(req.body)
   try {
-    res.status(201).send(req.body)
+    console.log('result in route', result)
+    res.status(201).send(result)
   } catch(err) {
+    console.log('error in route', err)
     res.status(500).send(err)
   }
 })
 
-module.exports = addPOIRouter;
+module.exports = router;
