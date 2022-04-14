@@ -15,12 +15,4 @@ router.post('/addPOI', verifyToken, async (req, res, next) => {
   }
 })
 
-// router.post('/addPOI', verifyToken, async (req, res, next) => {
-//   console.log('in the route')
-//   router.pool.addPOI().then(result => {
-//     console.log('result in route', result)
-//     res.send(result)
-//   })
-// })
-
 module.exports = router;

@@ -6,6 +6,7 @@ function AddPOI () {
   const [pointName, setPointName] = useState('')
   const [lat, setLat] = useState('')
   const [lng, setLng] = useState('')
+  const [address, setAddress] = useState('')
   const [category, setCategory] = useState('food')
   const [price, setPrice] = useState('')
   const [showCostGuide, setShowCostGuide] = useState(false)
@@ -18,6 +19,7 @@ function AddPOI () {
     e.preventDefault()
     let data = {
       name: pointName,
+      address,
       lat,
       lng,
       category,
@@ -25,8 +27,8 @@ function AddPOI () {
     }
     if (validatePoiInfo(data)) {
       axios.post('/addPOI', data)
-      .then(response => {
-        console.log('response in component', response)
+      .then(() => {
+        return
       })
       .catch(err => {
         console.error(err)
@@ -82,7 +84,7 @@ function AddPOI () {
           </input><br></br><br></br>
 
           <label htmlFor="point-name-input">Location: </label>
-          <PlacesAutocomplete setLat={setLat} setLng={setLng}/>
+          <PlacesAutocomplete setAddress={setAddress} setLat={setLat} setLng={setLng}/>
 
           <br></br><br></br>
 

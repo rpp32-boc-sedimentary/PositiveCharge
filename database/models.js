@@ -67,10 +67,10 @@ pool.deleteExperience = async (params) => {
 pool.addPOI = async (newPoi) => {
   console.log('newPoi', newPoi)
   const query = `INSERT INTO pois
-  (name, long, lat, price, category)
-  VALUES ($1, $2, $3, $4, $5)
+  (name, address, long, lat, price, category)
+  VALUES ($1, $2, $3, $4, $5, $6)
   RETURNING *`;
-  let values = [newPoi.name, newPoi.long, newPoi.lat, newPoi.price, newPoi.category]
+  let values = [newPoi.name, newPoi.address, newPoi.lng, newPoi.lat, newPoi.price, newPoi.category]
   try {
     const result = await pool.query(query, values)
     console.log(result.rows)
