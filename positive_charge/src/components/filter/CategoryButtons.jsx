@@ -4,7 +4,6 @@ const CategoryButtons = (props) => {
 
   const generateCategories = () => {
     let points = Object.keys(props.categories);
-    console.log(points)
     let generated = [];
     if (points.indexOf('food') >= 0 && points.indexOf('cafe') >= 0) {
       generated.push('food and cafes');
@@ -18,7 +17,6 @@ const CategoryButtons = (props) => {
   }
 
   let availableCategories = generateCategories();
-  console.log('available', availableCategories)
 
   return (
     <div>

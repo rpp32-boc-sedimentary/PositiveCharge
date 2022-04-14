@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import BigFilter from './BigFilter.jsx';
 import PriceFilter from './PriceFilter.jsx';
 import CategoryButtons from './CategoryButtons.jsx';
@@ -22,7 +22,7 @@ class LittleFilter extends React.Component {
       dynamicState: false,
       distance: '',
       categoriesChecked: {},
-      //need to get user location passed by props
+      littleFilterCategories: {},
       userLocation: {lat: 37.776447823372365, long: -122.43286289002232},
       allData: [],
       otherData: [],
@@ -43,13 +43,7 @@ class LittleFilter extends React.Component {
     this.handleCategoryButton = this.handleCategoryButton.bind(this);
 
   }
-  ///////////////// temporary usage
-  // let categories = ['food', 'museums', 'cafes', 'landmarks', 'parks'];
-  // const getRandomCategory = (max) => {
-  //   return Math.floor(Math.random() * max);
-  // };
-  // let randomCategory = categories[getRandomCategory(categories.length)];
-  //////////////////////////
+
 
   handleModalState = () => {
     this.setState({
@@ -98,6 +92,15 @@ class LittleFilter extends React.Component {
 
   handleCategoryButton = (e) => {
     console.log(e.target.value);
+    let lFC = this.state.littleFilterCategories;
+    if (!lFC[e.target.value]) {
+      lFC[e.target.value] = true;
+    } else if (lFC[e.target.value] === true) {
+      lFC[e.target.value] = false;
+    }
+    this.setState({
+      littleFilterCategories: lFC
+    });
   };
 
   handleDistance = (e) => {
@@ -119,24 +122,6 @@ class LittleFilter extends React.Component {
     this.applyFilter();
     this.handleModalState();
   };
-
-  // applyFilter = () => {
-  //   axios.get('/filter/selectedFilters', {
-  //     params: {
-  //       dynamic: this.state.dynamicState,
-  //       price: this.state.price,
-  //       distance: this.state.distance,
-  //     }
-  //   })
-  //     .then(data => {
-  //       console.log('success applying filters', data);
-  //     })
-  //     .catch(err => {
-  //       console.error('error applying filters', err);
-  //     })
-  // };
-
-
 
   clearFilters = () => {
     this.setState({
@@ -168,7 +153,7 @@ class LittleFilter extends React.Component {
 
 
   componentDidMount = () => {
-    console.log('props from DOM', this.props)
+    //console.log('props from DOM', this.props)
 
     let categoriesInData = helpers.findCategories(this.state.sampleData);
     this.setState({

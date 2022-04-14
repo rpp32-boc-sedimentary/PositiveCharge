@@ -42,8 +42,13 @@ const filterOnCategories = (selectedFilter, data) => {
   return categoryFiltered;
 };
 
+const filterLfcCategories = (selectedFilter, data) => {
+
+}
+
 module.exports = {
   filterOnPrice,
   findCategories,
   filterOnCategories,
+  filterLfcCategories,
 }
