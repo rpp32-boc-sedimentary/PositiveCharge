@@ -42,13 +42,34 @@ const filterOnCategories = (selectedFilter, data) => {
   return categoryFiltered;
 };
 
-const filterLfcCategories = (selectedFilter, data) => {
-
+const filterLfCategories = (selectedFilter, data) => {
+  console.log('selected lfc filters', selectedFilter, 'data', data);
+  let filtered = [];
+  data.forEach(item => {
+    if (selectedFilter.food) {
+      if (item.category === 'food') {
+        filtered.push(item);
+      }
+    } else if (selectedFilter['food and cafes']) {
+      if (item.category === 'food' || item.category === 'cafe') {
+        console.log('f and c')
+        filtered.push(item);
+      }
+    }
+    if (selectedFilter.cultural) {
+      //change 'landmarks & historical' later to 'landmarks & historical' with real data
+      if (item.category === 'museum' || item.category === 'landmarks & historical') {
+        console.log('m and l')
+        filtered.push(item);
+      }
+    }
+  })
+  return filtered;
 }
 
 module.exports = {
   filterOnPrice,
   findCategories,
   filterOnCategories,
-  filterLfcCategories,
+  filterLfCategories,
 }

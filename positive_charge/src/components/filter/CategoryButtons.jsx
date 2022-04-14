@@ -7,10 +7,10 @@ const CategoryButtons = (props) => {
     let generated = [];
     if (points.indexOf('food') >= 0 && points.indexOf('cafe') >= 0) {
       generated.push('food and cafes');
-    } else if (points.indexOf('food') > 0) {
+    } else if (points.indexOf('food') >= 0) {
       generated.push('food');
     }
-    if (points.indexOf('museum') > 0 && points.indexOf('landmarks & historical') > 0) {
+    if (points.indexOf('museum') >= 0 && points.indexOf('landmarks & historical') >= 0) {
       generated.push('cultural');
     }
     return generated;
@@ -21,7 +21,7 @@ const CategoryButtons = (props) => {
   return (
     <div>
       {availableCategories.map(item =>
-        <button value={ item } onClick={ props.handleCategoryButton }>{item}</button>
+        <button value={ item } onClick={ props.handleCategoryButton }>{ item }</button>
       )}
     </div>
   )

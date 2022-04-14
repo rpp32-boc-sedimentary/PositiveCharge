@@ -32,7 +32,7 @@ class LittleFilter extends React.Component {
 
     this.handleModalState = this.handleModalState.bind(this);
     this.handlePriceModalState = this.handlePriceModalState.bind(this);
-    this.handleDynamicState = this.handleDynamicState.bind(this);
+    //this.handleDynamicState = this.handleDynamicState.bind(this);
     this.handlePrice = this.handlePrice.bind(this);
     this.handleDistance = this.handleDistance.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
@@ -58,14 +58,14 @@ class LittleFilter extends React.Component {
   };
 
   //add function to change the color of the button when clicked
-  handleDynamicState = (e) => {
-    e.preventDefault();
-    this.setState({
-      dynamicState: !this.state.dynamic
-    }, () => {
-      this.applyFilter();
-    })
-  };
+  // handleDynamicState = (e) => {
+  //   e.preventDefault();
+  //   this.setState({
+  //     dynamicState: !this.state.dynamic
+  //   }, () => {
+  //     this.applyFilter();
+  //   })
+  // };
 
   handlePrice = (e) => {
     const target = e.target;
@@ -100,6 +100,9 @@ class LittleFilter extends React.Component {
     }
     this.setState({
       littleFilterCategories: lFC
+    }, () => {
+      let filteredLfc = helpers.filterLfCategories(this.state.littleFilterCategories, this.state.sampleData);
+      // need to update state with filteredLfc / use DOM's func
     });
   };
 
@@ -113,6 +116,7 @@ class LittleFilter extends React.Component {
     e.preventDefault();
     console.log('price filters', this.state.price);
     let filtered = helpers.filterOnPrice(this.state.price, this.state.sampleData);
+    // need to update state with filtered / use DOM's func
     console.log('price filter test', filtered);
     this.handlePriceModalState();
   };
@@ -124,6 +128,11 @@ class LittleFilter extends React.Component {
   };
 
   clearFilters = () => {
+    let categoriesChecked = this.state.categoriesChecked;
+    console.log('cat', categoriesChecked)
+    for (let key in categoriesChecked) {
+      categoriesChecked[key] = '';
+    }
     this.setState({
       distance: '',
       price: {
@@ -131,7 +140,8 @@ class LittleFilter extends React.Component {
         $: '',
         $$: '',
         $$$: ''
-      }
+      },
+      categoriesChecked
     });
   };
 
@@ -153,7 +163,7 @@ class LittleFilter extends React.Component {
 
 
   componentDidMount = () => {
-    //console.log('props from DOM', this.props)
+    console.log('props from DOM', this.props)
 
     let categoriesInData = helpers.findCategories(this.state.sampleData);
     this.setState({
