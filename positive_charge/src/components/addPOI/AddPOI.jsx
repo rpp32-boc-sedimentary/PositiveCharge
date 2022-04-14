@@ -102,13 +102,13 @@ function AddPOI () {
           <input type="radio" className="radio-button price-input" name="price" id="free" value="free" onClick={e => setPrice(e.target.value)}></input>
           <label htmlFor="free">Free</label>
 
-          <input type="radio" className="radio-button price-input" name="price" id="$" value="$" onClick={e => setPrice(e.target.value)}></input>
+          <input type="radio" className="radio-button price-input" name="price" id="$" value="$" onClick={e => setPrice("1")}></input>
           <label htmlFor="$">$</label>
 
-          <input type="radio" className="radio-button price-input" name="price" id="$$" value="$$" onClick={e => setPrice(e.target.value)}></input>
+          <input type="radio" className="radio-button price-input" name="price" id="$$" value="$$" onClick={e => setPrice("2")}></input>
           <label htmlFor="$$">$$</label>
 
-          <input type="radio" className="radio-button price-input" name="price" id="$$$" value="$$$" onClick={e => setPrice(e.target.value)}></input>
+          <input type="radio" className="radio-button price-input" name="price" id="$$$" value="$$$" onClick={e => setPrice("3")}></input>
           <label htmlFor="$$$">$$$</label><br></br>
 
           {!showCostGuide &&

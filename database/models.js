@@ -55,6 +55,41 @@ pool.deleteExperience = async (expId) => {
 }
 
 // ADD POI models
+pool.addPOI = async (newPoi) => {
+  console.log('newPoi', newPoi)
+  const query = `INSERT INTO pois
+  (id, name, long, lat, price, category)
+  VALUES (DEFAULT, $1, $2, $3, $4, $5)
+  RETURNING *`;
+  let values = [newPoi.name, newPoi.long, newPoi.lat, newPoi.price, newPoi.category]
+  try {
+    const result = await pool.query(query, values)
+    console.log(result.rows)
+    return result.rows
+  } catch (err) {
+    console.log(err.stack)
+  }
+}
+
+// pool.addPOI = async () => {
+//   try {
+//     const result = await pool.query('SELECT * FROM pois WHERE false')
+//     return result
+//   } catch (err) {
+//     console.log('err.stack', err.stack)
+//   }
+// }
+
+// pool.addPOI = async () => {
+//   try {
+//     const query = 'SELECT * from pois WHERE true'
+//     const result = await pool.query(query)
+//     return result.rows
+//   } catch (err) {
+//     console.log(err.stack)
+//   }
+// }
+
 
 // Auth models
 

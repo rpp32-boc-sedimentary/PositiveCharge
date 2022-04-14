@@ -4,8 +4,9 @@ const {verifyToken} = require('./authRoutes.js')
 
 router.post('/addPOI', verifyToken, async (req, res, next) => {
   console.log('in the route')
+  console.log('req.body', req.body)
+  const result = await router.addPOI(req.body)
   try {
-    const result = await router.pool.addPOI()
     console.log('result in route', result)
     res.status(201).send(result)
   } catch(err) {
