@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 require('dotenv').config();
 const { gql, GraphQLClient } = require('graphql-request');
+const axios = require('axios');
 
 
 router.get('/graphql', (req, res) => {
@@ -58,7 +59,7 @@ router.get('/graphql', (req, res) => {
     const museumData = await gClient.request(returnQuery(museums, lat, long), req.body);
     const landData = await gClient.request(returnQuery(lAndH, lat, long), req.body);
     const parkData = await gClient.request(returnQuery(parks, lat, long), req.body);
-    console.log('cafe', cafeData.search);
+    //console.log('cafe', cafeData.search);
     // console.log('food', foodData.search.business);
     // console.log('museum', museumData.search.business);
     // console.log('landmarks', landData.search.business);
@@ -66,16 +67,27 @@ router.get('/graphql', (req, res) => {
   };
 
   main().catch((err) => {
-    console.error(err)
-  })
-})
+    console.error(err);
+  });
+});
 
 
 router.get('/selectedFilters', (req, res) => {
   let test = req.query;
   console.log('test', test);
+})
 
-  //query the db based on filters selected
+router.get('/walkingTime', (req, res) => {
+  let params = req.query;
+  let starting = JSON.parse(params.starting);
+  let ending = JSON.parse(params.ending);
+  axios.get(`https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${starting.long},${starting.lat};${ending.long},${ending.lat}?access_token=${process.env.MAPBOX_TOKEN}`)
+    .then(data => {
+      console.log('data', data.data);
+    })
+    .catch(err => {
+      console.error('error at mapbox', err);
+    })
 })
 
 
