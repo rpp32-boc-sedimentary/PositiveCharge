@@ -35,7 +35,10 @@ export default function AddExperience({open, onClose, name}) {
   const shareExperience = (path) => {
     axios.post(`/details${path}`, {
       experience: experience,
-      id: name.props.id
+      id: name.props.id,
+      name: name.props.name,
+      lat: name.props.coordinates.latitude,
+      long: name.props.coordinates.longitude
     })
       .then((result) => {
         alert('Thanks for sharing with the community!')

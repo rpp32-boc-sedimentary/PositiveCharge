@@ -39,15 +39,30 @@ pool.flagExp = async (expId) => {
 }
 
 pool.addExperience = async (params) => {
+
+  let addParams = [params[0], params[1]];
+  let addPoiParams = [params[0], params[2], params[3], params[4]];
+
+  let addExperienceQuery = `INSERT INTO experiences
+  (poi_id, experience, loves, flag_status, photos)
+  VALUES ($1, $2, 0, false, null)`;
+
+  let addPoiQuery = `INSERT INTO pois
+  (name, address, price, category, yelp_id, loves, flag_status, long, lat, sponsored)
+  VALUES
+  ($2, null, null, null, $1, 0, false, $3, $4, false)`;
+
   try {
-    // add the poi to pois table if not there
-    // if the poi is already in the pois table
-    const query = `INSERT INTO experiences
-      (poi_id, experience, loves, flag_status, photos)
-      VALUES ($1, $2, 0, false, null)`;
-    const addingExperience = await pool.query(query, params);
-    return 'Thanks for sharing with the community!!';
-      // else add it to pois and add the experience
+    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
+    if (checkPoi.rows[0].exists) {
+
+      let addingExperience = await pool.query(addExperienceQuery, addParams);
+      return 'Thanks for sharing with the community!!';
+    } else {
+
+      let addPoi = await pool.query(addPoiQuery, addPoiParams);
+      let addingExperience = await pool.query(addExperienceQuery, addParams);
+    }
   } catch (err) {
     console.log(err.message);
   }
