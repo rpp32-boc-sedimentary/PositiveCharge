@@ -13,8 +13,8 @@ router.get('/', (req, res) => {
         {params: {instructionsType: 'text', travelMode: 'pedestrian', key: 'lfI3k6sv1agp5oZhWAARgrVhbQQuYx0k'}})
     .then(response => {
         var guidance = response.data.routes[0].guidance;
-        //console.log('Response from getting directions', returningShit);
-        res.send(guidance);
+        //res.send(guidance);
+        res.send(response.data.routes[0])
     })
     .catch(err => {
         console.log('Failed while trying to grab directions: ' + err);
