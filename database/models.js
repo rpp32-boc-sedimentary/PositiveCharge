@@ -12,13 +12,6 @@ const pool = new Pool({
 });
 
 // Details models
-pool.lovePoi = async (poiId) => {
-  const query = `INSERT INTO test (name) VALUES ('this is a test')`;
-  const love = await pool.query(query)
-  // console.log(love.rows)
-  return;
-}
-
 pool.grabview = async (poiId) => {
   const query = `SELECT * FROM test`;
   const love = await pool.query(query)
@@ -27,7 +20,10 @@ pool.grabview = async (poiId) => {
 }
 
 pool.lovePoi = async (poiId) => {
-
+  const query = `INSERT INTO test (name) VALUES ('this is a test')`;
+  const love = await pool.query(query)
+  // console.log(love.rows)
+  return;
 }
 
 pool.flagPoi = async (poiId) => {
@@ -44,11 +40,14 @@ pool.flagExp = async (expId) => {
 
 pool.addExperience = async (params) => {
   try {
+    // add the poi to pois table if not there
+    // if the poi is already in the pois table
     const query = `INSERT INTO experiences
       (poi_id, experience, loves, flag_status, photos)
       VALUES ($1, $2, 0, false, null)`;
     const addingExperience = await pool.query(query, params);
     return 'Thanks for sharing with the community!!';
+      // else add it to pois and add the experience
   } catch (err) {
     console.log(err.message);
   }
