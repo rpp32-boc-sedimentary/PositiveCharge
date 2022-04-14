@@ -65,11 +65,9 @@ pool.deleteExperience = async (params) => {
 
 // ADD POI models
 pool.addPOI = async (newPoi) => {
-  let params = []
+  let params
   let query
-  if (typeof newPoi === 'string') {
-    params.push(newPoi)
-  } else if (Array.isArray(newPoi) && newPoi.length === 1 && typeof newPoi[0] === 'string') {
+  if (Array.isArray(newPoi) && newPoi.length === 1 && typeof newPoi[0] === 'string') {
     params = newPoi
   } if (params.length === 1) {
     query = `INSERT INTO pois (yelp_id)

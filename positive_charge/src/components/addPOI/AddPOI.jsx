@@ -26,7 +26,7 @@ function AddPOI () {
       price
     }
     if (validatePoiInfo(data)) {
-      axios.post('/addPOI', 'testYelpID')
+      axios.post('/addPOI', data)
       .then(() => {
         return
       })
