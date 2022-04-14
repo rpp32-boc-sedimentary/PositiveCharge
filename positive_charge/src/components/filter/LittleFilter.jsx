@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import BigFilter from './BigFilter.jsx';
 import PriceFilter from './PriceFilter.jsx';
+import CategoryButtons from './CategoryButtons.jsx';
 import axios from 'axios';
-import dummyData from '../../../../database/dummyData/pois.js'
+import dummyData from '../../../../database/dummyData/pois.js';
+import helpers from './filterHelpers.js';
 
 class LittleFilter extends React.Component {
   constructor(props) {
@@ -19,8 +21,14 @@ class LittleFilter extends React.Component {
       },
       dynamicState: false,
       distance: '',
-      categories: [],
-      categoriesChecked: {}
+      //categories: [],
+      categoriesChecked: {},
+      //need to get user location passed by props
+      userLocation: {lat: 37.776447823372365, long: -122.43286289002232},
+      allData: [],
+      otherData: [],
+      sampleData: dummyData.poiData,
+      filteredData: [],
     }
 
     this.handleModalState = this.handleModalState.bind(this);
@@ -30,10 +38,12 @@ class LittleFilter extends React.Component {
     this.handleDistance = this.handleDistance.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
     this.getYelpDataTest = this.getYelpDataTest.bind(this);
-    this.applyFilter = this.applyFilter.bind(this);
+    //this.applyFilter = this.applyFilter.bind(this);
     this.handleBigFilterApply = this.handleBigFilterApply.bind(this);
-    this.findCategories = this.findCategories.bind(this);
+    //this.findCategories = this.findCategories.bind(this);
     this.handleDynamicCategories = this.handleDynamicCategories.bind(this);
+    this.findTimeToTravel = this.findTimeToTravel.bind(this);
+
   }
   ///////////////// temporary usage
   // let categories = ['food', 'museums', 'cafes', 'landmarks', 'parks'];
@@ -96,7 +106,9 @@ class LittleFilter extends React.Component {
 
   handlePriceApply = (e) => {
     e.preventDefault();
-    this.applyFilter();
+    console.log('price filters', this.state.price);
+    let filtered = helpers.filterOnPrice(this.state.price, this.state.sampleData);
+    console.log('price filter test', filtered);
     this.handlePriceModalState();
   };
 
@@ -106,41 +118,23 @@ class LittleFilter extends React.Component {
     this.handleModalState();
   };
 
-  applyFilter = () => {
-    axios.get('/filter/selectedFilters', {
-      params: {
-        dynamic: this.state.dynamicState,
-        price: this.state.price,
-        distance: this.state.distance,
-      }
-    })
-      .then(data => {
-        console.log('success applying filters', data);
-      })
-      .catch(err => {
-        console.error('error applying filters', err);
-      })
-  };
+  // applyFilter = () => {
+  //   axios.get('/filter/selectedFilters', {
+  //     params: {
+  //       dynamic: this.state.dynamicState,
+  //       price: this.state.price,
+  //       distance: this.state.distance,
+  //     }
+  //   })
+  //     .then(data => {
+  //       console.log('success applying filters', data);
+  //     })
+  //     .catch(err => {
+  //       console.error('error applying filters', err);
+  //     })
+  // };
 
-  // DELETE Later, for testing purposes
-  getYelpDataTest = () => {
-    let cats = this.findCategories(dummyData.poiData);
-    console.log('cats', cats);
-    let lat = 37.776447823372365;
-    let long = -122.43286289002232;
-    axios.get('/filter/graphql', {
-      params: {
-        lat: lat,
-        long: long
-      }
-    })
-      .then(data => {
-        console.log('data', data);
-      })
-      .catch(err => {
-        console.log('error', err);
-      })
-  };
+
 
   clearFilters = () => {
     this.setState({
@@ -154,42 +148,56 @@ class LittleFilter extends React.Component {
     });
   };
 
+  // DELETE Later, for testing purposes
+  getYelpDataTest = () => {
+    axios.get('/filter/graphql', {
+      params: {
+        lat: this.state.userLocation.lat,
+        long: this.state.userLocation.long
+      }
+    })
+      .then(data => {
+        console.log('data', data);
+      })
+      .catch(err => {
+        console.log('error', err);
+      })
+  };
 
-  //move this function into a helper file later
-  findCategories = (data) => {
-    let categories = {};
-    data.forEach(item => {
-      categories[item.category] = true;
-    });
-    let catKeys = Object.keys(categories);
-    let categoriesChecked = {};
-    catKeys.forEach(key => {
-      categoriesChecked[key] = '';
-    });
-    //create an object with empty string values for categories and set the categories checked to it
-    this.setState({
-      categoriesChecked
-    }, () => {
-      console.log('cck', this.state.categoriesChecked)
-    });
-  }
 
   componentDidMount = () => {
-    this.findCategories(dummyData.poiData);
+    console.log('props from DOM', this.props)
+
+    let categoriesInData = helpers.findCategories(this.state.sampleData);
+    this.setState({
+      categoriesChecked: categoriesInData
+    })
   }
 
-  //now that categories are filled, need to make dynamic checkboxes depending on what exists in state
 
-////////////////////////////////////////////////////////////////////////////////
+  /*
+  function to calculate distances between latitude and longitude
 
-/*
-function to calculate distances between latitude and longitude
+  look into calculating walking time
 
-look into calculating walking time
-*/
+  Ideally it maps the data set and returns the same data except with a new property - time to travel
+  */
+  findTimeToTravel = (starting, ending) => {
+    ending = { lat: 37.7760594, long: -122.4313766 };
+    axios.get('/filter/walkingTime', {
+      params: {
+        starting: this.state.userLocation,
+        ending: ending
+      }
+    })
+      .then(data => {
+        console.log('data returned from mapbox', data);
+      })
+      .catch(err => {
+        console.error('error from mapbox', err);
+      })
+  }
 
-
-//////////////////////////////////////////////////////////////////////////////
 
 
   render() {
@@ -209,8 +217,9 @@ look into calculating walking time
 
         { this.state.priceModalState ?  <PriceFilter priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
 
+        <CategoryButtons catgories={ this.state.categoriesChecked }/>
         <button className="sfChild" onClick={ this.handleDynamicState }>Cafes</button>
-        <button className="sfChild" onClick={ this.getYelpDataTest }>getYelpDataTest</button>
+        <button className="sfChild" onClick={ this.findTimeToTravel }>Calc Time to Walk</button>
       </div>
     )
   }
