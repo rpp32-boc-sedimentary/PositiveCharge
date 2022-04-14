@@ -3,7 +3,7 @@ const express = require('express');
 const authRouter = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { pool } = require('../../database/models/authModels');
+const { pool } = require('../../database/models');
 
 authRouter.use((req, res, next) => {
   console.log('Time: ', Date.now());

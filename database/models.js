@@ -64,9 +64,65 @@ pool.deleteExperience = async (params) => {
 }
 
 // ADD POI models
+pool.addPOI = async (newPoi) => {
+  console.log('newPoi', newPoi)
+  const query = `INSERT INTO pois
+  (name, address, long, lat, price, category)
+  VALUES ($1, $2, $3, $4, $5, $6)
+  RETURNING *`;
+  let values = [newPoi.name, newPoi.address, newPoi.lng, newPoi.lat, newPoi.price, newPoi.category]
+  try {
+    const result = await pool.query(query, values)
+    console.log(result.rows)
+    return result.rows
+  } catch (err) {
+    console.log(err.stack)
+  }
+}
+
+// pool.addPOI = async () => {
+//   try {
+//     const result = await pool.query('SELECT * FROM pois WHERE false')
+//     return result
+//   } catch (err) {
+//     console.log('err.stack', err.stack)
+//   }
+// }
+
+// pool.addPOI = async () => {
+//   try {
+//     const query = 'SELECT * from pois WHERE true'
+//     const result = await pool.query(query)
+//     return result.rows
+//   } catch (err) {
+//     console.log(err.stack)
+//   }
+// }
+
 
 // Auth models
+pool.addUser = async (params) => {
+  try {
+    var query = `INSERT INTO users (name, email, password)
+    VALUES ($1, $2, $3)`;
+    var result = await pool.query(query, params);
+    return 'Added new user';
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
 
+pool.getUser = async (param) => {
+  try {
+    var query = `SELECT * FROM users WHERE email = $1`;
+    var user = await pool.query(query, param);
+    return user.rows;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
 // details models
 
 // filter models
