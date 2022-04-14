@@ -9,7 +9,7 @@ const filterRouter = require('./routes/filterRoutes.js');
 const mapRouter = require('./routes/mapRouter.js');
 const seePOIRouter = require('./routes/seePOIRoutes.js');
 const sponsorRouter = require('./routes/sponsorRoutes.js');
-
+const findRouter = require('./routes/findChargingStationsRoutes.js')
 const _ = require('underscore');
 
 module.exports = (database) => {
@@ -21,14 +21,14 @@ module.exports = (database) => {
   _.extend(detailsRouter, database);
   _.extend(filterRouter, database);
   _.extend(sponsorRouter, database);
-
+  _.extend(findRouter, database);
 
   app.use(express.static(path.join(__dirname, '../positive_charge/public')));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser());
   app.use('/filter', filterRouter);
-  app.use('/', authRouter);
+  app.use('/', authRouter, findRouter);
   app.post('/addPOI', addPOIRouter);
   app.use('/details', detailsRouter);
   app.use('/map', mapRouter);
