@@ -1,105 +1,94 @@
 const express = require('express');
 const router = express.Router();
 require('dotenv').config();
-const yelp = require('yelp-fusion');
-const client = yelp.client(process.env.YELP_API_KEY);
-const client2 = yelp.client(process.env.YELP_KEY_2);
+const { gql, GraphQLClient } = require('graphql-request');
 const axios = require('axios');
-const { request, gql, GraphQLClient } = require('graphql-request');
 
-router.get('/', (req, res) => {
-  client.search({
-    location: '10151 arrow rte, rancho cucamonga',
-    term: 'bakery',
-    categories: null,
-    radius: 500,
-    attributes: null
-  })
-    .then(data => {
-      console.log('data', data.jsonBody.businesses)
-      let parsed = JSON.parse(data.body).businesses;
-      let busAndCar = [];
-      data.jsonBody.businesses.forEach(item => {
-        busAndCar.push(item.name, item.categories)
-      })
-      console.log('busAndCar', busAndCar)
-      let allBusDetails = [];
-      let allIds = [];
-      parsed.forEach(item => {
-        let { id, name, categories } = item;
-        allIds.push(id);
-        let parsedObj = { id, name, categories };
-        allBusDetails.push(parsedObj);
-      })
-      return allIds;
-    })
-    .then(ids => {
-      const moreBusDetails = ids.map(id => {
-        return client.business(id);
-      });
-      // Not all ids got a success 200. many 429 too many requests. Will need to slow down request speeds.
-      const completedDetails = Promise.allSettled(moreBusDetails);
-      return completedDetails;
-    })
-    .then(details => {
-      let businessDetails = [];
-      details.forEach(item => {
-        if (item.value) {
-          let { name, is_closed, categories, price, hours } = item.value.jsonBody;
-          let neededInfo = { name, is_closed, categories, price, hours };
-          businessDetails.push(neededInfo);
-        }
-      })
-    })
-    .catch(err => {
-      console.log('error from yelp api', err);
-    })
-})
 
 router.get('/graphql', (req, res) => {
-
+  let lat = req.query.lat;
+  let long = req.query.long;
   async function main() {
+
     const endpoint = 'https://api.yelp.com/v3/graphql';
 
     const gClient = new GraphQLClient(endpoint, {
       headers: { 'Authorization': `Bearer ${process.env.YELP_API_KEY}` }
     });
-    const query = gql`
-      {
-        search(location: "san francisco, ca", term: "burritos", radius: 200) {
-          total
-          business {
-            id
-            is_closed
-            hours {
-              open {
-                start
-                end
-                day
+    const food = 'food';
+    const cafes = 'cafes';
+    const museums = 'museums';
+    const lAndH = 'landmarks & historical';
+    const parks = 'parks';
+
+    const returnQuery = (term, lat, long) => {
+      let query = gql`
+        {
+          search(latitude: ${lat}, longitude: ${long},  term: "${term}", radius: 1000, limit: 10) {
+            total
+            business {
+              name
+              id
+              rating
+              price
+              distance
+              hours {
+                open {
+                  start
+                  end
+                  day
+                }
+                is_open_now
               }
-              is_open_now
+              location {
+                formatted_address
+              }
+              coordinates {
+                latitude
+                longitude
+              }
             }
-            name
-            location {
-              formatted_address
-            }
-            price
-            distance
           }
         }
-      }
-    `
-    const data = await gClient.request(query, req.body)
-    res.status(200).send(data);
-    console.log((data.search.business))
-  }
+      `
+      return query;
+    };
+
+    const cafeData = await gClient.request(returnQuery(cafes, lat, long), req.body);
+    const foodData = await gClient.request(returnQuery(food, lat, long), req.body);
+    const museumData = await gClient.request(returnQuery(museums, lat, long), req.body);
+    const landData = await gClient.request(returnQuery(lAndH, lat, long), req.body);
+    const parkData = await gClient.request(returnQuery(parks, lat, long), req.body);
+    //console.log('cafe', cafeData.search);
+    // console.log('food', foodData.search.business);
+    // console.log('museum', museumData.search.business);
+    // console.log('landmarks', landData.search.business);
+    // console.log('park', parkData.search.business);
+  };
+
   main().catch((err) => {
-    console.error(err)
-  })
+    console.error(err);
+  });
+});
+
+
+router.get('/selectedFilters', (req, res) => {
+  let test = req.query;
+  console.log('test', test);
+})
+
+router.get('/walkingTime', (req, res) => {
+  let params = req.query;
+  let starting = JSON.parse(params.starting);
+  let ending = JSON.parse(params.ending);
+  axios.get(`https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${starting.long},${starting.lat};${ending.long},${ending.lat}?access_token=${process.env.MAPBOX_TOKEN}`)
+    .then(data => {
+      console.log('data', data.data);
+    })
+    .catch(err => {
+      console.error('error at mapbox', err);
+    })
 })
 
 
-
-
-
-module.exports = router
+module.exports = router;
