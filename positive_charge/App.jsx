@@ -5,8 +5,6 @@ import AddPOI from './src/components/addPOI/AddPOI.jsx'
 import Login from './src/components/auth/Login.jsx';
 import Signup from './src/components/auth/Signup.jsx';
 import Modal from './src/components/poiDetails/Modal.jsx';
-import LittleFilter from './src/components/filter/LittleFilter.jsx';
-import BigFilter from './src/components/filter/BigFilter.jsx';
 import SeePOI from './src/components/seePOI/seePOI.jsx';
 import MoreDetails from './src/components/seePOI/moreDetails.jsx';
 import FindChargingStations from './src/components/findChargingStations/FindChargingStations.jsx';
