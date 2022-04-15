@@ -83,8 +83,13 @@ pool.loveExp = async (params) => {
   return;
 }
 
-pool.flagExp = async (expId) => {
-
+pool.flagExp = async (params) => {
+  const flagExpQuery = `UPDATE experiences
+  SET exp_flag_status = NOT exp_flag_status
+  WHERE poi_id = $1
+  AND experience = $2`;
+  const changeFlagExp = await pool.query(flagExpQuery, params);
+  return;
 }
 
 pool.addExperience = async (params) => {

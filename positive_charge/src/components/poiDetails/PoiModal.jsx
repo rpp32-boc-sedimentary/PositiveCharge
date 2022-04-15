@@ -35,22 +35,24 @@ export default function PoiModal({open, onClose, detail, name}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const love = (path, exp) => {
-    console.log(exp)
     axios.put(`/details/${path}/love`, {
       'name': name,
       'experience': exp
     })
       .then((response) => {
         // send something like loved x thing
-        console.log(response.data)
+        alert(`Thanks for the love!`)
       })
   };
 
-  const flag = (path) => {
-    axios.put(`/details/${path}/flag`, {'name': name})
+  const flag = (path, exp) => {
+    axios.put(`/details/${path}/flag`, {
+      'name': name,
+      'experience': exp
+    })
       .then((response) => {
         // send something like flagged x thing
-        console.log(response.data)
+        alert('We will review the flag you submitted')
       })
   };
 
@@ -62,7 +64,6 @@ export default function PoiModal({open, onClose, detail, name}) {
 
         {/* modal itself */}
         <div style={modalStyle}>
-          {console.log('modal ',name)}
           <h2>{name?.props ? name.props.name : 'loading...'}</h2>
           {/* experiences section */}
           <div>
@@ -70,13 +71,13 @@ export default function PoiModal({open, onClose, detail, name}) {
               {/* experience list */}
               {detail[0]?.experience ? detail.map((exp, index) => {
                return <div key={index}>
+                  <span>{exp.experience}</span><br/>
                   <span>loves = {exp.exp_loves}</span><br/>
-                  <span>flag = {exp.exp_flag_status}</span><br/>
-                  <span>{exp.experience}</span>
+                  <span>{exp.exp_flag_status === true ? 'Flagged for review' : 'Flag experience'}</span>
                   {/* love button for experiences*/}
                   <button onClick={() => love('experience', exp.experience)}>Love</button>
                   {/* flag button for experiences*/}
-                  <button onClick={() => flag('experience')}>Flag</button>
+                  <button onClick={() => flag('experience', exp.experience)}>Flag</button>
                 </div>
               }) : 'Be the first to add your experience!'}
             </div>

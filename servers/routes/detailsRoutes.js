@@ -47,8 +47,10 @@ router.put('/experience/love', verifyToken, async (req, res, next) => {
   });
 
 router.put('/experience/flag', verifyToken, async (req, res, next) => {
+  let id = req.body.name.props.id;
+  let exp = req.body.experience;
     try {
-      const result = await router.flagExp('1');
+      const result = await router.flagExp([id, exp]);
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
