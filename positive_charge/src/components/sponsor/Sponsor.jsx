@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Sponsor() {
 
   const [startDate, setStart] = useState('');
   const [months, setMonths] = useState('');
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { data } = location.state;
 
   function handleSubmit(e) {
     e.preventDefault();
+    console.log('data = ', data)
     axios.post('/sponsor', {
       startDate: startDate,
       months: months,

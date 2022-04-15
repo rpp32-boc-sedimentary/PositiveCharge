@@ -113,10 +113,10 @@ pool.addUser = async (params) => {
   }
 }
 
-pool.getUser = async (param) => {
+pool.getUser = async (email) => {
   try {
     var query = `SELECT * FROM users WHERE email = $1`;
-    var user = await pool.query(query, param);
+    var user = await pool.query(query, email);
     return user.rows;
   }
   catch (err) {
