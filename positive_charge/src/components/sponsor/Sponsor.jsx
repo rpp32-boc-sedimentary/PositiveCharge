@@ -13,15 +13,83 @@ function Sponsor() {
   function handleSubmit(e) {
     e.preventDefault();
     console.log('data = ', data)
-    axios.post('/sponsor', {
-      startDate: startDate,
-      months: months,
-      user: 'testuser',// something from props?
-      poi: '15'// props
+    // check if yelp id or poi id is passed down
+    // if yelp id, add poi
+    // poi id, sponsor it
+
+    var poi_id, user_id;
+    var yelpId = data.props.id;
+    // check if POI exists in DB
+    axios.get('/get-poi-user', {
+      params: {
+        name: data.props.name
+      }
     })
-    .then((res) => {
-      // do something
-      navigate('/', { replace: true })
+    .then((result) => {
+      // if poi exists, get the id's for poi and user
+      user_id = result.data.user;
+      if (result.data.poi) {
+        poi_id = result.data.poi;
+        return {user: user_id, poi: poi_id};
+      } else {
+        // if poi doesn't exist, add the poi
+        axios.post('/addPOI', [yelpId])
+        .then((poi) => {
+          poi_id = poi[0].id;
+          return {user: user_id, poi: poi_id};
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+    .then((ids) => {
+      console.log('poi_id:', ids.poi, 'user_id', ids.user);
+      axios.post('/sponsor', {
+        startDate: startDate,
+        months: months,
+        user: ids.user,
+        poi: ids.poi
+      })
+      .then((res) => {
+        // do something
+        // navigate('/', { replace: true })
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    })
+  }
+
+  // can't get this to work as helper function
+  // should be returning a promise but unable to utilize within handleSubmit
+  function getIds(data) {
+    var yelpId = data.props.id;
+    axios.get('/get-poi-user', {
+      params: {
+        name: data.props.name
+      }
+    })
+    .then((result) => {
+      console.log('get-poi-user result', result.data)
+      if (result.data.poi) {
+        return result.data;
+      } else {
+        axios.post('/addPOI', [yelpId])
+        .then((poi) => {
+          console.log('addPOI result poi: ', poi);
+          result.data.poi = poi[0].id;
+          return result.data;
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+      }
     })
     .catch((err) => {
       console.error(err);
@@ -30,7 +98,7 @@ function Sponsor() {
 
   return (
     <div className="sponsor">
-      <h1>Sponsor this point of interest: &lt;POI&gt;</h1>
+      <h1>Sponsor this point of interest: {data.props.name}</h1>
       <form onSubmit={handleSubmit}>
         <h3>Enter Date Range:</h3>
         <label htmlFor="startDate">Starting on: </label>

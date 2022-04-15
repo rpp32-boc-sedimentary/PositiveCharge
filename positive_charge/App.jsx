@@ -94,9 +94,6 @@ class App extends React.Component {
               <li>
                 <Link to="/addPOI">Add POI</Link>
               </li>
-              <li>
-                <Link to="/sponsor">Sponsor</Link>
-              </li>
             </ul>
           </div>
 

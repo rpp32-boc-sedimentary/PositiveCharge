@@ -133,6 +133,20 @@ pool.getUser = async (email) => {
     console.error(err);
   }
 }
+
+//sponsor models
+pool.getPoi = async (name) => {
+  try {
+    var query = `SELECT * FROM pois WHERE name = $1`;
+    var poi = await pool.query(query, name);
+    console.log('poi', poi.rows);
+    return poi.rows;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
 // details models
 
 // filter models
