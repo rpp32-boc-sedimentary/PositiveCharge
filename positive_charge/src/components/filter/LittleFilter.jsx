@@ -24,15 +24,13 @@ class LittleFilter extends React.Component {
       categoriesChecked: {},
       littleFilterCategories: {},
       userLocation: {lat: 37.776447823372365, long: -122.43286289002232},
-      allData: [],
-      otherData: [],
       sampleData: dummyData.poiData,
+      modifiedData: [],
       filteredData: [],
     }
 
     this.handleModalState = this.handleModalState.bind(this);
     this.handlePriceModalState = this.handlePriceModalState.bind(this);
-    //this.handleDynamicState = this.handleDynamicState.bind(this);
     this.handlePrice = this.handlePrice.bind(this);
     this.handleDistance = this.handleDistance.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
@@ -109,6 +107,9 @@ class LittleFilter extends React.Component {
   handleDistance = (e) => {
     this.setState({
       distance: e.target.value
+    }, () => {
+      let filteredOnDistance = helpers.filterOnDistance(this.state.distance, this.state.modifiedData);
+      console.log('filtered on distance', filteredOnDistance)
     });
   };
 
@@ -123,7 +124,8 @@ class LittleFilter extends React.Component {
 
   handleBigFilterApply = (e) => {
     e.preventDefault();
-    this.applyFilter();
+    //collect all of the selected filters in big filter
+    //apply them all to modified data state
     this.handleModalState();
   };
 
@@ -169,30 +171,27 @@ class LittleFilter extends React.Component {
     this.setState({
       categoriesChecked: categoriesInData
     });
+    this.findTimeToTravel();
 
   }
 
-
-  /*
-  function to calculate distances between latitude and longitude
-
-  look into calculating walking time
-
-  Ideally it maps the data set and returns the same data except with a new property - time to travel
-  */
-  findTimeToTravel = (starting, ending) => {
-    ending = { lat: 37.7760594, long: -122.4313766 };
-    axios.get('/filter/walkingTime', {
-      params: {
+  findTimeToTravel = () => {
+    let places = this.state.sampleData;
+    axios.post('/filter/walkingTime', {
+      data: {
         starting: this.state.userLocation,
-        ending: ending
+        places
       }
     })
       .then(data => {
-        console.log('data returned from mapbox', data);
+        this.setState({
+          modifiedData: data.data
+        }, () => {
+          console.log('mod', this.state.modifiedData)
+        })
       })
       .catch(err => {
-        console.error('error from mapbox', err);
+        console.log('error sending', err)
       })
   }
 

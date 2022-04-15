@@ -16,16 +16,16 @@ const BigFilter = (props) => {
         <div className="bigFilter" onChange={ props.handleDistance }>
           <div className="categoryHeader">Distance:</div>
           <label>
-            2 min less
-            <input type="radio" value="2 min or less" checked={ props.distance === "2 min or less" } />
-          </label>
-          <label>
-            5 min or less
+            5 min less
             <input type="radio" value="5 min or less" checked={ props.distance === "5 min or less" } />
           </label>
           <label>
             10 min or less
             <input type="radio" value="10 min or less" checked={ props.distance === "10 min or less" } />
+          </label>
+          <label>
+            15 min or less
+            <input type="radio" value="15 min or less" checked={ props.distance === "15 min or less" } />
           </label>
           <label>
             All distances

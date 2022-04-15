@@ -1,9 +1,6 @@
 
-//look into filter method
-
 const findCategories = (data) => {
   let categories = {};
-
   data.forEach(item => {
     categories[item.category] = true;
   });
@@ -67,9 +64,27 @@ const filterLfCategories = (selectedFilter, data) => {
   return filtered;
 }
 
+const filterOnDistance = (selectedTime, data) => {
+  if (selectedTime === 'All distances') {
+    return data;
+  }
+  let timeObject = {
+    '5 min or less': 5,
+    '10 min or less': 10,
+    '15 min or less': 15
+  }
+  let filtered = data.filter(item => {
+    return item.duration <= Number(timeObject[selectedTime]);
+  });
+  return filtered;
+}
+
+//sorting function
+
 module.exports = {
   filterOnPrice,
   findCategories,
   filterOnCategories,
   filterLfCategories,
+  filterOnDistance
 }

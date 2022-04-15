@@ -20,8 +20,8 @@ const CategoryButtons = (props) => {
 
   return (
     <div>
-      {availableCategories.map(item =>
-        <button value={ item } onClick={ props.handleCategoryButton }>{ item }</button>
+      {availableCategories.map((item, index) =>
+        <button key={index} value={ item } onClick={ props.handleCategoryButton }>{ item }</button>
       )}
     </div>
   )
