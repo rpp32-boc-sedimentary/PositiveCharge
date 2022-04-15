@@ -14,8 +14,8 @@ const pool = new Pool({
 // Details models
 const addNewPoi = async (paramList) => {
   let addPoiQuery = `INSERT INTO pois
-  (name, address, price, category, yelp_id, loves, flag_status, long, lat, sponsored)
-  VALUES ($2, null, null, null, $1, 0, false, $3, $4, false)`;
+  (yelp_id, loves, flag_status, sponsored)
+  VALUES ($1, 0, false, false)`;
   let addPoi = await pool.query(addPoiQuery, paramList);
   return
 }
@@ -39,13 +39,13 @@ pool.lovePoi = async (params) => {
   SET loves = loves + 1
   WHERE yelp_id = $1`;
   try {
-    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
+    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, params);
     if (checkPoi.rows[0].exists) {
-      const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
+      const lovedPoi = await pool.query(lovePoiQuery, params);
       return;
     } else {
       let addingPoi = await addNewPoi(params);
-      const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
+      const lovedPoi = await pool.query(lovePoiQuery, params);
       return;
     }
   } catch (err) {
@@ -59,13 +59,13 @@ pool.flagPoi = async (params) => {
   SET flag_status = NOT flag_status
   WHERE yelp_id = $1`;
   try {
-    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
+    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, params);
     if (checkPoi.rows[0].exists) {
-      const changeFlagPoi = await pool.query(flagPoiQuery, [params[0]]);
+      const changeFlagPoi = await pool.query(flagPoiQuery, params);
       return;
     } else {
       let addingPoi = await addNewPoi(params);
-      const changeFlagPoi = await pool.query(flagPoiQuery, [params[0]]);
+      const changeFlagPoi = await pool.query(flagPoiQuery, params);
       return;
     }
   } catch (err) {
@@ -93,28 +93,21 @@ pool.flagExp = async (params) => {
 }
 
 pool.addExperience = async (params) => {
-
-  let addParams = [params[0], params[1]];
-  let addPoiParams = [params[0], params[2], params[3], params[4]];
+  let addPoiParams = [params[0]];
 
   let addExperienceQuery = `INSERT INTO experiences
   (poi_id, experience, exp_loves, exp_flag_status, photos)
   VALUES ($1, $2, 0, false, null)`;
 
-  let addPoiQuery = `INSERT INTO pois
-  (name, address, price, category, yelp_id, loves, flag_status, long, lat, sponsored)
-  VALUES ($2, null, null, null, $1, 0, false, $3, $4, false)`;
-
   try {
-    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
+    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, addPoiParams);
     if (checkPoi.rows[0].exists) {
 
-      let addingExperience = await pool.query(addExperienceQuery, addParams);
+      let addingExperience = await pool.query(addExperienceQuery, params);
       return 'Thanks for sharing with the community!!';
     } else {
-
-      let addPoi = await pool.query(addPoiQuery, addPoiParams);
-      let addingExperience = await pool.query(addExperienceQuery, addParams);
+      let addPoi = await addNewPoi(addPoiParams);
+      let addingExperience = await pool.query(addExperienceQuery, params);
     }
   } catch (err) {
     console.log(err.message);
