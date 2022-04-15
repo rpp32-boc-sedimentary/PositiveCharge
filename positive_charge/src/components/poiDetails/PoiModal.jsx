@@ -33,8 +33,13 @@ const overlayStyle = {
 export default function PoiModal({open, onClose, detail, name}) {
 
   const [isOpen, setIsOpen] = useState(false);
-  const love = (path) => {
-    axios.put(`/details/${path}/love`, {'name': name})
+
+  const love = (path, exp) => {
+    console.log(exp)
+    axios.put(`/details/${path}/love`, {
+      'name': name,
+      'experience': exp
+    })
       .then((response) => {
         // send something like loved x thing
         console.log(response.data)
@@ -69,7 +74,7 @@ export default function PoiModal({open, onClose, detail, name}) {
                   <span>flag = {exp.exp_flag_status}</span><br/>
                   <span>{exp.experience}</span>
                   {/* love button for experiences*/}
-                  <button onClick={() => love('experience')}>Love</button>
+                  <button onClick={() => love('experience', exp.experience)}>Love</button>
                   {/* flag button for experiences*/}
                   <button onClick={() => flag('experience')}>Flag</button>
                 </div>

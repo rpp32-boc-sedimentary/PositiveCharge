@@ -36,9 +36,10 @@ router.put('/poi/flag', verifyToken, async (req, res, next) => {
   });
 
 router.put('/experience/love', verifyToken, async (req, res, next) => {
+  let id = req.body.name.props.id;
+  let exp = req.body.experience;
     try {
-      console.log(req.body.name.props)
-      const result = await router.loveExp();
+      const result = await router.loveExp([id, exp]);
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
