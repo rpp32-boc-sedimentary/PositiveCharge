@@ -26,10 +26,29 @@ pool.grabview = async (params) => {
   return grabDetails.rows;
 }
 
-pool.lovePoi = async (poiId) => {
-  const query = `INSERT INTO test (name) VALUES ('this is a test')`;
-  const love = await pool.query(query)
-  // console.log(love.rows)
+pool.lovePoi = async (params) => {
+
+  const lovePoiQuery = `UPDATE pois
+  SET loves = loves + 1
+  WHERE yelp_id = $1`;
+
+  let addPoiQuery = `INSERT INTO pois
+  (name, address, price, category, yelp_id, loves, flag_status, long, lat, sponsored)
+  VALUES ($2, null, null, null, $1, 0, false, $3, $4, false)`;
+
+  try {
+    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
+    if (checkPoi.rows[0].exists) {
+      const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
+      return;
+    } else {
+      let addPoi = await pool.query(addPoiQuery, params);
+      const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
+      return;
+    }
+  } catch (err) {
+    console.log(err.message)
+  }
   return;
 }
 
@@ -37,8 +56,13 @@ pool.flagPoi = async (poiId) => {
 
 }
 
-pool.loveExp = async (expId) => {
-
+pool.loveExp = async (params) => {
+  const query = `UPDATE experiences
+  SET exp_loves = exp_loves + 1
+  WHERE poi_id = $1
+  AND experience = $2`;
+  const lovedExp = await pool.query(query, params);
+  return;
 }
 
 pool.flagExp = async (expId) => {

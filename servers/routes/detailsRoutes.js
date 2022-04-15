@@ -15,7 +15,9 @@ router.route('/view')
 
 router.put('/poi/love', verifyToken, async (req, res, next) => {
     try {
-      const result = await router.lovePoi()
+      let r = req.body.name.props;
+      let [id, name, lat, long] = [r.id, r.name, r.coordinates.latitude, r.coordinates.longitude]
+      const result = await router.lovePoi([id, name, lat, long])
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)

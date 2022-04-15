@@ -35,7 +35,7 @@ export default function PoiModal({open, onClose, detail, name}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const love = (path) => {
-    axios.put(`/details/${path}/love`, {love: 1})
+    axios.put(`/details/${path}/love`, {name})
       .then((response) => {
         // send something like loved x thing
         console.log(response.data)
@@ -68,10 +68,10 @@ export default function PoiModal({open, onClose, detail, name}) {
               {detail[0]?.experience ? detail[0].experience : null}
 
               {/* love button for experiences*/}
-              <button onClick={() => love('/experience')}>Love</button>
+              <button onClick={() => love('experience')}>Love</button>
 
               {/* flag button */}
-              <button onClick={() => flag('/experience')}>Flag</button>
+              <button onClick={() => flag('experience')}>Flag</button>
 
               {/* photo */}
               <div>photo (optional)</div>
@@ -80,14 +80,14 @@ export default function PoiModal({open, onClose, detail, name}) {
           </div>
 
           {/* love button for poi's */}
-          <button onClick={() => love('/poi')}>Love</button>
+          <button onClick={() => love('poi')}>Love</button>
 
           {/* add experience button for poi's */}
           <button onClick={() => setIsOpen(true)}>add experience</button>
           <AddExperience open={isOpen} onClose={() => setIsOpen(false)} name={name}></AddExperience>
 
           {/* flag button for poi's */}
-          <button onClick={() => flag('/poi')}>Flag</button>
+          <button onClick={() => flag('poi')}>Flag</button>
 
           {/* close button */}
           <button onClick={onClose}>Close</button>
