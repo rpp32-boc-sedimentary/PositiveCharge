@@ -12,7 +12,7 @@ const pool = new Pool({
 });
 
 // Details models
-const updatePoi = async (paramList) => {
+const addNewPoi = async (paramList) => {
   let addPoiQuery = `INSERT INTO pois
   (name, address, price, category, yelp_id, loves, flag_status, long, lat, sponsored)
   VALUES ($2, null, null, null, $1, 0, false, $3, $4, false)`;
@@ -44,7 +44,7 @@ pool.lovePoi = async (params) => {
       const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
       return;
     } else {
-      let addingPoi = await updatePoi(params);
+      let addingPoi = await addNewPoi(params);
       const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
       return;
     }
@@ -64,7 +64,7 @@ pool.flagPoi = async (params) => {
       const changeFlagPoi = await pool.query(flagPoiQuery, [params[0]]);
       return;
     } else {
-      let addingPoi = await updatePoi(params);
+      let addingPoi = await addNewPoi(params);
       const changeFlagPoi = await pool.query(flagPoiQuery, [params[0]]);
       return;
     }

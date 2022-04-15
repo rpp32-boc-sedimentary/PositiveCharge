@@ -33,7 +33,6 @@ const overlayStyle = {
 export default function PoiModal({open, onClose, detail, name}) {
 
   const [isOpen, setIsOpen] = useState(false);
-
   const love = (path) => {
     axios.put(`/details/${path}/love`, {'name': name})
       .then((response) => {
@@ -58,24 +57,23 @@ export default function PoiModal({open, onClose, detail, name}) {
 
         {/* modal itself */}
         <div style={modalStyle}>
-          <h2>{detail.poiName}</h2>
+          {console.log('modal ',name)}
+          <h2>{name?.props ? name.props.name : 'loading...'}</h2>
           {/* experiences section */}
           <div>
             <div>
-              {/* experience
-              the detail prop has an array of objects with the data i need
-              to render */}
-              {detail[0]?.experience ? detail[0].experience : null}
-
-              {/* love button for experiences*/}
-              <button onClick={() => love('experience')}>Love</button>
-
-              {/* flag button */}
-              <button onClick={() => flag('experience')}>Flag</button>
-
-              {/* photo */}
-              <div>photo (optional)</div>
-
+              {/* experience list */}
+              {detail[0]?.experience ? detail.map((exp, index) => {
+               return <div key={index}>
+                  <span>loves = {exp.exp_loves}</span><br/>
+                  <span>flag = {exp.exp_flag_status}</span><br/>
+                  <span>{exp.experience}</span>
+                  {/* love button for experiences*/}
+                  <button onClick={() => love('experience')}>Love</button>
+                  {/* flag button for experiences*/}
+                  <button onClick={() => flag('experience')}>Flag</button>
+                </div>
+              }) : 'Be the first to add your experience!'}
             </div>
           </div>
 
