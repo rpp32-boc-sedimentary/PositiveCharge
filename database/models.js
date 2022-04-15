@@ -13,12 +13,6 @@ const pool = new Pool({
 
 // Details models
 pool.grabview = async (params) => {
-  /*
-  grab the
-  poi => loves, flag_status
-  experience => experiences, loves, flag_status
-  foriegn key in experience poi_id
-  */
   const query =
   `SELECT
      loves, flag_status, experience, exp_loves, exp_flag_status
