@@ -14,9 +14,9 @@ router.route('/view')
   });
 
 router.put('/poi/love', verifyToken, async (req, res, next) => {
+  let r = req.body.name.props;
+  let [id, name, lat, long] = [r.id, r.name, r.coordinates.latitude, r.coordinates.longitude]
     try {
-      let r = req.body.name.props;
-      let [id, name, lat, long] = [r.id, r.name, r.coordinates.latitude, r.coordinates.longitude]
       const result = await router.lovePoi([id, name, lat, long])
       res.status(201).send(result)
     } catch (err) {
@@ -25,8 +25,10 @@ router.put('/poi/love', verifyToken, async (req, res, next) => {
   });
 
 router.put('/poi/flag', verifyToken, async (req, res, next) => {
+  let r = req.body.name.props;
+  let [id, name, lat, long] = [r.id, r.name, r.coordinates.latitude, r.coordinates.longitude]
     try {
-      const result = await router.flagPoi();
+      const result = await router.flagPoi([id, name, lat, long]);
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
@@ -35,7 +37,8 @@ router.put('/poi/flag', verifyToken, async (req, res, next) => {
 
 router.put('/experience/love', verifyToken, async (req, res, next) => {
     try {
-      const result = await router.loveExp('3');
+      console.log(req.body.name.props)
+      const result = await router.loveExp();
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)

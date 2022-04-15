@@ -35,7 +35,7 @@ export default function PoiModal({open, onClose, detail, name}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const love = (path) => {
-    axios.put(`/details/${path}/love`, {name})
+    axios.put(`/details/${path}/love`, {'name': name})
       .then((response) => {
         // send something like loved x thing
         console.log(response.data)
@@ -43,7 +43,7 @@ export default function PoiModal({open, onClose, detail, name}) {
   };
 
   const flag = (path) => {
-    axios.put(`/details/${path}/flag`, {flag: true})
+    axios.put(`/details/${path}/flag`, {'name': name})
       .then((response) => {
         // send something like flagged x thing
         console.log(response.data)

@@ -12,6 +12,14 @@ const pool = new Pool({
 });
 
 // Details models
+const updatePoi = async (paramList) => {
+  let addPoiQuery = `INSERT INTO pois
+  (name, address, price, category, yelp_id, loves, flag_status, long, lat, sponsored)
+  VALUES ($2, null, null, null, $1, 0, false, $3, $4, false)`;
+  let addPoi = await pool.query(addPoiQuery, paramList);
+  return
+}
+
 pool.grabview = async (params) => {
   const query =
   `SELECT
@@ -27,22 +35,16 @@ pool.grabview = async (params) => {
 }
 
 pool.lovePoi = async (params) => {
-
   const lovePoiQuery = `UPDATE pois
   SET loves = loves + 1
   WHERE yelp_id = $1`;
-
-  let addPoiQuery = `INSERT INTO pois
-  (name, address, price, category, yelp_id, loves, flag_status, long, lat, sponsored)
-  VALUES ($2, null, null, null, $1, 0, false, $3, $4, false)`;
-
   try {
     let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
     if (checkPoi.rows[0].exists) {
       const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
       return;
     } else {
-      let addPoi = await pool.query(addPoiQuery, params);
+      let addingPoi = await updatePoi(params);
       const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
       return;
     }
@@ -52,16 +54,32 @@ pool.lovePoi = async (params) => {
   return;
 }
 
-pool.flagPoi = async (poiId) => {
-
+pool.flagPoi = async (params) => {
+  const flagPoiQuery = `UPDATE pois
+  SET flag_status = NOT flag_status
+  WHERE yelp_id = $1`;
+  try {
+    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
+    if (checkPoi.rows[0].exists) {
+      const changeFlagPoi = await pool.query(flagPoiQuery, [params[0]]);
+      return;
+    } else {
+      let addingPoi = await updatePoi(params);
+      const changeFlagPoi = await pool.query(flagPoiQuery, [params[0]]);
+      return;
+    }
+  } catch (err) {
+    console.log(err.message)
+  }
+  return;
 }
 
 pool.loveExp = async (params) => {
-  const query = `UPDATE experiences
+  const loveExpQuery = `UPDATE experiences
   SET exp_loves = exp_loves + 1
   WHERE poi_id = $1
   AND experience = $2`;
-  const lovedExp = await pool.query(query, params);
+  const lovedExp = await pool.query(loveExpQuery, params);
   return;
 }
 
