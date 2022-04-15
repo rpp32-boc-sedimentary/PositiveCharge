@@ -65,18 +65,28 @@ pool.deleteExperience = async (params) => {
 
 // ADD POI models
 pool.addPOI = async (newPoi) => {
-  console.log('newPoi', newPoi)
-  const query = `INSERT INTO pois
-  (name, address, long, lat, price, category)
-  VALUES ($1, $2, $3, $4, $5, $6)
-  RETURNING *`;
-  let values = [newPoi.name, newPoi.address, newPoi.lng, newPoi.lat, newPoi.price, newPoi.category]
-  try {
-    const result = await pool.query(query, values)
+  let params
+  let query
+  if (Array.isArray(newPoi) && newPoi.length === 1 && typeof newPoi[0] === 'string') {
+    params = newPoi
+  } if (params.length === 1) {
+    query = `INSERT INTO pois (yelp_id)
+    VALUES ($1)
+    RETURNING *`
+  } else {
+    console.log('newPoi', newPoi)
+    query = `INSERT INTO pois
+    (name, address, long, lat, price, category)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING *`;
+    params = [newPoi.name, newPoi.address, newPoi.lng, newPoi.lat, newPoi.price, newPoi.category]
+  } try {
+    const result = await pool.query(query, params)
     console.log(result.rows)
     return result.rows
   } catch (err) {
     console.log(err.stack)
+    return err.stack
   }
 }
 
