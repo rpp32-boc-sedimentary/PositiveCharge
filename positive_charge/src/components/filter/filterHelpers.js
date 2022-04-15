@@ -18,7 +18,9 @@ const filterOnPrice = (selectedFilter, data) => {
   }
   let priceFiltered = [];
   data.forEach(item => {
-    //need to filter free items in here
+    if (selectedFilter.free && !item.price) {
+         priceFiltered.push(item);
+    }
     if (selectedFilter[item.price]) {
       priceFiltered.push(item);
     }

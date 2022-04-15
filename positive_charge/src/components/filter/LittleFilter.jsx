@@ -27,6 +27,7 @@ class LittleFilter extends React.Component {
       sampleData: dummyData.poiData,
       modifiedData: [],
       filteredData: [],
+      lessThanFive: false,
     }
 
     this.handleModalState = this.handleModalState.bind(this);
@@ -100,6 +101,9 @@ class LittleFilter extends React.Component {
       littleFilterCategories: lFC
     }, () => {
       let filteredLfc = helpers.filterLfCategories(this.state.littleFilterCategories, this.state.sampleData);
+      this.setState({
+        filteredData: filteredLfc
+      })
       // need to update state with filteredLfc / use DOM's func
     });
   };
@@ -109,7 +113,10 @@ class LittleFilter extends React.Component {
       distance: e.target.value
     }, () => {
       let filteredOnDistance = helpers.filterOnDistance(this.state.distance, this.state.modifiedData);
-      console.log('filtered on distance', filteredOnDistance)
+      this.setState({
+        filteredData: filteredOnDistance
+      });
+      //console.log('filtered on distance', filteredOnDistance)
     });
   };
 
@@ -185,10 +192,11 @@ class LittleFilter extends React.Component {
     })
       .then(data => {
         this.setState({
-          modifiedData: data.data
+          modifiedData: data.data.all,
+          lessThanFive: data.data.lessThanFive
         }, () => {
-          console.log('mod', this.state.modifiedData)
-        })
+          console.log('mod', this.state.modifiedData, this.state.lessThanFive)
+        });
       })
       .catch(err => {
         console.log('error sending', err)
@@ -216,7 +224,7 @@ class LittleFilter extends React.Component {
 
         <CategoryButtons categories={ this.state.categoriesChecked } handleCategoryButton={ this.handleCategoryButton }/>
 
-        <button className="sfChild" onClick={ this.findTimeToTravel }>Calc Time to Walk</button>
+        { this.state.lessThanFive ? <button>5 Min Walk</button> : null }
       </div>
     )
   }
