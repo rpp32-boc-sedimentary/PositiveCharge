@@ -55,7 +55,7 @@ function Sponsor() {
         poi: ids.poi
       })
       .then((res) => {
-        // do something
+        // show sponsoring successful message / page with details
         // navigate('/', { replace: true })
         console.log(res);
         return res;
@@ -64,6 +64,16 @@ function Sponsor() {
         console.error(err);
       })
     })
+    // immediately check if there are any active sponsors
+    // .then(() => {
+    //   axios.get('/activate')
+    //   .then((res) => {
+    //     // return which POI were activated, if any
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   })
+    // })
   }
 
   // can't get this to work as helper function
