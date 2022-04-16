@@ -8,6 +8,7 @@ const detailsRouter = require('./routes/detailsRoutes.js');
 const filterRouter = require('./routes/filterRoutes.js');
 const mapRouter = require('./routes/mapRouter.js');
 const seePOIRouter = require('./routes/seePOIRoutes.js');
+const sponsorRouter = require('./routes/sponsorRoutes.js');
 const findRouter = require('./routes/findChargingStationsRoutes.js')
 const _ = require('underscore');
 
@@ -19,6 +20,7 @@ module.exports = (database) => {
   _.extend(addPOIRouter, database);
   _.extend(detailsRouter, database);
   _.extend(filterRouter, database);
+  _.extend(sponsorRouter, database);
   _.extend(findRouter, database);
 
   app.use(express.static(path.join(__dirname, '../positive_charge/public')));
@@ -30,6 +32,8 @@ module.exports = (database) => {
   app.post('/addPOI', addPOIRouter);
   app.use('/details', detailsRouter);
   app.use('/map', mapRouter);
+  app.use('/', sponsorRouter);
+
 
   // Filter route for testing purposes. Will be removed later
 

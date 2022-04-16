@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Sponsor() {
 
-  const [fromDate, setFrom] = useState('');
-  const [toDate, setTo] = useState('');
+  const [startDate, setStart] = useState('');
+  const [months, setMonths] = useState('');
+  let navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
     axios.post('/sponsor', {
-      fromDate: fromDate,
-      toDate: toDate,
+      startDate: startDate,
+      months: months,
+      user: 'testuser',// something from props?
+      poi: '15'// props
     })
     .then((res) => {
       // do something
+      navigate('/', { replace: true })
     })
     .catch((err) => {
       console.error(err);
@@ -25,10 +30,10 @@ function Sponsor() {
       <h1>Sponsor this point of interest: &lt;POI&gt;</h1>
       <form onSubmit={handleSubmit}>
         <h3>Enter Date Range:</h3>
-        <label htmlFor="fromDate">From: </label>
-        <input type="date" name="fromDate" value={fromDate} onChange={e => setFrom(e.target.value)}></input>
-        <label htmlFor="toDate">To: </label>
-        <input type="date" name="toDate" value={toDate} onChange={e => setTo(e.target.value)}></input>
+        <label htmlFor="startDate">Starting on: </label>
+        <input type="date" name="startDate" value={startDate} onChange={e => setStart(e.target.value)}></input>
+        <label htmlFor="months">Number of months: </label>
+        <input type="number" name="months" value={months} onChange={e => setMonths(e.target.value)}></input>
         <br/>
 
         <h3>Pricing</h3>

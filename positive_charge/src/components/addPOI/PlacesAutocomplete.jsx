@@ -39,18 +39,20 @@ const PlacesAutocomplete = (props) => {
       // by setting the second parameter to "false"
       setValue(description, false);
       clearSuggestions();
-      console.log('description:', description)
 
       // Get latitude and longitude via utility functions
       getGeocode({ address: description })
-        .then((results) => getLatLng(results[0]))
+        .then((results) => {
+          props.setAddress(results[0].formatted_address)
+          return getLatLng(results[0])
+        })
         .then(({ lat, lng }) => {
-          console.log("📍 Coordinates: ", { lat, lng });
+          // console.log("📍 Coordinates: ", { lat, lng });
           props.setLat(lat)
           props.setLng(lng)
         })
         .catch((error) => {
-          console.log("😱 Error: ", error);
+          console.err("😱 Error: ", error);
         });
     };
 

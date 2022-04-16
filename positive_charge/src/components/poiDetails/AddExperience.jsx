@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ReactDom from 'react-dom'
+import { useNavigate } from "react-router";
 import axios from 'axios';
 
 /*
@@ -31,20 +32,27 @@ const overlayStyle = {
 export default function AddExperience({open, onClose, name}) {
 
   const [experience, setExperience] = useState('');
+  const navigate = useNavigate();
 
   const shareExperience = (path) => {
     axios.post(`/details${path}`, {
       experience: experience,
-      id: name.props.id
+      id: name.props.id,
+      name: name.props.name,
+      lat: name.props.coordinates.latitude,
+      long: name.props.coordinates.longitude
     })
       .then((result) => {
-        alert('Thanks for sharing with the community!')
+
       })
       .catch((err) => {
         console.log(err)
       })
   }
 
+  const submitFormRedirect = () => {
+    navigate('/');
+  }
   return open &&
     ReactDom.createPortal(
       <>
@@ -52,7 +60,10 @@ export default function AddExperience({open, onClose, name}) {
         <div style={overlayStyle} />
 
         <div style={modalStyle}>
-          <form onSubmit={() => shareExperience('/experiences')}>
+          <form onSubmit={() => {
+            shareExperience('/experiences')
+            submitFormRedirect();
+          }}>
             <label>
               Let other's know your experience
               <input type="text" onChange={event => setExperience(event.target.value)}/>
