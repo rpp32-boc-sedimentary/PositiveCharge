@@ -71,7 +71,7 @@ function AddPOI () {
         <h1>Add a Point of Interest</h1>
         <form onSubmit={(e) => handleSubmit(e)}>
 
-        <label htmlFor="point-name-input">Name: </label><br />
+        <label htmlFor="poi-name-input" required>Name: </label><br />
         <input
           type="text"
           className="text-input"
@@ -83,12 +83,12 @@ function AddPOI () {
         >
           </input><br></br><br></br>
 
-          <label htmlFor="point-name-input">Location: </label>
+          <label htmlFor="poi-location-input" required>Location: </label>
           <PlacesAutocomplete setAddress={setAddress} setLat={setLat} setLng={setLng}/>
 
           <br></br><br></br>
 
-          <label htmlFor="category-select">Category: </label><br />
+          <label htmlFor="poi-category-select" required>Category: </label><br />
           <select id="category-select"
           value={category}
           onChange={e => setCategory(e.target.value)}>
@@ -101,7 +101,7 @@ function AddPOI () {
           </select><br></br><br></br>
 
           <h3>Cost</h3>
-          <input type="radio" className="radio-button price-input" name="price" id="free" value="free" onClick={e => setPrice(e.target.value)}></input>
+          <input type="radio" className="radio-button poi-price-input" name="price" id="free" value="free" onClick={e => setPrice(e.target.value)}></input>
           <label htmlFor="free">Free</label>
 
           <input type="radio" className="radio-button price-input" name="price" id="$" value="$" onClick={e => setPrice("1")}></input>
