@@ -33,20 +33,26 @@ const overlayStyle = {
 export default function PoiModal({open, onClose, detail, name}) {
 
   const [isOpen, setIsOpen] = useState(false);
-  console.log(detail)
-  const love = (path) => {
-    axios.put(`/details/${path}/love`, {love: 1})
+
+  const love = (path, exp) => {
+    axios.put(`/details/${path}/love`, {
+      'name': name,
+      'experience': exp
+    })
       .then((response) => {
         // send something like loved x thing
-        console.log(response.data)
+        alert(`Thanks for the love!`)
       })
   };
 
-  const flag = (path) => {
-    axios.put(`/details/${path}/flag`, {flag: true})
+  const flag = (path, exp) => {
+    axios.put(`/details/${path}/flag`, {
+      'name': name,
+      'experience': exp
+    })
       .then((response) => {
         // send something like flagged x thing
-        console.log(response.data)
+        alert('We will review the flag you submitted')
       })
   };
 
@@ -58,34 +64,34 @@ export default function PoiModal({open, onClose, detail, name}) {
 
         {/* modal itself */}
         <div style={modalStyle}>
-          <h2>{detail.poiName}</h2>
+          <h2>{name?.props ? name.props.name : 'loading...'}</h2>
           {/* experiences section */}
           <div>
             <div>
-              {/* experience */}
-              foo bar was so awesome at this foo place
-
-              {/* love button for experiences*/}
-              <button onClick={() => love('/experience')}>Love</button>
-
-              {/* flag button */}
-              <button onClick={() => flag('/experience')}>Flag</button>
-
-              {/* photo */}
-              <div>photo (optional)</div>
-
+              {/* experience list */}
+              {detail[0]?.experience ? detail.map((exp, index) => {
+               return <div key={index}>
+                  <span>{exp.experience}</span><br/>
+                  <span>loves = {exp.exp_loves}</span><br/>
+                  <span>{exp.exp_flag_status === true ? 'Flagged for review' : 'Flag experience'}</span>
+                  {/* love button for experiences*/}
+                  <button onClick={() => love('experience', exp.experience)}>Love</button>
+                  {/* flag button for experiences*/}
+                  <button onClick={() => flag('experience', exp.experience)}>Flag</button>
+                </div>
+              }) : 'Be the first to add your experience!'}
             </div>
           </div>
 
           {/* love button for poi's */}
-          <button onClick={() => love('/poi')}>Love</button>
+          <button onClick={() => love('poi')}>Love</button>
 
           {/* add experience button for poi's */}
           <button onClick={() => setIsOpen(true)}>add experience</button>
           <AddExperience open={isOpen} onClose={() => setIsOpen(false)} name={name}></AddExperience>
 
           {/* flag button for poi's */}
-          <button onClick={() => flag('/poi')}>Flag</button>
+          <button onClick={() => flag('poi')}>Flag</button>
 
           {/* close button */}
           <button onClick={onClose}>Close</button>

@@ -5,7 +5,7 @@ const {verifyToken} = require('./authRoutes.js')
 
 router.route('/view')
   .get(async (req, res, next) => {
-    const result = await router.grabview();
+    const result = await router.grabview([req.query.id]);
     try {
       res.status(201).send(result)
     } catch (err) {
@@ -14,8 +14,9 @@ router.route('/view')
   });
 
 router.put('/poi/love', verifyToken, async (req, res, next) => {
+  let id = req.body.name.props.id
     try {
-      const result = await router.lovePoi()
+      const result = await router.lovePoi([id])
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
@@ -23,8 +24,9 @@ router.put('/poi/love', verifyToken, async (req, res, next) => {
   });
 
 router.put('/poi/flag', verifyToken, async (req, res, next) => {
+  let id = req.body.name.props.id;
     try {
-      const result = await router.flagPoi();
+      const result = await router.flagPoi([id]);
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
@@ -32,8 +34,10 @@ router.put('/poi/flag', verifyToken, async (req, res, next) => {
   });
 
 router.put('/experience/love', verifyToken, async (req, res, next) => {
+  let id = req.body.name.props.id;
+  let exp = req.body.experience;
     try {
-      const result = await router.loveExp('3');
+      const result = await router.loveExp([id, exp]);
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
@@ -41,8 +45,10 @@ router.put('/experience/love', verifyToken, async (req, res, next) => {
   });
 
 router.put('/experience/flag', verifyToken, async (req, res, next) => {
+  let id = req.body.name.props.id;
+  let exp = req.body.experience;
     try {
-      const result = await router.flagExp('1');
+      const result = await router.flagExp([id, exp]);
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
@@ -50,7 +56,7 @@ router.put('/experience/flag', verifyToken, async (req, res, next) => {
   })
 
 router.post('/experiences', verifyToken, async (req, res, next) => {
-    const [experience, id] = [req.body.experience, req.body.id];
+    let { id, experience } = req.body;
     try {
       const result = await router.addExperience([id, experience]);
       res.status(201).send(result)
