@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const { pool } = require('../../database/models');
 
 authRouter.use((req, res, next) => {
-  console.log('Time: ', Date.now());
+  console.log('Time: ', Date());
   next()
 })
 
@@ -39,7 +39,7 @@ authRouter.get('/verify', verifyToken, (req, res) => {
 authRouter.post('/login', async (req, res) => {
   var email = req.body.email.toLowerCase();
   var user = await pool.getUser([email]);
-  console.log('user = ', user);
+  console.log('user', user);
   if (user.length < 1) {
     console.log('Cannot find user');
     return res.send('Cannot find user');
@@ -47,7 +47,7 @@ authRouter.post('/login', async (req, res) => {
   try {
     if (await bcrypt.compare(req.body.password, user[0].password)) {
       const accessToken = jwt.sign(
-        { name: user.name, email: req.body.email },
+        { id: user[0].id, name: user[0].name, email: req.body.email },
         process.env.ACCESS_KEY,
         // {
         //   expiresIn: "1h"
