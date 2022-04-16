@@ -1,7 +1,6 @@
 import React from 'react';
-import { ReactDOM } from 'react';
 import axios from 'axios';
-import SeePOI from '../seePOI/seePOI.jsx';
+import Map from '../map/map.jsx'
 import { Link } from 'react-router-dom';
 
 class FindChargingStations extends React.Component {
@@ -52,7 +51,6 @@ class FindChargingStations extends React.Component {
       }
     })
       .then((stations) => {
-        console.log('Stations', stations.data);
         this.setState({ stationsList: stations.data });
       })
       .catch((err) => {
@@ -84,6 +82,12 @@ class FindChargingStations extends React.Component {
     this.setState({ chargerCoords: { chargerLat: latitude, chargerLong: longitude } });
   }
 
+  showFeedbackMap() {
+    if (this.state.userLatitude !== 0 && this.state.userLongitude !== 0) {
+      return <Map userLocation={{ userLat: this.state.userLatitude, userLong: this.state.userLongitude }} props={[{ lat: '', long: '' }]} />;
+    }
+  }
+
   render() {
     return (
       <div className='findStationsDiv'>
@@ -92,6 +96,10 @@ class FindChargingStations extends React.Component {
           <button onClick={this.getUserLocation.bind(this)}>Use my location</button>
         </label>
         <br></br>
+        <div>
+          <ol></ol>
+        </div>
+        {this.showFeedbackMap()}
         <div>
           <ol></ol>
         </div>
@@ -135,7 +143,7 @@ class FindChargingStations extends React.Component {
                   networked = 'FALSE';
                 }
                 return (
-                  <tr className='stationTableRow' onClick={this.handleStationSelect.bind(this)}>
+                  <tr key={currentStation.ev_network_ids.station[0]} className='stationTableRow' onClick={this.handleStationSelect.bind(this)}>
                     <td>
                       {currentStation.station_name}
                     </td>
