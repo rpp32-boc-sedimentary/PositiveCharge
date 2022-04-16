@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const { pool } = require('../../database/models');
 const { verifyToken } = require('./authRoutes');
 
 // temporary data storage
@@ -17,7 +16,7 @@ router.get('/sponsors', (req, res) => {
 
 router.get('/get-poi-user', verifyToken, async (req, res) => {
   try {
-    var poi = await pool.getPoi([req.query.name]);
+    var poi = await router.getPoi([req.query.name]);
     if (poi.length > 0) {
       poi = poi[0].id;
     } else {
@@ -51,8 +50,8 @@ router.get('/activate', async (req, res) => {
     var toBeActivated = await router.checkSponsors();
     console.log('checksponsor result:', toBeActivated);
 
-    toBeActivated.forEach( async (poiId) => {
-      var update = await router.activateSponsor(poiId);
+    toBeActivated.forEach( async (obj) => {
+      var update = await router.activateSponsor(obj.poi_id);
       console.log(update);
     })
     res.status(201).send();

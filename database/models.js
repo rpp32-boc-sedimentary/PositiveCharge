@@ -233,7 +233,7 @@ pool.activateSponsor = async (poi) => {
 
 pool.checkSponsors = async () => {
   try {
-    var query = `SELECT poi_id FROM sponsors WHERE start_date = CURRENT_DATE`;
+    var query = `SELECT poi_id FROM sponsors WHERE start_date = (SELECT CURRENT_DATE)`;
     var result = await pool.query(query);
     return result.rows;
   }

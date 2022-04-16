@@ -65,15 +65,15 @@ function Sponsor() {
       })
     })
     // immediately check if there are any active sponsors
-    // .then(() => {
-    //   axios.get('/activate')
-    //   .then((res) => {
-    //     // return which POI were activated, if any
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   })
-    // })
+    .then(() => {
+      axios.get('/activate')
+      .then((res) => {
+        // return which POI were activated, if any
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    })
   }
 
   // can't get this to work as helper function
@@ -119,7 +119,7 @@ function Sponsor() {
 
         <h3>Pricing</h3>
         <ul>
-          <li>$5 per month</li>
+          <li>$5 per month (30 day increments from start date)</li>
           <li>$45 per year</li>
         </ul>
 
