@@ -34,10 +34,13 @@ const BigFilter = (props) => {
           </label>
         </div>
 
+        <div className="categoryHeader">
+          Suggested
+        </div>
         <div className="bigFilter">
           { Object.keys(props.suggestedCategories).length > 0 ? <BfCategories suggestedCategories={ props.suggestedCategories } handleSuggestedCategoriesBf={ props.handleSuggestedCategoriesBf } /> : null }
 
-          { props.lessThanFive ? <label className="categories">Quick Walk<input type="checkbox" name="quick walk" checked={ props.quickWalk } onChange={ props.handleQuickBf } /></label> : null }
+          { props.lessThanFive ? <label className="categories">Quick Walk (5 minutes or less)<input type="checkbox" name="quickWalk" checked={ props.quickWalk } onChange={ props.handleQuickBf } /></label> : null }
         </div>
 
         <div className="categoryHeader bigFilter">

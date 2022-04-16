@@ -5,7 +5,6 @@ const BfCategories = (props) => {
 
   return (
     <div>
-      Suggested
       {_.map(props.suggestedCategories, (val, key) =>
         <div>
           <label className="categories">

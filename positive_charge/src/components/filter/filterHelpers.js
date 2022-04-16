@@ -73,7 +73,6 @@ const filterLfCategories = (selectedFilter, data) => {
 }
 
 const filterOnDistance = (selectedTime, data) => {
-  console.log('selected time', selectedTime)
   if (!selectedTime || selectedTime === 'All distances') {
     return data;
   }
@@ -97,7 +96,6 @@ const findSuggested = (data) => {
   } else if (points.indexOf('food') >= 0) {
     generated['food'] = false;
   }
-  console.log('indexs', points.indexOf('landmarks & historical'), points[3])
   if (points.indexOf('museum') >= 0 && points.indexOf('landmarks & historical') >= 0) {
     generated['cultural'] = false;
   }
@@ -105,7 +103,6 @@ const findSuggested = (data) => {
 }
 
 const filterQuickWalks = (selected, data) => {
-  console.log('quick walks', selected, data)
   if (!selected) {
     return data;
   }
@@ -116,13 +113,35 @@ const filterQuickWalks = (selected, data) => {
 };
 
 //sorting function
-const sortOnDistance = () => {
+const sortFunc = (sortVal, data) => {
+  let compare;
+  if (sortVal === 'Loves') {
+    compare = (a, b) => {
+      if (a.rating > b.rating) {
+        return -1;
+      }
+      if (a.rating < b.rating) {
+        return 1;
+      }
+      return 0;
+    };
 
+  } else if (sortVal === 'Distance') {
+    compare = (a, b) => {
+      if (a.duration < b.duration) {
+        return -1;
+      }
+      if (a.duration > b.duration) {
+        return 1;
+      }
+      return 0;
+    };
+  }
+  let sorted = data.sort(compare);
+  return sorted;
 };
 
-const sortOnRating = () => {
 
-}
 
 module.exports = {
   filterOnPrice,
@@ -131,5 +150,6 @@ module.exports = {
   filterLfCategories,
   filterOnDistance,
   findSuggested,
-  filterQuickWalks
+  filterQuickWalks,
+  sortFunc
 }
