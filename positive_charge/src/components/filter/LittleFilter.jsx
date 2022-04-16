@@ -213,13 +213,8 @@ class LittleFilter extends React.Component {
   componentDidMount = () => {
     console.log('props from DOM', this.props)
 
-    let categoriesChecked = helpers.findCategories(this.state.sampleData);
-    let suggestedCategories = helpers.findSuggested(categoriesChecked);
-    this.setState({
-      categoriesChecked,
-      suggestedCategories
-    });
     this.findTimeToTravel();
+
 
   }
 
@@ -236,6 +231,12 @@ class LittleFilter extends React.Component {
           modifiedData: data.data.all,
           lessThanFive: data.data.lessThanFive
         }, () => {
+          let categoriesChecked = helpers.findCategories(this.state.modifiedData);
+          let suggestedCategories = helpers.findSuggested(categoriesChecked);
+          this.setState({
+            categoriesChecked,
+            suggestedCategories
+          });
         });
       })
       .catch(err => {

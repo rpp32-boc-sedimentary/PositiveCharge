@@ -8,7 +8,7 @@ const BfCategories = (props) => {
       Suggested
       {_.map(props.suggestedCategories, (val, key) =>
         <div>
-          <label>
+          <label className="categories">
             {key}
             <input type="checkbox" key={ key } name={ key } checked={ val } onChange={ props.handleSuggestedCategoriesBf } />
           </label>

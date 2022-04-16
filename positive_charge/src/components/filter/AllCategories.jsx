@@ -5,7 +5,7 @@ const AllCategories = (props) => {
 
   return (
     _.map(props.categoriesChecked, (val, key) =>
-      <label>
+      <label className="categories">
         { key }
         <input type="checkbox" key={ key } name={ key } checked={ val } onChange={ props.handleAllCategories } />
       </label>

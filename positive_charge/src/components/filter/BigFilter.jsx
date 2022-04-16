@@ -16,19 +16,19 @@ const BigFilter = (props) => {
 
         <div className="bigFilter">
           <div className="categoryHeader">Distance:</div>
-          <label>
+          <label className="categories">
             5 min or less
             <input type="radio" value="5 min or less" checked={ props.distance === "5 min or less" } onChange={ props.handleDistance } />
           </label>
-          <label>
+          <label className="categories">
             10 min or less
             <input type="radio" value="10 min or less" checked={ props.distance === "10 min or less" } onChange={ props.handleDistance } />
           </label>
-          <label>
+          <label className="categories">
             15 min or less
             <input type="radio" value="15 min or less" checked={ props.distance === "15 min or less" } onChange={ props.handleDistance } />
           </label>
-          <label>
+          <label className="categories">
             All distances
             <input type="radio" value="All distances" checked={ props.distance === "All distances" } onChange={ props.handleDistance } />
           </label>
@@ -37,24 +37,24 @@ const BigFilter = (props) => {
         <div className="bigFilter">
           { Object.keys(props.suggestedCategories).length > 0 ? <BfCategories suggestedCategories={ props.suggestedCategories } handleSuggestedCategoriesBf={ props.handleSuggestedCategoriesBf } /> : null }
 
-          { props.lessThanFive ? <label>Quick Walk<input type="checkbox" name="quick walk" checked={ props.quickWalk } onChange={ props.handleQuickBf } /></label> : null }
+          { props.lessThanFive ? <label className="categories">Quick Walk<input type="checkbox" name="quick walk" checked={ props.quickWalk } onChange={ props.handleQuickBf } /></label> : null }
         </div>
 
         <div className="categoryHeader bigFilter">
           Price
-          <label>
+          <label className="categories">
             Free
             <input type="checkbox" name="free" checked={ props.price.free } onChange={ props.handlePrice } />
           </label>
-          <label>
+          <label className="categories">
             $
             <input type="checkbox" name="$" checked={ props.price.$ } onChange={ props.handlePrice } />
           </label>
-          <label>
+          <label className="categories">
             $$
             <input type="checkbox" name="$$" checked={ props.price.$$ } onChange={ props.handlePrice } />
           </label>
-          <label>
+          <label className="categories">
             $$$
             <input type="checkbox" name="$$$" checked={ props.price.$$$ } onChange={ props.handlePrice } />
           </label>

@@ -97,6 +97,7 @@ const findSuggested = (data) => {
   } else if (points.indexOf('food') >= 0) {
     generated['food'] = false;
   }
+  console.log('indexs', points.indexOf('landmarks & historical'), points[3])
   if (points.indexOf('museum') >= 0 && points.indexOf('landmarks & historical') >= 0) {
     generated['cultural'] = false;
   }
