@@ -107,7 +107,7 @@ hooks:
 # During the ApplicationStart deployment lifecycle event, run the commands
 #   in the script specified in "location".
   ApplicationStart:
-    - location: /home/ec2-user/app/codeDeployScripts/buildAndRunDeployment.sh
+    - location: /codeDeployScripts/buildAndRunDeployment.sh
       timeout: 150
       runas: ec2-user
   #   - location:

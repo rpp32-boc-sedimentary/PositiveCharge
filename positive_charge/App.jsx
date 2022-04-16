@@ -94,9 +94,6 @@ class App extends React.Component {
               <li>
                 <Link to="/addPOI">Add POI</Link>
               </li>
-              <li>
-                <Link to="/sponsor">Sponsor</Link>
-              </li>
             </ul>
           </div>
 
@@ -109,6 +106,7 @@ class App extends React.Component {
             <Route path='/moreDetails' element={<MoreDetails />}/>
             <Route path="/addPOI" element={<AddPOI />} />
             <Route path='/modal' element={<Modal />}></Route>
+            <Route path='/sponsor' element={<Sponsor />}></Route>
           </Routes>
         </BrowserRouter>
       </>
