@@ -43,7 +43,7 @@ class FindChargingStations extends React.Component {
   }
 
   populateStationsList() {
-    axios.get('http://localhost:3000/findStations', {
+    axios.get('/findStations', {
       params: {
         userLat: this.state.userLatitude,
         userLong: this.state.userLongitude,
