@@ -82,16 +82,19 @@ export default function PoiModal({open, onClose, detail, name}) {
               }) : 'Be the first to add your experience!'}
             </div>
           </div>
-
+          <br/>
+          <br/>
+          <br/>
           {/* love button for poi's */}
           <button onClick={() => love('poi')}>Love</button>
-
+          {detail[0]?.loves ? detail[0].loves + ' loves' : null}<br/>
           {/* add experience button for poi's */}
           <button onClick={() => setIsOpen(true)}>add experience</button>
           <AddExperience open={isOpen} onClose={() => setIsOpen(false)} name={name}></AddExperience>
 
           {/* flag button for poi's */}
-          <button onClick={() => flag('poi')}>Flag</button>
+          {detail[0]?.flag_status === true ? 'This location is flagged for review' :
+          <button onClick={() => flag('poi')}>Flag</button>}
 
           {/* close button */}
           <button onClick={onClose}>Close</button>
