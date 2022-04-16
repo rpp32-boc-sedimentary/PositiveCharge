@@ -10,6 +10,7 @@ class FindChargingStations extends React.Component {
     this.state = {
       userLatitude: 0,
       userLongitude: 0,
+      userHeading: 'North',
       chosenDistance: 5,
       stationsList: [],
       chargerCoords: {}
@@ -84,6 +85,10 @@ class FindChargingStations extends React.Component {
     this.setState({ chargerCoords: { chargerLat: latitude, chargerLong: longitude } });
   }
 
+  handleHeadingChange(event) {
+    this.setState({ userHeading: event.nativeEvent.target.selectedOptions[0].textContent });
+  }
+
   render() {
     return (
       <div className='findStationsDiv'>
@@ -92,6 +97,18 @@ class FindChargingStations extends React.Component {
           <button onClick={this.getUserLocation.bind(this)}>Use my location</button>
         </label>
         <br></br>
+        <div>
+          <ol></ol>
+        </div>
+        <label>
+          Heading:
+          <select onChange={this.handleHeadingChange.bind(this)}>
+            <option>North</option>
+            <option>South</option>
+            <option>East</option>
+            <option>West</option>
+          </select>
+        </label>
         <div>
           <ol></ol>
         </div>
@@ -134,31 +151,111 @@ class FindChargingStations extends React.Component {
                 if (currentStation.ev_network === 'Non-Networked') {
                   networked = 'FALSE';
                 }
-                return (
-                  <tr className='stationTableRow' onClick={this.handleStationSelect.bind(this)}>
-                    <td>
-                      {currentStation.station_name}
-                    </td>
-                    <td>
-                      {currentStation.street_address}
-                    </td>
-                    <td>
-                      {currentStation.ev_connector_types.map((connector, index) => {
-                        if (index + 1 < currentStation.ev_connector_types.length) {
-                          return connector + ', ';
-                        } else {
-                          return connector;
-                        }
-                      })}
-                    </td>
-                    <td>
-                      {networked}
-                    </td>
-                    <td>
-                      {currentStation.distance + ' miles'}
-                    </td>
-                  </tr>
-                )
+                if (this.state.userHeading === 'North' && currentStation.latitude > this.state.userLatitude) {
+                  return (
+                    <tr className='stationTableRow' onClick={this.handleStationSelect.bind(this)}>
+                      <td>
+                        {currentStation.station_name}
+                      </td>
+                      <td>
+                        {currentStation.street_address}
+                      </td>
+                      <td>
+                        {currentStation.ev_connector_types.map((connector, index) => {
+                          if (index + 1 < currentStation.ev_connector_types.length) {
+                            return connector + ', ';
+                          } else {
+                            return connector;
+                          }
+                        })}
+                      </td>
+                      <td>
+                        {networked}
+                      </td>
+                      <td>
+                        {currentStation.distance + ' miles'}
+                      </td>
+                    </tr>
+                  )
+                } else if (this.state.userHeading === 'South' && currentStation.latitude < this.state.userLatitude) {
+                  return (
+                    <tr className='stationTableRow' onClick={this.handleStationSelect.bind(this)}>
+                      <td>
+                        {currentStation.station_name}
+                      </td>
+                      <td>
+                        {currentStation.street_address}
+                      </td>
+                      <td>
+                        {currentStation.ev_connector_types.map((connector, index) => {
+                          if (index + 1 < currentStation.ev_connector_types.length) {
+                            return connector + ', ';
+                          } else {
+                            return connector;
+                          }
+                        })}
+                      </td>
+                      <td>
+                        {networked}
+                      </td>
+                      <td>
+                        {currentStation.distance + ' miles'}
+                      </td>
+                    </tr>
+                  )
+                } else if (this.state.userHeading === 'East' && currentStation.longitude > this.state.userLongitude) {
+                  return (
+                    <tr className='stationTableRow' onClick={this.handleStationSelect.bind(this)}>
+                      <td>
+                        {currentStation.station_name}
+                      </td>
+                      <td>
+                        {currentStation.street_address}
+                      </td>
+                      <td>
+                        {currentStation.ev_connector_types.map((connector, index) => {
+                          if (index + 1 < currentStation.ev_connector_types.length) {
+                            return connector + ', ';
+                          } else {
+                            return connector;
+                          }
+                        })}
+                      </td>
+                      <td>
+                        {networked}
+                      </td>
+                      <td>
+                        {currentStation.distance + ' miles'}
+                      </td>
+                    </tr>
+                  )
+                } else if (this.state.userHeading === 'West' && currentStation.longitude < this.state.userLongitude) {
+                  return (
+                    <tr className='stationTableRow' onClick={this.handleStationSelect.bind(this)}>
+                      <td>
+                        {currentStation.station_name}
+                      </td>
+                      <td>
+                        {currentStation.street_address}
+                      </td>
+                      <td>
+                        {currentStation.ev_connector_types.map((connector, index) => {
+                          if (index + 1 < currentStation.ev_connector_types.length) {
+                            return connector + ', ';
+                          } else {
+                            return connector;
+                          }
+                        })}
+                      </td>
+                      <td>
+                        {networked}
+                      </td>
+                      <td>
+                        {currentStation.distance + ' miles'}
+                      </td>
+                    </tr>
+                  )
+                }
               })
             }
           </table>
