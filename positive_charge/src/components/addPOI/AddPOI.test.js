@@ -20,4 +20,4 @@ describe('Form renders', () => {
 //     render(<AddPOI />);
 
 //   })
-})
+// })
