@@ -4,15 +4,15 @@ const findRouter = express.Router();
 require('dotenv').config();
 
 
-findRouter.post('/findStations', (req, res) => {
+findRouter.get('/findStations', (req, res) => {
   axios.get('https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json',
   {
     params: {
       api_key: process.env.NREL_API_KEY,
-      latitude: req.body.userLat,
-      longitude: req.body.userLong,
+      latitude: req.query.userLat,
+      longitude: req.query.userLong,
       fuel_type: 'ELEC',
-      radius: Number(req.body.radius + '.0'),
+      radius: Number(req.query.radius + '.0'),
       access: 'public'
     }
   })
