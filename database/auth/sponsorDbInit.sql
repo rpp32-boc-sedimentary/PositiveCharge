@@ -1,8 +1,9 @@
 CREATE TABLE sponsors (
   id SERIAL PRIMARY KEY,
-  user_id VARCHAR(80) NOT NULL,
+  user_id INTEGER NOT NULL,
   poi_id INTEGER NOT NULL,
-  dates DATE NOT NULL
+  start_date DATE NOT NULL,
+  months INTEGER NOT NULL
   CONSTRAINT fk_user
     FOREIGN KEY(user_id)
       REFERENCES users(id)

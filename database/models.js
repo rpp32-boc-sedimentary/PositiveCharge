@@ -184,16 +184,87 @@ pool.addUser = async (params) => {
   }
 }
 
-pool.getUser = async (param) => {
+pool.getUser = async (email) => {
   try {
     var query = `SELECT * FROM users WHERE email = $1`;
-    var user = await pool.query(query, param);
+    var user = await pool.query(query, email);
     return user.rows;
   }
   catch (err) {
     console.error(err);
   }
 }
+
+//sponsor models
+pool.getPoi = async (name) => {
+  try {
+    var query = `SELECT * FROM pois WHERE name = $1`;
+    var poi = await pool.query(query, name);
+    console.log('poi', poi.rows);
+    return poi.rows;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.addSponsor = async (details) => {
+  try {
+    var query = `INSERT INTO sponsors (user_id, poi_id, start_date, months)
+    VALUES ($1, $2, $3, $4)`;
+    var result = await pool.query(query, details);
+    return result;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.activateSponsor = async (poi) => {
+  try {
+    var query = `UPDATE pois SET sponsored = $1 WHERE id = $2`;
+    var result = await pool.query(query, [true, poi]);
+    return result;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.checkSponsors = async () => {
+  try {
+    var query = `SELECT poi_id FROM sponsors WHERE start_date = (SELECT CURRENT_DATE)`;
+    var result = await pool.query(query);
+    return result.rows;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.deactivateSponsor = async (poi) => {
+  try {
+    var query = `UPDATE pois SET sponsored = $1 WHERE id = $2`;
+    var result = await pool.query(query, [false, poi]);
+    return result;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+// Maybe keep record of all sponsors even if expired, no need to delete?
+pool.deleteSponsor = async (id) => {
+  try {
+    var query = `DELETE FROM sponsors WHERE id = $1`;
+    var result = await pool.query(query, id);
+    return result;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
 // details models
 
 // filter models
