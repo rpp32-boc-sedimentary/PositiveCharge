@@ -65,11 +65,16 @@ FILTER COMPONENT
 .bigFilter {
   display: flex;
   flex-direction: column;
+
+  .categoryHeader {
+    font-size: 1.5rem;
+  }
+  .categories {
+    font-size: 1rem;
+  }
 }
 
-.categoryHeader {
-  font-size: 1.5rem;
-}
+
 
 .bigModal {
   width: 300px;
