@@ -4,9 +4,6 @@ import axios from 'axios';
 
 import AddExperience from './AddExperience.jsx';
 
-/*
-Styles here are just for positioning of the modal and will be refactored to scss or sass or whatever we decide to use later
-*/
 const modalStyle = {
   position: 'fixed',
   width: '70%',
@@ -33,6 +30,7 @@ const overlayStyle = {
 export default function PoiModal({open, onClose, detail, name}) {
 
   const [isOpen, setIsOpen] = useState(false);
+  const [showMore, showMoreExp] = useState(false);
 
   const love = (path, exp) => {
     axios.put(`/details/${path}/love`, {
@@ -56,6 +54,31 @@ export default function PoiModal({open, onClose, detail, name}) {
       })
   };
 
+  const sortExperiences = (details) => {
+    details.sort((a, b) => {
+      return b.exp_loves - a.exp_loves;
+    })
+    return details;
+  }
+  const sortedDetails = sortExperiences(detail);
+
+  let minExp = Math.min(5, sortedDetails.length);
+
+  const displayExperiences = () => {
+    let exp = showMore ? minExp = sortedDetails.length : minExp;
+    return sortedDetails.slice(0, exp).map((exp, index) => {
+      return <div key={index}>
+         <span>{exp.experience}</span><br/>
+         <span>loves = {exp.exp_loves}</span><br/>
+         <span>{exp.exp_flag_status === true ? 'Flagged for review' : 'Flag experience'}</span>
+         {/* love button for experiences*/}
+         <button onClick={() => love('experience', exp.experience)}>Love</button>
+         {/* flag button for experiences*/}
+         <button onClick={() => flag('experience', exp.experience)}>Flag</button>
+       </div>
+     })
+  }
+
   return open &&
     ReactDom.createPortal(
       <>
@@ -69,18 +92,9 @@ export default function PoiModal({open, onClose, detail, name}) {
           <div>
             <div>
               {/* experience list */}
-              {detail[0]?.experience ? detail.map((exp, index) => {
-               return <div key={index}>
-                  <span>{exp.experience}</span><br/>
-                  <span>loves = {exp.exp_loves}</span><br/>
-                  <span>{exp.exp_flag_status === true ? 'Flagged for review' : 'Flag experience'}</span>
-                  {/* love button for experiences*/}
-                  <button onClick={() => love('experience', exp.experience)}>Love</button>
-                  {/* flag button for experiences*/}
-                  <button onClick={() => flag('experience', exp.experience)}>Flag</button>
-                </div>
-              }) : 'Be the first to add your experience!'}
+              {detail[0]?.experience ? displayExperiences() : 'Be the first to add your experience!'}
             </div>
+            <button onClick={() => showMoreExp(!showMore)}>{showMore ? 'see less' : 'see more experiences'}</button>
           </div>
           <br/>
           <br/>
