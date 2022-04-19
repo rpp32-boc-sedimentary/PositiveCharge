@@ -54,6 +54,7 @@ class Map extends React.Component {
     }
 
     getDirections(event) {
+        console.log(event);
         axios.get('/map', {
             params: {
                 startingLat: this.state.lat,
@@ -64,9 +65,6 @@ class Map extends React.Component {
         })
         .then(response => {
             var directions = [];
-            // response.data.instructions.forEach((direction) => {
-            //     directions.push(direction.message);
-            // })
             var instructions = response.data.guidance.instructions;
             instructions.forEach((direction) => {
                 directions.push(direction.message);
@@ -77,7 +75,7 @@ class Map extends React.Component {
             }
             this.setState({
                 directions: directions,
-                currDestination: { lat: event.latlng.lat, long: event.latlng.lng }
+                currDestination: { lat: event.latlng.lat, long: event.latlng.lng, destination: event.sourceTarget._popup.options.children }
             })
         })
         .catch(err => {
@@ -113,6 +111,10 @@ class Map extends React.Component {
                         ></Routing>
                     }
                 </MapContainer>
+                {Object.keys(this.state.currDestination).length === 0 
+                    ? <div></div>
+                    : <h3> Directions to {this.state.currDestination.destination}</h3>
+                }
                 <Directions directions={this.state.directions}></Directions>
             </div>
 
