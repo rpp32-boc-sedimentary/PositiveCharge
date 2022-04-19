@@ -77,16 +77,37 @@ router.get('/selectedFilters', (req, res) => {
   console.log('test', test);
 })
 
-router.get('/walkingTime', (req, res) => {
-  let params = req.query;
-  let starting = JSON.parse(params.starting);
-  let ending = JSON.parse(params.ending);
-  axios.get(`https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${starting.long},${starting.lat};${ending.long},${ending.lat}?access_token=${process.env.MAPBOX_TOKEN}`)
+//this api call will work for yelp locations
+//will need to add a conditional for user added locations
+//to account coordinates formatted differently
+router.post('/walkingTime', (req, res) => {
+  let starting = req.body.data.starting;
+  let startLat = starting.lat;
+  let startLong = starting.long;
+  let places = req.body.data.places.slice(0, 25);
+  let allDurations = places.map(place => {
+    let endLat = place.coordinates.latitude;
+    let endLong = place.coordinates.longitude;
+    return axios.get(`https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${startLong},${startLat};${endLong},${endLat}?access_token=${process.env.MAPBOX_TOKEN}`)
+  });
+  Promise.allSettled(allDurations)
     .then(data => {
-      console.log('data', data.data);
+      let lessThanFive = false;
+      let mapped = places.map((item, index) => {
+        let roundTrip = data[index].value.data.trips[0].duration;
+        let duration = Math.round(roundTrip/2/60);
+        if (duration <= 5) {
+          lessThanFive = true;
+        }
+        item.duration = duration;
+        return item
+      });
+      let durationObject = {all: mapped, lessThanFive: lessThanFive}
+      res.status(200).send(durationObject);
     })
     .catch(err => {
-      console.error('error at mapbox', err);
+      console.error('error adding walking times to locations', err);
+      res.status(404).send(err);
     })
 })
 
