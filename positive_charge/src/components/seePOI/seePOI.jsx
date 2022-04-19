@@ -16,8 +16,8 @@ class SeePOI extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      lat: 39.595244,
-      long: -104.7049212,
+      lat: 39.73818,
+      long: -104.98997,
       dist: 1260
     };
     this.getPOIData = this.getPOIData.bind(this);
@@ -25,16 +25,16 @@ class SeePOI extends React.Component {
     this.mapPOI = this.mapPOI.bind(this);
     this.walkTime = this.walkTime.bind(this);
     this.changeDisplay = this.changeDisplay.bind(this);
+
   }
 
-  getPOIData (lat, long, dist) {
-    axios.post('/getPOI', {data:{lat: this.state.lat, long: this.state.long, dist: this.state.dist}})
+  getPOIData (path, callback) {
+    axios.post(path, {data:{lat: this.state.lat, long: this.state.long, dist: this.state.dist}})
     .then(result => {
-      this.setState({all: JSON.parse(result.data.body)}, () => {
-        this.setState({data: this.state.all.businesses.slice(0,5)}, () => {
-          this.filterForMap();
-        })
-      })
+      callback(JSON.parse(result.data.body));
+    })
+    .catch(err => {
+      console.error(err);
     })
   }
 
@@ -72,9 +72,25 @@ class SeePOI extends React.Component {
     });
   }
 
-  componentDidMount () {
-    this.getPOIData(this.state.lat, this.state.long, this.state.dist);
 
+  componentDidMount () {
+    this.getPOIData('/getPOI/getPOI', (data) => {this.setState({all: data})});
+    this.getPOIData('/getPOI/getFoodPOI', (data) => {this.setState({food: data})});
+    this.getPOIData('/getPOI/getCafesPOI', (data) => {this.setState({cafes: data})});
+    this.getPOIData('/getPOI/getMuseumsPOI', (data) => {this.setState({museums: data})});
+    this.getPOIData('/getPOI/getLAndHPOI', (data) => {this.setState({lAndH: data})});
+    this.getPOIData('/getPOI/getParksPOI', (data) => {this.setState({parks: data})});
+  }
+
+  componentDidUpdate () {
+    if (this.state.data === undefined && this.state.all !== undefined) {
+      this.setState({data: this.state.all.businesses.slice(0,5)}, () => {
+        this.filterForMap()
+      })
+    }
+    if (this.state.all && this.state.food && this.state.cafes && this.state.museums && this.state.lAndH && this.state.parks && this.state.flag === undefined) {
+      this.setState({flag: true})
+    }
   }
 
 
@@ -86,9 +102,9 @@ class SeePOI extends React.Component {
         <div className='returnCharger'><Link to='/'>Find a different charger</Link></div>
         <div className='login'><Link to='/login'>Log In</Link></div><div className='signup'><Link to='/signup'>Sign up</Link></div>
         <h3 className='seePOIListHeader'>Experiences Near You</h3>
-        {/* <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData}></Map> : <div className='loading'> Loading...</div>}</div> */}
+        <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData}></Map> : <div className='loading'> Loading...</div>}</div>
         <div className='poiList'>{this.state.data !== undefined ? <PoiList props={this.state.data} walkTime={this.walkTime}></PoiList> : <div className='loading'> Loading...</div>} </div>
-        <div className='filters'>{this.state.data !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} allData={this.state.all} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div>
+        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} allData={{all: this.state.all, food: this.state.food, cafes:this.state.cafes, lAndH:this.state.lAndH, museums:this.state.museums, parks:this.state.parks}} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div>
         <div className='addPOI'><Link to='/addPOI'>Add a Point of Interest</Link></div>
       </div>
     )
