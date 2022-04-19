@@ -100,7 +100,7 @@ export default function PoiModal({open, onClose, detail, name}) {
           <br/>
           <br/>
           {/* love button for poi's */}
-          <button onClick={() => love('poi')}>Love</button>
+          <button onClick={() => {love('poi')}}>Love</button>
           {detail[0]?.loves ? detail[0].loves + ' loves' : null}<br/>
           {/* add experience button for poi's */}
           <button onClick={() => setIsOpen(true)}>add experience</button>

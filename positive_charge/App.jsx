@@ -40,10 +40,11 @@ class App extends React.Component {
     })
   }
 
-  logIn(user) {
+  logIn(user, email) {
     this.setState({
       isLoggedIn: true,
-      userName: user
+      userName: user,
+      email: email
     })
   }
 
