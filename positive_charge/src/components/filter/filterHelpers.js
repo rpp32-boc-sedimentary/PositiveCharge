@@ -1,9 +1,6 @@
 
-//look into filter method
-
 const findCategories = (data) => {
   let categories = {};
-
   data.forEach(item => {
     categories[item.category] = true;
   });
@@ -21,7 +18,9 @@ const filterOnPrice = (selectedFilter, data) => {
   }
   let priceFiltered = [];
   data.forEach(item => {
-    //need to filter free items in here
+    if (selectedFilter.free && !item.price) {
+         priceFiltered.push(item);
+    }
     if (selectedFilter[item.price]) {
       priceFiltered.push(item);
     }
@@ -35,20 +34,122 @@ const filterOnCategories = (selectedFilter, data) => {
   }
   let categoryFiltered = [];
   data.forEach(item => {
-    if (selectedFilter[item]) {
+    if (selectedFilter[item.category]) {
       categoryFiltered.push(item);
     }
   });
   return categoryFiltered;
 };
 
-const filterLfcCategories = (selectedFilter, data) => {
-
+const filterLfCategories = (selectedFilter, data) => {
+  let anySelected = false;
+  Object.values(selectedFilter).forEach(item => {
+    if (item) {
+      anySelected = true;
+    }
+  });
+  if (!anySelected) {
+    return data;
+  }
+  let filtered = [];
+  data.forEach(item => {
+    if (selectedFilter.food) {
+      if (item.category === 'food') {
+        filtered.push(item);
+      }
+    } else if (selectedFilter['food and cafes']) {
+      if (item.category === 'food' || item.category === 'cafe') {
+        filtered.push(item);
+      }
+    }
+    if (selectedFilter.cultural) {
+      //change 'landmarks & historical' later to 'landmarks & historical' with real data
+      if (item.category === 'museum' || item.category === 'landmarks & historical') {
+        filtered.push(item);
+      }
+    }
+  })
+  return filtered;
 }
+
+const filterOnDistance = (selectedTime, data) => {
+  if (!selectedTime || selectedTime === 'All distances') {
+    return data;
+  }
+  let timeObject = {
+    '5 min or less': 5,
+    '10 min or less': 10,
+    '15 min or less': 15
+  }
+  let filtered = data.filter(item => {
+    return item.duration <= Number(timeObject[selectedTime]);
+  });
+  return filtered;
+}
+
+const findSuggested = (data) => {
+  // this generates dynamic button categories in an object format.
+  let points = Object.keys(data);
+  let generated = {};
+  if (points.indexOf('food') >= 0 && points.indexOf('cafe') >= 0) {
+    generated['food and cafes'] = false;
+  } else if (points.indexOf('food') >= 0) {
+    generated['food'] = false;
+  }
+  if (points.indexOf('museum') >= 0 && points.indexOf('landmarks & historical') >= 0) {
+    generated['cultural'] = false;
+  }
+  return generated;
+}
+
+const filterQuickWalks = (selected, data) => {
+  if (!selected) {
+    return data;
+  }
+  let filtered = data.filter(item =>
+    item.duration <= 5
+  );
+  return filtered;
+};
+
+//sorting function
+const sortFunc = (sortVal, data) => {
+  let compare;
+  if (sortVal === 'Loves') {
+    compare = (a, b) => {
+      if (a.rating > b.rating) {
+        return -1;
+      }
+      if (a.rating < b.rating) {
+        return 1;
+      }
+      return 0;
+    };
+
+  } else if (sortVal === 'Distance') {
+    compare = (a, b) => {
+      if (a.duration < b.duration) {
+        return -1;
+      }
+      if (a.duration > b.duration) {
+        return 1;
+      }
+      return 0;
+    };
+  }
+  let sorted = data.sort(compare);
+  return sorted;
+};
+
+
 
 module.exports = {
   filterOnPrice,
   findCategories,
   filterOnCategories,
-  filterLfcCategories,
+  filterLfCategories,
+  filterOnDistance,
+  findSuggested,
+  filterQuickWalks,
+  sortFunc
 }
