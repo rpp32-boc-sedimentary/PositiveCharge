@@ -56,8 +56,8 @@ function Sponsor() {
       })
       .then((res) => {
         // show sponsoring successful message / page with details
-        // navigate('/', { replace: true })
-        console.log(res);
+        alert(`Thank you!  ${data.props.name} will be sponsored starting on ${startDate}!`);
+        navigate(-1, { replace: true })
         return res;
       })
       .catch((err) => {
@@ -68,7 +68,7 @@ function Sponsor() {
     .then(() => {
       axios.get('/activate')
       .then((res) => {
-        // return which POI were activated, if any
+        console.log('Activated POIs: ', res);
       })
       .catch((err) => {
         console.error(err);
@@ -78,33 +78,33 @@ function Sponsor() {
 
   // can't get this to work as helper function
   // should be returning a promise but unable to utilize within handleSubmit
-  function getIds(data) {
-    var yelpId = data.props.id;
-    axios.get('/get-poi-user', {
-      params: {
-        name: data.props.name
-      }
-    })
-    .then((result) => {
-      console.log('get-poi-user result', result.data)
-      if (result.data.poi) {
-        return result.data;
-      } else {
-        axios.post('/addPOI', [yelpId])
-        .then((poi) => {
-          console.log('addPOI result poi: ', poi);
-          result.data.poi = poi[0].id;
-          return result.data;
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-  }
+  // function getIds(data) {
+  //   var yelpId = data.props.id;
+  //   axios.get('/get-poi-user', {
+  //     params: {
+  //       name: data.props.name
+  //     }
+  //   })
+  //   .then((result) => {
+  //     console.log('get-poi-user result', result.data)
+  //     if (result.data.poi) {
+  //       return result.data;
+  //     } else {
+  //       axios.post('/addPOI', [yelpId])
+  //       .then((poi) => {
+  //         console.log('addPOI result poi: ', poi);
+  //         result.data.poi = poi[0].id;
+  //         return result.data;
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       })
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   })
+  // }
 
   return (
     <div className="sponsor">
@@ -119,7 +119,7 @@ function Sponsor() {
 
         <h3>Pricing</h3>
         <ul>
-          <li>$5 per month (30 day increments from start date)</li>
+          <li>$5 per month (31 day increments from start date)</li>
           <li>$45 per year</li>
         </ul>
 
@@ -128,7 +128,7 @@ function Sponsor() {
         <button>Google Pay</button>
         <button>Apple Pay</button>
 
-        <br/>
+        <br/><br/>
         <input id="sponsor-btn" type="Submit" value="SPONSOR"/>
       </form>
     </div>
