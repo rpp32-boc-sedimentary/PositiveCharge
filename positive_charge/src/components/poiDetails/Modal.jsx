@@ -29,7 +29,7 @@ export default function Modal(data) {
         <PoiModal open={isOpen} onClose={() => setIsOpen(false)} detail={details} name={data}/>
 
         {/* Sponsor link */}
-        <br/>
+        <br/><br/>
         <Link to="/sponsor" state={{data: data}}>Sponsor this POI</Link>
       </div>
     </>

@@ -15,7 +15,7 @@ var MapDestination = (props) => {
                         click: props.getDirections
                     }}>
                         <Popup>
-                            {index + 1}
+                            {dest.destinationName}
                         </Popup>
                 </Marker>
             )
