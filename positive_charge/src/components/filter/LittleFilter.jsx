@@ -1,7 +1,7 @@
 import React from 'react';
 import BigFilter from './BigFilter.jsx';
 import PriceFilter from './PriceFilter.jsx';
-import LfCategories from './lfCategories.jsx';
+import LfCategories from './LfCategories.jsx';
 import axios from 'axios';
 import dummyData from '../../../../database/dummyData/pois.js';
 import helpers from './filterHelpers.js';
@@ -223,7 +223,7 @@ class LittleFilter extends React.Component {
 
 
   componentDidMount = () => {
-    console.log('props from DOM', this.props)
+    //console.log('props from DOM', this.props)
     this.findTimeToTravel();
 
 
@@ -251,7 +251,7 @@ class LittleFilter extends React.Component {
         });
       })
       .catch(err => {
-        console.log('error sending', err)
+        //console.log('error sending', err)
       })
   }
 

@@ -8,7 +8,7 @@ const LfCategories = (props) => {
       { _.map(props.suggestedCategories, (val, key) =>
         <label>
           { key }
-          <input type="checkbox" name={ key } checked={ val } onChange={ props.handleSuggestedCategoriesLF } />
+          <input type="checkbox" key={ key } name={ key } checked={ val } onChange={ props.handleSuggestedCategoriesLF } readOnly/>
         </label>
       )}
     </div>
