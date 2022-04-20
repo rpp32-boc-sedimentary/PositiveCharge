@@ -52,8 +52,8 @@ describe("Testing the Details Server Route Functionality", () => {
   })
 
   // 'Acfd4Rqr97p3j5ICb5wBAQ'
-  describe("When the modal is clicked from /moreDetails", () => {
-
+  //  response.request._data
+  describe("Getting the experiences from the DB", () => {
     test("should respond with a status code of 201", async () => {
       const response = await request(mockApp)
       .get('/details/view')
@@ -64,22 +64,68 @@ describe("Testing the Details Server Route Functionality", () => {
       const response = await request(mockApp)
       .get('/details/view')
       .expect('Content-Type', /json/)
+    })
+
+    test('should respond with object of experiences at that poi', async () => {
+      const response = await request(mockApp)
+      .get('/details/view?id=EjNI-dNAMrYxKgUIkqeqhg')
+      expect(response.request.res.text).toEqual(expect.stringContaining("flag_status"))
     })
   })
 
   describe("Love or Flag Poi", () => {
-
-    test("should respond with a status code of 201", async () => {
+    test("should respond with a status code of 201 for loving POI", async () => {
       const response = await request(mockApp)
-      .put('/details/poi/love')
+      .post('/details/poi/love')
+      .send({
+        "name": "EjNI-dNAMrYxKgUIkqeqhg",
+        "experience": "test"
+      })
       .expect(201);
     })
 
-    test('responds with json data type', async () => {
+    test('responds with json data type for loving POI', async () => {
       const response = await request(mockApp)
-      .put('/details/poi/love')
-      .expect('Content-Type', /json/)
+      .post('/details/poi/love')
+      .send({
+        "name": "EjNI-dNAMrYxKgUIkqeqhg",
+        "experience": "test"
+      })
+      expect(response.request.res.socket._httpMessage._header).toEqual(expect.stringContaining("json"))
+    })
+
+    test("should respond with a status code of 201 for flagging POI", async () => {
+      const response = await request(mockApp)
+      .post('/details/poi/flag')
+      .send({
+        "name": "EjNI-dNAMrYxKgUIkqeqhg",
+        "experience": "test"
+      })
+      .expect(201);
+    })
+
+    test('responds with json data type for flagging POI', async () => {
+      const response = await request(mockApp)
+      .post('/details/poi/flag')
+      .send({
+        "name": "EjNI-dNAMrYxKgUIkqeqhg",
+        "experience": "test"
+      })
+      expect(response.request.res.socket._httpMessage._header).toEqual(expect.stringContaining("json"))
+    })
+
+    test('responds with poi_id', async () => {
+      const response = await request(mockApp)
+      .post('/details/poi/flag')
+      .send({
+        "name": "EjNI-dNAMrYxKgUIkqeqhg",
+        "experience": "test"
+      })
+      expect(response.request._data.name).toBe("EjNI-dNAMrYxKgUIkqeqhg")
     })
   })
 
+  describe('Love or Flag Experience', () => {
+    test()
+  })
 })

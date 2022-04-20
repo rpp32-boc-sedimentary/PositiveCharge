@@ -33,7 +33,7 @@ export default function PoiModal({open, onClose, detail, name}) {
   const [showMore, showMoreExp] = useState(false);
 
   const love = (path, exp) => {
-    axios.put(`/details/${path}/love`, {
+    axios.post(`/details/${path}/love`, {
       'name': name.props.id,
       'experience': exp
     })
@@ -44,8 +44,8 @@ export default function PoiModal({open, onClose, detail, name}) {
   };
 
   const flag = (path, exp) => {
-    axios.put(`/details/${path}/flag`, {
-      'name': name,
+    axios.post(`/details/${path}/flag`, {
+      'name': name.props.id,
       'experience': exp
     })
       .then((response) => {

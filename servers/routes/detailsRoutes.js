@@ -5,15 +5,15 @@ const {verifyToken} = require('./authRoutes.js')
 
 router.route('/view')
   .get(async (req, res, next) => {
-    const result = await router.grabview([req.query.id]);
     try {
+      const result = await router.grabview([req.query.id]);
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
     }
   });
-
-router.put('/poi/love', async (req, res, next) => {
+// put verify token back in for production
+router.post('/poi/love', async (req, res, next) => {
   let id = req.body.name
     try {
       const result = await router.lovePoi([id])
@@ -22,9 +22,9 @@ router.put('/poi/love', async (req, res, next) => {
       res.status(500).send(err.message)
     }
   });
-
-router.put('/poi/flag', verifyToken, async (req, res, next) => {
-  let id = req.body.name.props.id;
+// put verify token back in for production
+router.post('/poi/flag', async (req, res, next) => {
+  let id = req.body.name
     try {
       const result = await router.flagPoi([id]);
       res.status(201).send(result)
@@ -32,9 +32,9 @@ router.put('/poi/flag', verifyToken, async (req, res, next) => {
       res.status(500).send(err.message)
     }
   });
-
-router.put('/experience/love', verifyToken, async (req, res, next) => {
-  let id = req.body.name.props.id;
+// put verify token back in for production
+router.put('/experience/love', async (req, res, next) => {
+  let id = req.body.name
   let exp = req.body.experience;
     try {
       const result = await router.loveExp([id, exp]);
@@ -43,9 +43,9 @@ router.put('/experience/love', verifyToken, async (req, res, next) => {
       res.status(500).send(err.message)
     }
   });
-
-router.put('/experience/flag', verifyToken, async (req, res, next) => {
-  let id = req.body.name.props.id;
+// put verify token back in for production
+router.put('/experience/flag', async (req, res, next) => {
+  let id = req.body.name
   let exp = req.body.experience;
     try {
       const result = await router.flagExp([id, exp]);
@@ -54,8 +54,8 @@ router.put('/experience/flag', verifyToken, async (req, res, next) => {
       res.status(500).send(err.message)
     }
   })
-
-router.post('/experiences', verifyToken, async (req, res, next) => {
+// put verify token back in for production
+router.post('/experiences', async (req, res, next) => {
     let { id, experience } = req.body;
     try {
       const result = await router.addExperience([id, experience]);
@@ -64,7 +64,7 @@ router.post('/experiences', verifyToken, async (req, res, next) => {
       res.status(500).send(err)
     }
   })
-  .delete(verifyToken, async (req, res, next) => {
+  .delete(async (req, res, next) => {
     const [poi_id, primary_id] = [req.body.id, req.body.primary_id];
     try {
       const result = await router.deleteExperience([poi_id, primary_id]);
