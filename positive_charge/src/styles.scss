@@ -60,6 +60,44 @@ FILTER COMPONENT
       color: black;
     }
   }
+
+  .cksButton {
+    background-color: rgb(182, 181, 181);
+    border: 1px solid rgb(52, 49, 49);
+    height: auto;
+    float: left;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .cksButton label {
+    float: left;
+    width: 4.0em;
+  }
+
+  .cksButton label span {
+    text-align: center;
+    padding: 3px 0px;
+    display: block;
+  }
+  .cksButton label input {
+    position: absolute;
+    top: -20px;
+  }
+
+  .cksButton input:hover + span {
+    background-color: rgb(243, 226, 183);
+  }
+
+  .cksButton input:checked + span {
+    background-color: orange;
+    color: black;
+  }
+
+  .cksButton input:checked:hover + span {
+    background-color: rgb(205, 138, 5);
+    color: black;
+  }
 }
 
 .bigFilter {

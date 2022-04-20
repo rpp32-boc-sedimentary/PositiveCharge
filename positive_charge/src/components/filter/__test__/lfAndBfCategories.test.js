@@ -28,7 +28,7 @@ describe('Given two categories as props', () => {
 
 });
 
-it('should be able to check a box', () => {
+it('should be able to check a box in little filter categories', () => {
   //const onChange = (value, checked) => {};
   render(<LfCategories suggestedCategories={currentCategories}/>);
   const lfCulturalBox = screen.getByRole("checkbox", {name: 'cultural'});

@@ -278,7 +278,7 @@ class LittleFilter extends React.Component {
 
         { Object.keys(this.state.suggestedCategories).length > 0 ? <LfCategories suggestedCategories={ this.state.suggestedCategories } handleSuggestedCategoriesLF={ this.handleSuggestedCategoriesLF } /> : null}
 
-        { this.state.lessThanFive ? <label>Quick Walk<input type="checkbox" checked={ this.state.quickWalk } name="quickWalk" onChange={ this.handleQuickLf } /></label> : null }
+        { this.state.lessThanFive ? <div className="cksButton"><label>Quick Walk<input type="checkbox" checked={ this.state.quickWalk } name="quickWalk" onChange={ this.handleQuickLf } /></label></div> : null }
       </div>
     )
   }
