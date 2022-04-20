@@ -46,7 +46,7 @@ pool.lovePoi = async (params) => {
     } else {
       let addingPoi = await addNewPoi(params);
       const lovedPoi = await pool.query(lovePoiQuery, params);
-      return;
+      return params;
     }
   } catch (err) {
     console.log(err.message)
@@ -66,7 +66,7 @@ pool.flagPoi = async (params) => {
     } else {
       let addingPoi = await addNewPoi(params);
       const changeFlagPoi = await pool.query(flagPoiQuery, params);
-      return;
+      return params;
     }
   } catch (err) {
     console.log(err.message)

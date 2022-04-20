@@ -34,7 +34,7 @@ export default function PoiModal({open, onClose, detail, name}) {
 
   const love = (path, exp) => {
     axios.put(`/details/${path}/love`, {
-      'name': name,
+      'name': name.props.id,
       'experience': exp
     })
       .then((response) => {

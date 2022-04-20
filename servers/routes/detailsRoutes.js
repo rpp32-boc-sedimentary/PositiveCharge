@@ -13,8 +13,8 @@ router.route('/view')
     }
   });
 
-router.put('/poi/love', verifyToken, async (req, res, next) => {
-  let id = req.body.name.props.id
+router.put('/poi/love', async (req, res, next) => {
+  let id = req.body.name
     try {
       const result = await router.lovePoi([id])
       res.status(201).send(result)

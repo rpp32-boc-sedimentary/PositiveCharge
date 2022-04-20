@@ -32,11 +32,11 @@ describe("Testing the Details Server Route Functionality", () => {
 
   beforeEach(() => {
     grabview.mockReset()
-    grabview.mockResolvedValue({})
+    grabview.mockResolvedValue(0)
     addNewPoi.mockReset()
     addNewPoi.mockResolvedValue(0)
     lovePoi.mockReset()
-    lovePoi.mockResolvedValue(0)
+    lovePoi.mockResolvedValue()
     flagPoi.mockReset()
     flagPoi.mockResolvedValue(0)
     loveExp.mockReset()
@@ -54,65 +54,31 @@ describe("Testing the Details Server Route Functionality", () => {
   // 'Acfd4Rqr97p3j5ICb5wBAQ'
   describe("When the modal is clicked from /moreDetails", () => {
 
-    it("should respond with a status code of 201", async () => {
+    test("should respond with a status code of 201", async () => {
       const response = await request(mockApp)
-      .get('/details/view');
-      expect(response.statusCode).toBe(201);
+      .get('/details/view')
+      .expect(201);
     })
 
     test('responds with json data type', async () => {
       const response = await request(mockApp)
       .get('/details/view')
-      expect(response.headers['content-type']).toEqual(expect.stringContaining('json'))
-    })
-    test("should respond with a status code of 500 when adding a query param", async () => {
-      const response = await request(mockApp)
-      .get('/details/view/?id=vWsEv2nRmlNzUunfNBt7ng')
-      expect(response.statusCode).toEqual(500)
-    })
-    xtest("should respond with a json object containg the user id", async () => {
-      for (let i = 0; i < 10; i++) {
-        createUser.mockReset()
-        createUser.mockResolvedValue(i)
-        const response = await request(app).post("/users").send({ username: "username", password: "password" })
-        expect(response.body.userId).toBe(i)
-      }
-    })
-
-    xtest("should respond with a 200 status code", async () => {
-      const response = await request(app).post("/users").send({
-        username: "username",
-        password: "password"
-      })
-      expect(response.statusCode).toBe(200)
-    })
-    xtest("should specify json in the content type header", async () => {
-      const response = await request(app).post("/users").send({
-        username: "username",
-        password: "password"
-      })
-      expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
-    })
-    xtest("response has userId", async () => {
-      const response = await request(app).post("/users").send({
-        username: "username",
-        password: "password"
-      })
-      expect(response.body.userId).toBeDefined()
+      .expect('Content-Type', /json/)
     })
   })
 
-  xdescribe("when the username and password is missing", () => {
-    test("should respond with a status code of 400", async () => {
-      const bodyData = [
-        {username: "username"},
-        {password: "password"},
-        {}
-      ]
-      for (const body of bodyData) {
-        const response = await request(app).post("/users").send(body)
-        expect(response.statusCode).toBe(400)
-      }
+  describe("Love or Flag Poi", () => {
+
+    test("should respond with a status code of 201", async () => {
+      const response = await request(mockApp)
+      .put('/details/poi/love')
+      .expect(201);
+    })
+
+    test('responds with json data type', async () => {
+      const response = await request(mockApp)
+      .put('/details/poi/love')
+      .expect('Content-Type', /json/)
     })
   })
 
