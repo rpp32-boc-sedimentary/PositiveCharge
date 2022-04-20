@@ -20,6 +20,11 @@ const addNewPoi = async (paramList) => {
   return
 }
 
+const checkUserInteraction = async (query, params) => {
+  const result = await pool.query(query, params);
+  return result;
+}
+
 pool.grabview = async (params) => {
   const query =
   `SELECT
@@ -35,17 +40,36 @@ pool.grabview = async (params) => {
 }
 
 pool.lovePoi = async (params) => {
-  const lovePoiQuery = `UPDATE pois
-  SET loves = loves + 1
-  WHERE yelp_id = $1`;
+
+  const lovePoiQuery = `UPDATE pois SET loves = loves + 1 WHERE yelp_id = $1`;
+  const changeLove = `UPDATE users_details SET love_poi = NOT love_poi WHERE poi_id = $1 AND user_email = $2`;
+
   try {
-    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, params);
+    // check if poi exists
+    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
+    // if poi exists
     if (checkPoi.rows[0].exists) {
-      const lovedPoi = await pool.query(lovePoiQuery, params);
-      return;
+      console.log('in there')
+      // check if the user has loved this poi
+      const check = await checkUserInteraction(`SELECT love_poi FROM users_details WHERE poi_id = $1 AND user_email = $2`, params);
+      // if user has not loved this poi
+      if (!check) {
+        // set love_poi in users_details to true
+        const setLoveToTrue = await pool.query(changeLove, params);
+        // add to loves
+        const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
+        return params;
+        // if user HAS loved this poi
+      } else {
+        // set love_poi in users_details to false
+        const setLoveToFalse = await pool.query(changeLove, params);
+        // subtract from loves
+        const unlovePoi = await pool.query(`UPDATE pois SET loves = loves - 1 WHERE yelp_id = $1`, [params[0]]);
+        return params;
+      }
     } else {
       let addingPoi = await addNewPoi(params);
-      const lovedPoi = await pool.query(lovePoiQuery, params);
+      const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
       return params;
     }
   } catch (err) {

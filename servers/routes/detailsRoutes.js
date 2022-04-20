@@ -13,10 +13,11 @@ router.route('/view')
     }
   });
 // put verify token back in for production
-router.post('/poi/love', verifyToken, async (req, res, next) => {
-  let id = req.body.name
+router.post('/poi/love', async (req, res, next) => {
+  let id = req.body.name;
+  let email = req.body.email;
     try {
-      const result = await router.lovePoi([id])
+      const result = await router.lovePoi([id, email])
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
