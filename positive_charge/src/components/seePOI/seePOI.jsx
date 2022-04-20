@@ -73,14 +73,16 @@ class SeePOI extends React.Component {
   }
 
 
-  componentDidMount () {
 
-    this.getPOIData('/getPOI/getPOI', (data) => {this.setState({all: data})});
-    this.getPOIData('/getPOI/getFoodPOI', (data) => {this.setState({food: data})});
-    this.getPOIData('/getPOI/getCafesPOI', (data) => {this.setState({cafes: data})});
-    this.getPOIData('/getPOI/getMuseumsPOI', (data) => {this.setState({museums: data})});
-    this.getPOIData('/getPOI/getLAndHPOI', (data) => {this.setState({lAndH: data})});
-    this.getPOIData('/getPOI/getParksPOI', (data) => {this.setState({parks: data})});
+  componentDidMount () {
+    this.setState({lat: this.props.props.chargerCoords.chargerLat, long: this.props.props.chargerCoords.chargerLong}, () => {
+      this.getPOIData('/getPOI/getPOI', (data) => {this.setState({all: data})});
+      this.getPOIData('/getPOI/getFoodPOI', (data) => {this.setState({food: data})});
+      this.getPOIData('/getPOI/getCafesPOI', (data) => {this.setState({cafes: data})});
+      this.getPOIData('/getPOI/getMuseumsPOI', (data) => {this.setState({museums: data})});
+      this.getPOIData('/getPOI/getLAndHPOI', (data) => {this.setState({lAndH: data})});
+      this.getPOIData('/getPOI/getParksPOI', (data) => {this.setState({parks: data})});
+    })
   }
 
   componentDidUpdate () {
