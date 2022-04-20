@@ -210,10 +210,46 @@ pool.getPoi = async (name) => {
 
 pool.addSponsor = async (details) => {
   try {
-    var query = `INSERT INTO sponsors (user_id, poi_id, start_date, months)
+    var query = `INSERT INTO sponsors (user_id, poi_id, start_date, end_date)
     VALUES ($1, $2, $3, $4)`;
     var result = await pool.query(query, details);
-    return result;
+    return details;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.findSponsorsToActivate = async () => {
+  try {
+    // find POIs which are within sponsored window but are not yet active
+    var query = `
+      SELECT sponsors.poi_id FROM sponsors
+      JOIN pois ON sponsors.poi_id = pois.id
+      WHERE ((SELECT CURRENT_DATE) >= sponsors.start_date
+      AND (SELECT CURRENT_DATE) <= sponsors.end_date)
+      AND pois.sponsored = $1
+      GROUP BY sponsors.poi_id`;
+    var result = await pool.query(query, [false]);
+    return result.rows;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.findSponsorsToDeactivate = async () => {
+  try {
+    // find POIs which are outside of sponsored window but not yet deactivated
+    var query = `
+      SELECT sponsors.poi_id FROM sponsors
+      JOIN pois ON sponsors.poi_id = pois.id
+      WHERE ((SELECT CURRENT_DATE) < sponsors.start_date
+      AND (SELECT CURRENT_DATE) > sponsors.end_date)
+      AND pois.sponsored = $1
+      GROUP BY sponsors.poi_id`;
+    var result = await pool.query(query, [true]);
+    return result.rows;
   }
   catch (err) {
     console.error(err);
@@ -231,17 +267,6 @@ pool.activateSponsor = async (poi) => {
   }
 }
 
-pool.checkSponsors = async () => {
-  try {
-    var query = `SELECT poi_id FROM sponsors WHERE start_date = (SELECT CURRENT_DATE)`;
-    var result = await pool.query(query);
-    return result.rows;
-  }
-  catch (err) {
-    console.error(err);
-  }
-}
-
 pool.deactivateSponsor = async (poi) => {
   try {
     var query = `UPDATE pois SET sponsored = $1 WHERE id = $2`;
@@ -253,7 +278,7 @@ pool.deactivateSponsor = async (poi) => {
   }
 }
 
-// Maybe keep record of all sponsors even if expired, no need to delete?
+// Maybe keep record of all sponsors even if expired, no need to delete? TBD
 pool.deleteSponsor = async (id) => {
   try {
     var query = `DELETE FROM sponsors WHERE id = $1`;
