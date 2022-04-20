@@ -37,7 +37,7 @@ class Signup extends React.Component {
     })
     .catch((error) => {
       this.setState({ error: 'User with that email already exists.' });
-      console.error(error);
+      console.log(error);
     })
   }
 
@@ -53,15 +53,15 @@ class Signup extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="name">Name: </label>
-            <input type="text" name="name" onChange={this.handleChange} required />
+            <input type="text" name="name" id="name" onChange={this.handleChange} required />
           </div>
           <div>
             <label htmlFor="email">Email: </label>
-            <input type="email" name="email" onChange={this.handleChange} required />
+            <input type="email" name="email" id="email" onChange={this.handleChange} required />
           </div>
           <div>
             <label htmlFor="password">Password: </label>
-            <input type="text" name="password" onChange={this.handleChange} required />
+            <input type="text" name="password" id="password" onChange={this.handleChange} required />
           </div>
           <input type="submit" value="Sign Up" />
         </form>

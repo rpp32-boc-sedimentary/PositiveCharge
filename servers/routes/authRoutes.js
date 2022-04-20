@@ -63,7 +63,7 @@ authRouter.post('/login', async (req, res) => {
     }
   } catch (err) {
     res.status(500).send(err);
-    console.error(err);
+    console.log(err);
   }
 })
 
