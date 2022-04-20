@@ -24,10 +24,11 @@ router.post('/poi/love', async (req, res, next) => {
     }
   });
 // put verify token back in for production
-router.post('/poi/flag', verifyToken, async (req, res, next) => {
-  let id = req.body.name
+router.post('/poi/flag', async (req, res, next) => {
+  let id = req.body.name;
+  let email = req.body.email;
     try {
-      const result = await router.flagPoi([id]);
+      const result = await router.flagPoi([id, email]);
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
