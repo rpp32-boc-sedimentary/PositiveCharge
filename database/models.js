@@ -45,25 +45,20 @@ pool.lovePoi = async (params) => {
   const changeLove = `UPDATE users_details SET love_poi = NOT love_poi WHERE poi_id = $1 AND user_email = $2`;
 
   try {
-    // check if poi exists
     let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
-    // if poi exists
     if (checkPoi.rows[0].exists) {
-      console.log('in there')
-      // check if the user has loved this poi
+      const checkUserExists = await pool.query(`select exists(select 1 from users_details where poi_id = $1 AND user_email = $2)`, params)
+      if (!checkUserExists.rows[0].exists) {
+        console.log('in here')
+        const createUserInteractionRow = await pool.query(`INSERT INTO users_details (user_email, poi_id, experience, love_poi, love_exp, flag_poi, flag_exp) VALUES ($2, $1, null, false, false, false, false)`, params)
+      }
       const check = await checkUserInteraction(`SELECT love_poi FROM users_details WHERE poi_id = $1 AND user_email = $2`, params);
-      // if user has not loved this poi
       if (!check) {
-        // set love_poi in users_details to true
         const setLoveToTrue = await pool.query(changeLove, params);
-        // add to loves
         const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
         return params;
-        // if user HAS loved this poi
       } else {
-        // set love_poi in users_details to false
         const setLoveToFalse = await pool.query(changeLove, params);
-        // subtract from loves
         const unlovePoi = await pool.query(`UPDATE pois SET loves = loves - 1 WHERE yelp_id = $1`, [params[0]]);
         return params;
       }
