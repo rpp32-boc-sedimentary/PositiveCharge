@@ -33,6 +33,7 @@ module.exports = (database) => {
   app.use('/details', detailsRouter);
   app.use('/map', mapRouter);
   app.use('/', sponsorRouter);
+  app.use('/getPOI', seePOIRouter);
 
 
   // Filter route for testing purposes. Will be removed later
@@ -40,7 +41,7 @@ module.exports = (database) => {
   app.get('/', (req, res) => {
     res.send("Sarcastic hello");
   })
-  app.post('/getPOI', seePOIRouter);
+
 
   return app;
 }
