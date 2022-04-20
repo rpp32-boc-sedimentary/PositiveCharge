@@ -47,13 +47,9 @@ describe("Testing the Details Server Route Functionality", () => {
     addExperience.mockResolvedValue(0)
   })
 
-  afterEach(() => {
-
-  })
-
-  // 'Acfd4Rqr97p3j5ICb5wBAQ'
-  //  response.request._data
+  // get test for modal view
   describe("Getting the experiences from the DB", () => {
+
     test("should respond with a status code of 201", async () => {
       const response = await request(mockApp)
       .get('/details/view')
@@ -73,7 +69,9 @@ describe("Testing the Details Server Route Functionality", () => {
     })
   })
 
+  // POI route tests
   describe("Love or Flag Poi", () => {
+
     test("should respond with a status code of 201 for loving POI", async () => {
       const response = await request(mockApp)
       .post('/details/poi/love')
@@ -123,9 +121,76 @@ describe("Testing the Details Server Route Functionality", () => {
       })
       expect(response.request._data.name).toBe("EjNI-dNAMrYxKgUIkqeqhg")
     })
+
   })
 
+  // EXP route tests
   describe('Love or Flag Experience', () => {
-    test()
+
+    test('should respond with a status code of 201 for loving Experience', async () => {
+      const response = await request(mockApp)
+      .post('/details/experience/love')
+      .send({
+        "name": "EjNI-dNAMrYxKgUIkqeqhg",
+        "experience": "test"
+      })
+      .expect(201)
+    })
+
+    test('responds with json data type for loving Experience', async () => {
+      const response = await request(mockApp)
+      .post('/details/experience/love')
+      .send({
+        "name": "EjNI-dNAMrYxKgUIkqeqhg",
+        "experience": "test"
+      })
+      expect(response.request.res.socket._httpMessage._header).toEqual(expect.stringContaining("json"))
+    })
+
+    test("should respond with a status code of 201 for flagging Experience", async () => {
+      const response = await request(mockApp)
+      .post('/details/experience/flag')
+      .send({
+        "name": "EjNI-dNAMrYxKgUIkqeqhg",
+        "experience": "test"
+      })
+      .expect(201);
+    })
+
+    test('responds with correct poi_id', async () => {
+      const response = await request(mockApp)
+      .post('/details/experience/flag')
+      .send({
+        "name": "EjNI-dNAMrYxKgUIkqeqhg",
+        "experience": "test"
+      })
+      expect(response.request._data.name).toBe("EjNI-dNAMrYxKgUIkqeqhg")
+    })
+
+  })
+
+  describe('Add a new Experience to POI', () => {
+
+    test('should respond with a status code of 201 for adding Experience', async () => {
+      const response = await request(mockApp)
+      .post('/details/experiences')
+      .send({
+        "name": "EjNI-dNAMrYxKgUIkqeqhg",
+        "experience": "adding this one for testing"
+      })
+      .expect(201)
+    })
+
+    test('responds with json data type for adding Experience', async () => {
+      const response = await request(mockApp)
+      .post('/details/experiences')
+      .send({
+        "name": "EjNI-dNAMrYxKgUIkqeqhg",
+        "experience": "test"
+      })
+      expect(response.request.res.socket._httpMessage._header).toEqual(expect.stringContaining("json"))
+    })
+
+
   })
 })

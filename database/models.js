@@ -80,7 +80,7 @@ pool.loveExp = async (params) => {
   WHERE poi_id = $1
   AND experience = $2`;
   const lovedExp = await pool.query(loveExpQuery, params);
-  return;
+  return params;
 }
 
 pool.flagExp = async (params) => {
@@ -89,7 +89,7 @@ pool.flagExp = async (params) => {
   WHERE poi_id = $1
   AND experience = $2`;
   const changeFlagExp = await pool.query(flagExpQuery, params);
-  return;
+  return params;
 }
 
 pool.addExperience = async (params) => {
@@ -104,7 +104,7 @@ pool.addExperience = async (params) => {
     if (checkPoi.rows[0].exists) {
 
       let addingExperience = await pool.query(addExperienceQuery, params);
-      return 'Thanks for sharing with the community!!';
+      return params;
     } else {
       let addPoi = await addNewPoi(addPoiParams);
       let addingExperience = await pool.query(addExperienceQuery, params);

@@ -8,7 +8,7 @@ import {render, fireEvent, screen} from '@testing-library/react'
 import AddPOI from './AddPOI'
 import PlacesAutocomplete from './PlacesAutocomplete'
 
-xdescribe('Form renders', () => {
+describe('Form renders', () => {
   it('renders the AddPOI form', () => {
     render(<AddPOI />);
     expect(screen.getByText(/Add a Point of Interest/)).toBeInTheDocument();

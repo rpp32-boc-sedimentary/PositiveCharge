@@ -13,7 +13,7 @@ router.route('/view')
     }
   });
 // put verify token back in for production
-router.post('/poi/love', async (req, res, next) => {
+router.post('/poi/love', verifyToken, async (req, res, next) => {
   let id = req.body.name
     try {
       const result = await router.lovePoi([id])
@@ -23,7 +23,7 @@ router.post('/poi/love', async (req, res, next) => {
     }
   });
 // put verify token back in for production
-router.post('/poi/flag', async (req, res, next) => {
+router.post('/poi/flag', verifyToken, async (req, res, next) => {
   let id = req.body.name
     try {
       const result = await router.flagPoi([id]);
@@ -33,7 +33,7 @@ router.post('/poi/flag', async (req, res, next) => {
     }
   });
 // put verify token back in for production
-router.put('/experience/love', async (req, res, next) => {
+router.post('/experience/love', verifyToken, async (req, res, next) => {
   let id = req.body.name
   let exp = req.body.experience;
     try {
@@ -44,7 +44,7 @@ router.put('/experience/love', async (req, res, next) => {
     }
   });
 // put verify token back in for production
-router.put('/experience/flag', async (req, res, next) => {
+router.post('/experience/flag', verifyToken, async (req, res, next) => {
   let id = req.body.name
   let exp = req.body.experience;
     try {
@@ -55,7 +55,7 @@ router.put('/experience/flag', async (req, res, next) => {
     }
   })
 // put verify token back in for production
-router.post('/experiences', async (req, res, next) => {
+router.post('/experiences', verifyToken, async (req, res, next) => {
     let { id, experience } = req.body;
     try {
       const result = await router.addExperience([id, experience]);

@@ -13,7 +13,7 @@ import SeePOI from '../../positive_charge/src/components/seePOI/seePOI.jsx';
 beforeEach(() => {
   SeePOI.mockClear()
 })
-xdescribe('SeePOI', () => {
+describe('SeePOI', () => {
   test('renders SeePOI component', () => {
     render(<SeePOI />);
     expect(screen.getByText(/Experiences Near You/)).toBeInTheDocument();
