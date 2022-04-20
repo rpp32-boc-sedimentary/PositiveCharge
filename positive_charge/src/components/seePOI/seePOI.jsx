@@ -74,6 +74,7 @@ class SeePOI extends React.Component {
 
 
   componentDidMount () {
+    console.log('seePOI props', props)
     this.getPOIData('/getPOI/getPOI', (data) => {this.setState({all: data})});
     this.getPOIData('/getPOI/getFoodPOI', (data) => {this.setState({food: data})});
     this.getPOIData('/getPOI/getCafesPOI', (data) => {this.setState({cafes: data})});
@@ -104,7 +105,7 @@ class SeePOI extends React.Component {
         <h3 className='seePOIListHeader'>Experiences Near You</h3>
         <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData}></Map> : <div className='loading'> Loading...</div>}</div>
         <div className='poiList'>{this.state.data !== undefined ? <PoiList props={this.state.data} walkTime={this.walkTime}></PoiList> : <div className='loading'> Loading...</div>} </div>
-        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} allData={{all: this.state.all, food: this.state.food, cafes:this.state.cafes, lAndH:this.state.lAndH, museums:this.state.museums, parks:this.state.parks}} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div>
+        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} allData={{all: this.state.all, food: this.state.food, cafes:this.state.cafes, lAndH:this.state.lAndH, museums:this.state.museums, parks:this.state.parks}} exampleInputForCDfunc={this.state.data} userLocation={{lat: this.state.lat}, long: this.state.long}/> : <div className='loading'> Loading...</div>} </div>
         <div className='addPOI'><Link to='/addPOI'>Add a Point of Interest</Link></div>
       </div>
     )
