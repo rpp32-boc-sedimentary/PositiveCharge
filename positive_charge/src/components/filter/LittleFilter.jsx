@@ -25,7 +25,6 @@ class LittleFilter extends React.Component {
       categoriesChecked: {},
       suggestedCategories: {},
       //userLocation: {lat: 37.776447823372365, long: -122.43286289002232},
-      userLocation: {lat: 39.595244, long: -104.7049212},
       sampleData: dummyData.poiData,
       modifiedData: [],
       filteredData: [],
@@ -190,9 +189,12 @@ class LittleFilter extends React.Component {
   clearFilters = () => {
     let categoriesChecked = this.state.categoriesChecked;
     for (let key in categoriesChecked) {
-      categoriesChecked[key] = '';
+      categoriesChecked[key] = false;
     }
-    //include all of the other filters
+    let suggestedCategories = this.state.suggestedCategories;
+    for (let key in suggestedCategories) {
+      suggestedCategories[key] = false;
+    }
     this.setState({
       distance: '',
       price: {
@@ -201,7 +203,9 @@ class LittleFilter extends React.Component {
         $$: '',
         $$$: ''
       },
-      categoriesChecked
+      categoriesChecked,
+      suggestedCategories,
+      quickWalk: false,
     });
   };
 
@@ -223,18 +227,23 @@ class LittleFilter extends React.Component {
 
 
   componentDidMount = () => {
-    //console.log('props from DOM', this.props)
-    this.findTimeToTravel();
+    console.log('props from DOM', this.props)
+    let data = this.props.allData;
+    data['landmarks & historical'] = data.lAndH;
+    delete data.lAndH;
+    delete data.all;
+    let addedCategories = helpers.addCategory(data);
+    this.findTimeToTravel(addedCategories);
 
 
   }
 
-  findTimeToTravel = () => {
-    let places = this.props.allData.businesses;
+  findTimeToTravel = (allData) => {
+    let starting = this.props.userLocation;
     axios.post('/filter/walkingTime', {
       data: {
-        starting: this.state.userLocation,
-        places
+        starting,
+        data: allData
       }
     })
       .then(data => {
@@ -251,7 +260,7 @@ class LittleFilter extends React.Component {
         });
       })
       .catch(err => {
-        //console.log('error sending', err)
+        console.log('error sending', err)
       })
   }
 

@@ -1,3 +1,4 @@
+const _ = require('underscore');
 
 const findCategories = (data) => {
   let categories = {};
@@ -141,7 +142,20 @@ const sortFunc = (sortVal, data) => {
   return sorted;
 };
 
-
+const addCategory = (data) => {
+  let allData = [];
+  _.each(data, (value, key) => {
+    value.businesses.forEach(business => {
+      if (business.distance > 1260) {
+        return;
+      } else {
+        business.category = key;
+        allData.push(business);
+      }
+    })
+  })
+  return allData;
+}
 
 module.exports = {
   filterOnPrice,
@@ -151,5 +165,6 @@ module.exports = {
   filterOnDistance,
   findSuggested,
   filterQuickWalks,
-  sortFunc
+  sortFunc,
+  addCategory
 }
