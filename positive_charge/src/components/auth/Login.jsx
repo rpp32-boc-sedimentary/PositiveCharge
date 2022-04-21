@@ -27,7 +27,7 @@ class Login extends React.Component {
       if ((response.data !== 'Incorrect password') && (response.data !== 'Cannot find user')) {
         let user = response.data;
         this.setState({ user });
-        this.props.logIn(user);
+        this.props.logIn(user, this.state.email);
       } else {
         let error = response.data;
         this.setState({ error })
