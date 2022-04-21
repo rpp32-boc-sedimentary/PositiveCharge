@@ -22,6 +22,7 @@ function Sponsor() {
     // check if POI exists in DB
     axios.get('/get-poi-user', {
       params: {
+        id: data.props.id,
         name: data.props.name
       }
     })
@@ -112,9 +113,9 @@ function Sponsor() {
       <form onSubmit={handleSubmit}>
         <h3>Enter Date Range:</h3>
         <label htmlFor="startDate">Starting on: </label>
-        <input type="date" name="startDate" value={startDate} onChange={e => setStart(e.target.value)}></input>
+        <input type="date" name="startDate" value={startDate} onChange={e => setStart(e.target.value)} required></input>
         <label htmlFor="months">Number of months: </label>
-        <input type="number" name="months" value={months} onChange={e => setMonths(e.target.value)}></input>
+        <input type="number" name="months" value={months} onChange={e => setMonths(e.target.value)} required></input>
         <br/>
 
         <h3>Pricing</h3>
