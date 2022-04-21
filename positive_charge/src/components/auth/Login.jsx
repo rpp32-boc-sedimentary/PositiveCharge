@@ -1,6 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import { Link, Navigate } from 'react-router-dom';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Button from '@mui/material/Button';
 
 
 class Login extends React.Component {
@@ -34,7 +39,7 @@ class Login extends React.Component {
       }
     })
     .catch((error) => {
-      console.error(error);
+      console.log(error);
       // this.setState({ error });
     })
   }
@@ -48,27 +53,40 @@ class Login extends React.Component {
   render() {
     let { user, error } = this.state;
     return (
-      <div className="login">
+      <Container className="login" maxwidth="xs">
         { error && <p>{error}</p>}
         { user && (
           <Navigate to="/" replace={true} />
         )}
-        <h1>Login</h1>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor="email">Email: </label>
-            <input type="email" name="email" onChange={this.handleChange} required />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main'}}>
+              <LockOutlinedIcon />
+            </Avatar>
+          <h1>Login</h1>
+          <Box component="form" onSubmit={this.handleSubmit}>
+            <div>
+              <label htmlFor="email">Email: </label>
+              <input type="email" name="email" id="email" onChange={this.handleChange} required />
+            </div>
+            <div>
+              <label htmlFor="password">Password: </label>
+              <input type="text" name="password" id="password" onChange={this.handleChange} required />
+            </div>
+            {/* <input type="submit" value="Login" /> */}
+            <Button type="submit" variant="contained" sx={{mt: 3, mb: 2}}>Login</Button>
+          </Box>
+          <div>Don't have an account?
+            <Link to="/signup">Sign Up</Link>
           </div>
-          <div>
-            <label htmlFor="password">Password: </label>
-            <input type="text" name="password" onChange={this.handleChange} required />
-          </div>
-          <input type="submit" value="Login" />
-        </form>
-        <div>Don't have an account?
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      </div>
+        </Box>
+      </Container>
     )
   }
 }
