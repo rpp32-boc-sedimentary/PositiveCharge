@@ -11,6 +11,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import HelpIcon from '@mui/icons-material/Help';
 import Tooltip from '@mui/material/Tooltip';
+import GoogleMaps from './AutocompleteMUI.jsx'
 
 
 function AddPOI () {
@@ -98,8 +99,9 @@ function AddPOI () {
         />
         <br/><br/> */}
 
-        <label htmlFor="poi-location-input" required>Location: </label>
-        <PlacesAutocomplete setAddress={setAddress} setLat={setLat} setLng={setLng}/>
+        {/* <label htmlFor="poi-location-input" required>Location: </label>
+        <PlacesAutocomplete setAddress={setAddress} setLat={setLat} setLng={setLng}/> */}
+        <GoogleMaps />
 
         <br></br><br></br>
         <InputLabel id="category-label">Category</InputLabel>
