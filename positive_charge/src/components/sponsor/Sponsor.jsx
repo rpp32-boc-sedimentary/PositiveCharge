@@ -22,6 +22,7 @@ function Sponsor() {
     // check if POI exists in DB
     axios.get('/get-poi-user', {
       params: {
+        id: data.props.id,
         name: data.props.name
       }
     })
