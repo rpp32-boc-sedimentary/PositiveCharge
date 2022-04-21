@@ -12,6 +12,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import Tooltip from '@mui/material/Tooltip';
 import GoogleMaps from './AutocompleteMUI.jsx'
 import Box from '@mui/material/Box';
+import PlacesAutocomplete from './PlacesAutocomplete.jsx'
 
 
 function AddPOI () {
@@ -26,6 +27,10 @@ function AddPOI () {
   const [noCoords, setNoCoords] = useState(false)
   const [noPrice, setNoPrice] = useState(false)
   const [canSubmit, setCanSubmit] = useState(true)
+
+  useEffect(() => {
+    console.log('address', address)
+  }, [address])
 
   function handleSubmit() {
     let data = {
@@ -80,7 +85,6 @@ function AddPOI () {
     <div className="add-poi-form-container">
       <div className="add-poi-form-wrapper">
         <h1>Add a Point of Interest</h1>
-        <form>
           <Box
             component="form"
           >
@@ -101,8 +105,10 @@ function AddPOI () {
             setPointName(e.target.value)}
         />
         <br/><br/> */}
+        {/* <label htmlFor="poi-location-input" required>Location: </label>
+          <PlacesAutocomplete setAddress={setAddress} setLat={setLat} setLng={setLng}/><br /><br /> */}
 
-        <GoogleMaps setAddress={setAddress}/>
+        <GoogleMaps setAddress={setAddress} setLat={setLat} setLng={setLng}/>
 
         <br></br><br></br>
         <InputLabel id="category-label">Category</InputLabel>
@@ -183,7 +189,6 @@ function AddPOI () {
         <p className="warning">Please select a price level</p>}
         <br />
         </Box>
-        </form>
       </div>
     </div>
   )

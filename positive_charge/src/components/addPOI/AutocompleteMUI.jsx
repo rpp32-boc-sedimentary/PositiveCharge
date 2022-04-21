@@ -7,10 +7,11 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
+import { getGeocode,getLatLng } from "use-places-autocomplete";
 
 // This key was created specifically for the demo in mui.com.
 // You need to create a new one for your application.
-const GOOGLE_MAPS_API_KEY = 'AIzaSyBZmKIxRLOMTufnC13rHM7vzzeWGRJ-kKE';
+const GOOGLE_MAPS_API_KEY = 'AIzaSyBlL1Zgiye2TOHaO1r_mf28kRB5R2iTzbU';
 
 function removeGoogleMapScript() {
   console.debug('removing google script...');
@@ -47,7 +48,7 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
-export default function GoogleMaps() {
+export default function GoogleMaps(props) {
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
@@ -109,6 +110,25 @@ export default function GoogleMaps() {
       active = false;
     };
   }, [value, inputValue, fetch]);
+
+  React.useEffect(() => {
+    if (value !== null) {
+      console.log('value', value)
+      getGeocode({ address: value.description })
+        .then((results) => {
+          props.setAddress(results[0].formatted_address)
+          return getLatLng(results[0])
+        })
+        .then(({ lat, lng }) => {
+          // console.log("📍 Coordinates: ", { lat, lng });
+          props.setLat(lat)
+          props.setLng(lng)
+        })
+        .catch((error) => {
+          console.err("😱 Error: ", error);
+        });
+    }
+  }, [value, props])
 
   return (
     <Autocomplete
