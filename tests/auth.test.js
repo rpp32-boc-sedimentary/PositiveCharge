@@ -5,7 +5,7 @@
 import React from 'react';
 // import { createRoot } from 'react-dom/client';
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 // import { act } from 'react-dom/test-utils';
 import user from '@testing-library/user-event';
@@ -16,16 +16,17 @@ describe('Signup Form', () => {
   const onSubmit = jest.fn();
 
   beforeEach(() => {
+  })
     onSubmit.mockClear();
     render(<Signup />, {wrapper: MemoryRouter});
-  })
 
   it('onSubmit is called when all fields pass validation', async () => {
     user.type(getName(), 'Test User');
     user.type(getEmail(), 'test@test');
     user.type(getPassword(), 'test');
-    user.click(screen.getByRole('button', {name: /sign up/i}))
+    user.click(getSignupButton());
 
+    // fireEvent.submit(getButton());
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({"name":"Test User","email":"test@test","password":"test"});
     })
@@ -67,4 +68,8 @@ function getEmail() {
 
 function getPassword() {
   return screen.getByRole('textbox', {name: /password:/i});
+}
+
+function getSignupButton() {
+  return screen.getByRole('button', {name: /sign up/i});
 }
