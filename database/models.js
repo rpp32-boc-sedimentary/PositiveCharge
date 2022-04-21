@@ -30,8 +30,7 @@ pool.grabview = async (params) => {
      pois.yelp_id = experiences.poi_id
    AND
      experiences.poi_id = $1`;
-  const grabDetails = await pool.query(query, params)
-  console.log(grabDetails.rows)
+  const grabDetails = await pool.query(query, params);
   return grabDetails.rows;
 }
 
@@ -122,36 +121,42 @@ pool.flagPoi = async (params) => {
 }
 
 pool.loveExp = async (params) => {
+  // experiences table manipulation
   const loveExpQueryAdd = `UPDATE experiences SET exp_loves = exp_loves + 1 WHERE poi_id = $1 AND experience = $2`;
   const loveExpQueryMinus = `UPDATE experiences SET exp_loves = exp_loves - 1 WHERE poi_id = $1 AND experience = $2`;
-  const changeLoveAdd = `UPDATE users_details SET love_exp = NOT love_exp WHERE poi_id = $1 AND user_email = $2 AND experience = $3`;
-  const changeLoveMinus = `INSERT INTO users_details ()`
+  // users_details table manipulation
+  const changeLoveAdd = `UPDATE users_details SET loves_exp = array_cat(loves_exp, ARRAY [$2]::varchar[]) WHERE poi_id = $1 AND user_email = $3`;
+  const changeLoveMinus = `UPDATE users_details SET loves_exp = array_remove(loves_exp, $2) WHERE poi_id = $1 AND user_email = $3`;
+  // const changeLoveMinus = `INSERT INTO users_details ()`
   try {
     // check if user interacted with experience yet (exists in users_details table for this exp and poi)
-    const checkUserExists = await pool.query(`select exists(select 1 from users_details where poi_id = $1 AND user_email = $2 AND (SELECT $3 = ANY(loves_exp::varchar[])))`, params)
+    const checkUserExists = await pool.query(`select exists(select 1 from users_details where poi_id = $1 AND user_email = $2)`, [params[0], params[2]]);
     if (!checkUserExists.rows[0].exists) {
-      console.log('creating user row for this experience and poi')
+      console.log('creating new user row for this poi')
       // create a row with user interactions on this poi
-      const createUserInteractionRow = await pool.query(`INSERT INTO users_details (user_email, poi_id, loves_exp, love_poi, flag_poi) VALUES ($3, $1, ARRAY [$1], false,false)`, params)
+      const createUserInteractionRow = await pool.query(`INSERT INTO users_details (poi_id, user_email, love_poi, flag_poi) VALUES ($1, $2, false, false)`, [params[0], params[2]])
     }
     // check if the user has loved this experience yet or not
-    const check = await pool.query(`SELECT love_exp FROM users_details WHERE poi_id = $1 AND user_email = $2 AND experience = $3`, params);
-
-    if (check.rows[0].love_exp === false) {
-      // if they haven't loved the experience yet
+    const check = await pool.query(`SELECT exists(select 1 FROM users_details WHERE poi_id = $1 AND user_email = $3 AND $2 = ANY (loves_exp))`, params);
+    // if they haven't loved the experience yet
+    if (check.rows[0].exists === false) {
+      // make users_detail.loves_exp contain the experience
       const userLovedExperience = await pool.query(changeLoveAdd, params);
+      // add 1 love to experiences table where poi_id and experience are equal
       const addLoveToExperience = await pool.query(loveExpQueryAdd, [params[0], params[1]]);
       return params;
     } else {
+      // remove experience from users_details.loves_exp array
       const userLovedExperience = await pool.query(changeLoveMinus, params);
+      console.log('gets here')
+      // subtract 1 from experience table where poi_id and experinece are equal
       const minusLoveFromExperience = await pool.query(loveExpQueryMinus, [params[0], params[1]]);
+      console.log('not here')
       return params;
     }
   } catch (err) {
     console.log(err.message);
   }
-  const lovedExp = await pool.query(loveExpQueryAdd, params);
-  return params;
 }
 
 pool.flagExp = async (params) => {
