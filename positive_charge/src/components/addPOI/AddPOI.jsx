@@ -9,6 +9,8 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
+import HelpIcon from '@mui/icons-material/Help';
+import Tooltip from '@mui/material/Tooltip';
 
 
 function AddPOI () {
@@ -126,7 +128,14 @@ function AddPOI () {
           <option value="other">Other</option>
         </select><br></br><br></br> */}
 
-        <h3>Cost</h3>
+        <h3>Price</h3>
+        <Tooltip
+          // title="$: $1-$15\n$$: $15-$30\n$$$: $30+"
+          title={<div>$: $1-$15<br />$$: $15-$30<br />$$$: $30</div>}
+          placement="right"
+        >
+          <HelpIcon></HelpIcon>
+        </Tooltip><br></br>
         <ToggleButtonGroup
           value={price}
           exclusive
@@ -149,7 +158,7 @@ function AddPOI () {
         <input type="radio" className="radio-button price-input" name="price" id="$$$" value="$$$" onClick={e => setPrice("3")}></input>
         <label htmlFor="$$$">$$$</label><br></br> */}
 
-        {!showCostGuide &&
+        {/* {!showCostGuide &&
         <p onClick={() => setShowCostGuide(true)}>Show Cost Guidelines</p>}
 
         {showCostGuide &&
@@ -158,7 +167,7 @@ function AddPOI () {
         <p>$: Low. For restaurants, the average meal costs less than $15</p>
         <p>$$: Medium. For restaurants, the average meal costs $15 - $30</p>
         <p>$$$: High. For restaurants, the average meal costs more than $30</p>
-        </>}
+        </>} */}
 
         {/* Check if user is a business user, if so, show checkbox for "this is my business" */}
 
