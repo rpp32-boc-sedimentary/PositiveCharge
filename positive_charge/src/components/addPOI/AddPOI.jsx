@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import PlacesAutocomplete from './PlacesAutocomplete.jsx'
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Autocomplete from '@mui/material/Autocomplete';
+import Button from '@mui/material/Button';
+
 
 function AddPOI () {
   const [pointName, setPointName] = useState('')
@@ -15,8 +24,7 @@ function AddPOI () {
   const [noPrice, setNoPrice] = useState(false)
   const [canSubmit, setCanSubmit] = useState(true)
 
-  function handleSubmit(e) {
-    e.preventDefault()
+  function handleSubmit() {
     let data = {
       name: pointName,
       address,
@@ -69,9 +77,13 @@ function AddPOI () {
     <div className="add-poi-form-container">
       <div className="add-poi-form-wrapper">
         <h1>Add a Point of Interest</h1>
-        <form onSubmit={(e) => handleSubmit(e)}>
-
-        <label htmlFor="poi-name-input" required>Name: </label><br />
+        <form>
+          <TextField
+            id="poi-name"
+            label="Name"
+            helperText="Name of the Point of Interest"
+            onChange={e => setPointName(e.target.value)}></TextField><br></br>
+        {/* <label htmlFor="poi-name-input" required>Name: </label><br />
         <input
           type="text"
           className="text-input"
@@ -82,14 +94,27 @@ function AddPOI () {
           onChange={e =>
             setPointName(e.target.value)}
         />
-        <br/><br/>
+        <br/><br/> */}
 
         <label htmlFor="poi-location-input" required>Location: </label>
         <PlacesAutocomplete setAddress={setAddress} setLat={setLat} setLng={setLng}/>
 
         <br></br><br></br>
-
-        <label htmlFor="poi-category-select" required>Category: </label><br />
+        <InputLabel id="category-label">Category</InputLabel>
+        <Select
+          labelId="category-label"
+          id="poi-category-select"
+          value={category}
+          onChange={e => setCategory(e.target.value)}>
+            <MenuItem value="food">Food</MenuItem>
+            <MenuItem value="cafe">Cafe</MenuItem>
+            <MenuItem value="museum">Museum</MenuItem>
+            <MenuItem value="landmark">Landmark</MenuItem>
+            <MenuItem value="park">Park</MenuItem>
+            <MenuItem value="other">Other</MenuItem>
+          </Select>
+          <br></br><br></br>
+        {/* <label htmlFor="poi-category-select" required>Category: </label><br />
         <select id="category-select"
         value={category}
         onChange={e => setCategory(e.target.value)}>
@@ -99,10 +124,20 @@ function AddPOI () {
           <option value="landmark">Landmark or Historical</option>
           <option value="park">Park</option>
           <option value="other">Other</option>
-        </select><br></br><br></br>
+        </select><br></br><br></br> */}
 
         <h3>Cost</h3>
-        <input type="radio" className="radio-button poi-price-input" name="price" id="free" value="free" onClick={e => setPrice(e.target.value)}></input>
+        <ToggleButtonGroup
+          value={price}
+          exclusive
+          onChange={(e) => setPrice(e.target.value)}
+        >
+          <ToggleButton value="free">Free</ToggleButton>
+          <ToggleButton value="$">$</ToggleButton>
+          <ToggleButton value="$$">$$</ToggleButton>
+          <ToggleButton value="$$$">$$$</ToggleButton>
+        </ToggleButtonGroup>
+        {/* <input type="radio" className="radio-button poi-price-input" name="price" id="free" value="free" onClick={e => setPrice(e.target.value)}></input>
         <label htmlFor="free">Free</label>
 
         <input type="radio" className="radio-button price-input" name="price" id="$" value="$" onClick={e => setPrice("1")}></input>
@@ -112,7 +147,7 @@ function AddPOI () {
         <label htmlFor="$$">$$</label>
 
         <input type="radio" className="radio-button price-input" name="price" id="$$$" value="$$$" onClick={e => setPrice("3")}></input>
-        <label htmlFor="$$$">$$$</label><br></br>
+        <label htmlFor="$$$">$$$</label><br></br> */}
 
         {!showCostGuide &&
         <p onClick={() => setShowCostGuide(true)}>Show Cost Guidelines</p>}
@@ -127,7 +162,7 @@ function AddPOI () {
 
         {/* Check if user is a business user, if so, show checkbox for "this is my business" */}
 
-        <input type="submit" value="Add POI" disabled={!canSubmit}></input>
+        <Button variant="contained" onClick={() => handleSubmit()}>Add this Point of Interest</Button><br></br>
         <br/>
         {noName &&
         <p className="warning">Please add a name</p>}
