@@ -31,6 +31,7 @@ pool.grabview = async (params) => {
    AND
      experiences.poi_id = $1`;
   const grabDetails = await pool.query(query, params)
+  console.log(grabDetails.rows)
   return grabDetails.rows;
 }
 
