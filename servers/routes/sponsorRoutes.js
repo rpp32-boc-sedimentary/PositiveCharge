@@ -10,7 +10,7 @@ router.get('/sponsor', (req, res) => {
 
 router.get('/get-poi-user', verifyToken, async (req, res) => {
   try {
-    var poi = await router.getPoi([req.query.name]);
+    var poi = await router.getPoi([req.query.name, req.query.id]);
     if (poi.length > 0) {
       poi = poi[0].id;
     } else {
