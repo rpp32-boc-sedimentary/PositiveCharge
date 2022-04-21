@@ -2,9 +2,8 @@ import React from 'react';
 
 const PriceFilter = (props) => {
 
-  return (
-
-    <div>
+  const renderDropDown = () => {
+    return (
         <form className='priceFilterModal' onSubmit={ props.handlePriceApply }>
           <div className='ckButton'>
             <label>
@@ -35,6 +34,19 @@ const PriceFilter = (props) => {
           </div>
           <input type='submit' value='Save'/>
         </form>
+    )
+  }
+
+
+  return (
+
+    <div className="dropdown-container">
+      <div className='dropdown-trigger'>
+        <button onClick={ props.handlePriceModalState }>
+          Price
+        </button>
+          { props.priceModalState && renderDropDown() }
+      </div>
     </div>
 
   )

@@ -11,7 +11,7 @@ FILTER COMPONENT
   height: 20px;
   margin: 10px;
   overflow-x: scroll;
-  overflow-y: hidden;
+  //overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   padding: 10px;
   border: 1px solid grey;
@@ -113,6 +113,22 @@ FILTER COMPONENT
     background-color: rgb(205, 138, 5);
     color: black;
   }
+
+  .dropdown-container {
+    position: relative;
+    width: 200px;
+  }
+  .dropdown-trigger {
+    padding: 10px 0px;
+  }
+  .dropdown-body {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    padding: 10px;
+    z-index: 2;
+  }
+
 }
 
 .bigFilter {
