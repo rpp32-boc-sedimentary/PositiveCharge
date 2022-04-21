@@ -36,10 +36,9 @@ export default function PoiModal({open, onClose, detail, name}) {
     axios.post(`/details/${path}/love`, {
       'name': name.props.id,
       'experience': exp,
-      'email': name.props.email
+      'email': name.userEmail
     })
       .then((response) => {
-        // send something like loved x thing
         alert(`Thanks for the love!`)
       })
   };
@@ -48,7 +47,7 @@ export default function PoiModal({open, onClose, detail, name}) {
     axios.post(`/details/${path}/flag`, {
       'name': name.props.id,
       'experience': exp,
-      'email': name.props.email
+      'email': name.userEmail
     })
       .then((response) => {
         // send something like flagged x thing

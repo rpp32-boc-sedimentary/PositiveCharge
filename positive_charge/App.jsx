@@ -19,7 +19,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLoggedIn: false,
-      userName: null
+      userName: null,
+      email: null
     }
     this.logIn = this.logIn.bind(this);
     this.logOut = this.logOut.bind(this);
@@ -29,9 +30,11 @@ class App extends React.Component {
     axios.get('/verify')
     .then((result) => {
       if (result.data !== 'Token required for authentication') {
+        console.log('data here ',result)
         this.setState({
           isLoggedIn: true,
-          userName: result.data
+          userName: result.data[0],
+          email: result.data[1]
         });
       }
     })
@@ -104,7 +107,7 @@ class App extends React.Component {
             <Route path="signup" element={<Signup />} />
             <Route path="/logout" element={this.state.isLoggedIn ? <Navigate to="/" replace={true} /> : null} />
             <Route path='/seePOI' element={<Placeholder />}/>
-            <Route path='/moreDetails' element={<MoreDetails />}/>
+            <Route path='/moreDetails' element={<MoreDetails userEmail={this.state.email}/>}/>
             <Route path="/addPOI" element={<AddPOI />} />
             <Route path='/modal' element={<Modal />}></Route>
             <Route path='/sponsor' element={<Sponsor />}></Route>

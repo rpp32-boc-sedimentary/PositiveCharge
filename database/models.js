@@ -38,26 +38,34 @@ pool.lovePoi = async (params) => {
   const lovePoiQuery = `UPDATE pois SET loves = loves + 1 WHERE yelp_id = $1`;
   const changeLove = `UPDATE users_details SET love_poi = NOT love_poi WHERE poi_id = $1 AND user_email = $2`;
   try {
+    // check if poi exists in pois table
     let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
     if (checkPoi.rows[0].exists) {
+      // check if user has interacted with this poi yet
       const checkUserExists = await pool.query(`select exists(select 1 from users_details where poi_id = $1 AND user_email = $2)`, params)
-      if (!checkUserExists.rows[0].exists) {
+      if (checkUserExists.rows[0].exists === false) {
+        // create a row with user interactions on this poi
         const createUserInteractionRow = await pool.query(`INSERT INTO users_details (user_email, poi_id, experience, love_poi, love_exp, flag_poi, flag_exp) VALUES ($2, $1, null, false, false, false, false)`, params)
       }
-
+      // check if the user has loved this poi yet or not
       const check = await pool.query(`SELECT love_poi FROM users_details WHERE poi_id = $1 AND user_email = $2`, params);
-      if (!check) {
+      if (check.rows[0].love_poi === false) {
+        // if they haven't then we set their row in column love_poi to true and add 1 to pois table on this poi
         const setLoveToTrue = await pool.query(changeLove, params);
         const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
         return params;
       } else {
+        // if they have then we set their row in column love_poi to false and minus 1 from pois table on this poi
         const setLoveToFalse = await pool.query(changeLove, params);
         const unlovePoi = await pool.query(`UPDATE pois SET loves = loves - 1 WHERE yelp_id = $1`, [params[0]]);
         return params;
       }
     } else {
+      // poi does not exist we add it to the pois table
       let addingPoi = await addNewPoi([params[0]]);
+      // create a user interaction row for this poi in the users_details table
       const createUserInteractionRow = await pool.query(`INSERT INTO users_details (user_email, poi_id, experience, love_poi, love_exp, flag_poi, flag_exp) VALUES ($2, $1, null, false, false, false, false)`, params)
+      // then we set their row in column love_poi to true and add 1 to pois table on this poi since we know that the poi hasn't been loved yet because it was just created
       const setLoveToTrue = await pool.query(changeLove, params);
       const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
       return params;
@@ -72,25 +80,36 @@ pool.flagPoi = async (params) => {
   const flagPoiQuery = `UPDATE pois SET flag_status = NOT flag_status WHERE yelp_id = $1`;
   const changeFlagUsers = `UPDATE users_details SET flag_poi = NOT flag_poi WHERE poi_id = $1 AND user_email = $2`;
   try {
+    // check if poi exists in pois table
     let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
     if (checkPoi.rows[0].exists) {
+      // check if user has interacted with this poi yet
       const checkUserExists = await pool.query(`select exists(select 1 from users_details where poi_id = $1 AND user_email = $2)`, params)
       if (!checkUserExists.rows[0].exists) {
+        console.log('creating user')
+        // create a row with user interactions on this poi
         const createUserInteractionRow = await pool.query(`INSERT INTO users_details (user_email, poi_id, experience, love_poi, love_exp, flag_poi, flag_exp) VALUES ($2, $1, null, false, false, false, false)`, params)
       }
-      const check = await pool.query(`SELECT love_poi FROM users_details WHERE poi_id = $1 AND user_email = $2`, params);
-      if (!check) {
+      // check if the user has flagged this poi yet or not
+      const check = await pool.query(`SELECT flag_poi FROM users_details WHERE poi_id = $1 AND user_email = $2`, params);
+      console.log(check.rows)
+      if (check.rows[0].flag_poi === false) {
+        // if they haven't then we set their row in column flag_poi to true and set pois flagged column to true
         const changeFlag = await pool.query(changeFlagUsers, params);
         const changeFlagPoi = await pool.query(flagPoiQuery, [params[0]]);
         return params;
       } else {
+        // if they have then we set their row in column flag_poi to false and set pois flagged column to false
         const changeFlag = await pool.query(changeFlagUsers, params);
         const changeFlagPoi = await pool.query(flagPoiQuery, [params[0]]);
         return params;
       }
     } else {
+      // poi does not exist we add it to the pois table
       let addingPoi = await addNewPoi([params[0]]);
+      // create user interaction row
       const createUserInteractionRow = await pool.query(`INSERT INTO users_details (user_email, poi_id, experience, love_poi, love_exp, flag_poi, flag_exp) VALUES ($2, $1, null, false, false, false, false)`, params)
+      // set both users_details.flag_poi AND pois.flag_status to true
       const changeFlag = await pool.query(changeFlagUsers, params);
       const changeFlagPoi = await pool.query(flagPoiQuery, [params[0]]);
       return params;
@@ -102,10 +121,14 @@ pool.flagPoi = async (params) => {
 }
 
 pool.loveExp = async (params) => {
-  const loveExpQuery = `UPDATE experiences
-  SET exp_loves = exp_loves + 1
-  WHERE poi_id = $1
-  AND experience = $2`;
+  const loveExpQuery = `UPDATE experiences SET exp_loves = exp_loves + 1 WHERE poi_id = $1 AND experience = $2`;
+  const changeLove = `UPDATE users_details SET love_exp = NOT love_exp WHERE poi_id = $1 AND user_email = $2 AND experience = $3`;
+  try {
+    // check if user interacted with experience love
+    const checkUserExists = await pool.query(`select exists(select 1 from users_details where poi_id = $1 AND user_email = $2 AND experience = $3)`, params)
+  } catch (err) {
+    console.log(err.message);
+  }
   const lovedExp = await pool.query(loveExpQuery, params);
   return params;
 }
