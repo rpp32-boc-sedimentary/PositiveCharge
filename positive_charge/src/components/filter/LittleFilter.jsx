@@ -299,25 +299,25 @@ class LittleFilter extends React.Component {
     return (
       <div className="smallFilter">
 
-        <select className="sfChild" name="category" onChange={ this.handleSort }>
+        <select className="sfChild clickableElement" name="category" onChange={ this.handleSort }>
           <option>Loves</option>
           <option>Distance</option>
         </select>
 
-        <button className="sfChild" onClick={ this.handleBigModalState }>More Filters</button>
+        <button className="sfChild clickableElement" onClick={ this.handleBigModalState }>More Filters</button>
 
-        { this.state.filteredData.length > 5 ? <button onClick={this.handleShowMore}>{ this.state.showMore ? "Show Less" : "Show More"}</button> : null }
+        { this.state.filteredData.length > 5 ? <button className="clickableElement" onClick={this.handleShowMore}>{ this.state.showMore ? "Show Less" : "Show More"}</button> : null }
 
         { this.state.modalState ? <BigFilter manageModalState={ this.handleBigModalState } distance = { this.state.distance } handleDistance={ this.handleDistance } price={ this.state.price } handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } categoriesChecked={ this.state.categoriesChecked } handleAllCategories={ this.handleAllCategories } suggestedCategories=
         { this.state.suggestedCategories } handleSuggestedCategoriesBf={ this.handleSuggestedCategoriesBf } lessThanFive={ this.state.lessThanFive } quickWalk={ this.state.quickWalk } handleQuickBf={ this.handleQuickBf } /> : null }
 
-        <button className="sfChild" onClick={ this.handlePriceModalState }>Price</button>
+        <button className="sfChild clickableElement" onClick={ this.handlePriceModalState }>Price</button>
 
-        { this.state.priceModalState ?  <PriceFilter priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
+        { this.state.priceModalState ?  <PriceFilter className="clickableElement" priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
 
         { Object.keys(this.state.suggestedCategories).length > 0 ? <LfCategories suggestedCategories={ this.state.suggestedCategories } handleSuggestedCategoriesLF={ this.handleSuggestedCategoriesLF } /> : null}
 
-        { this.state.lessThanFive ? <div className="cksButton"><label><input type="checkbox" checked={ this.state.quickWalk } name="quickWalk" onChange={ this.handleQuickLf } /><span>Quick Walk</span></label></div> : null }
+        { this.state.lessThanFive ? <div className="cksButton clickableElement"><label><input type="checkbox" checked={ this.state.quickWalk } name="quickWalk" onChange={ this.handleQuickLf } /><span>Quick Walk</span></label></div> : null }
       </div>
     )
   }
