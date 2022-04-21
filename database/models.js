@@ -46,7 +46,7 @@ pool.lovePoi = async (params) => {
     } else {
       let addingPoi = await addNewPoi(params);
       const lovedPoi = await pool.query(lovePoiQuery, params);
-      return;
+      return params;
     }
   } catch (err) {
     console.log(err.message)
@@ -66,7 +66,7 @@ pool.flagPoi = async (params) => {
     } else {
       let addingPoi = await addNewPoi(params);
       const changeFlagPoi = await pool.query(flagPoiQuery, params);
-      return;
+      return params;
     }
   } catch (err) {
     console.log(err.message)
@@ -80,7 +80,7 @@ pool.loveExp = async (params) => {
   WHERE poi_id = $1
   AND experience = $2`;
   const lovedExp = await pool.query(loveExpQuery, params);
-  return;
+  return params;
 }
 
 pool.flagExp = async (params) => {
@@ -89,7 +89,7 @@ pool.flagExp = async (params) => {
   WHERE poi_id = $1
   AND experience = $2`;
   const changeFlagExp = await pool.query(flagExpQuery, params);
-  return;
+  return params;
 }
 
 pool.addExperience = async (params) => {
@@ -104,7 +104,7 @@ pool.addExperience = async (params) => {
     if (checkPoi.rows[0].exists) {
 
       let addingExperience = await pool.query(addExperienceQuery, params);
-      return 'Thanks for sharing with the community!!';
+      return params;
     } else {
       let addPoi = await addNewPoi(addPoiParams);
       let addingExperience = await pool.query(addExperienceQuery, params);
@@ -184,16 +184,112 @@ pool.addUser = async (params) => {
   }
 }
 
-pool.getUser = async (param) => {
+pool.getUser = async (email) => {
   try {
     var query = `SELECT * FROM users WHERE email = $1`;
-    var user = await pool.query(query, param);
+    var user = await pool.query(query, email);
     return user.rows;
   }
   catch (err) {
     console.error(err);
   }
 }
+
+//sponsor models
+pool.getPoi = async (name) => {
+  try {
+    var query = `SELECT * FROM pois WHERE name = $1`;
+    var poi = await pool.query(query, name);
+    console.log('poi', poi.rows);
+    return poi.rows;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.addSponsor = async (details) => {
+  try {
+    var query = `INSERT INTO sponsors (user_id, poi_id, start_date, end_date)
+    VALUES ($1, $2, $3, $4)`;
+    var result = await pool.query(query, details);
+    return details;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.findSponsorsToActivate = async () => {
+  try {
+    // find POIs which are within sponsored window but are not yet active
+    var query = `
+      SELECT sponsors.poi_id FROM sponsors
+      JOIN pois ON sponsors.poi_id = pois.id
+      WHERE ((SELECT CURRENT_DATE) >= sponsors.start_date
+      AND (SELECT CURRENT_DATE) <= sponsors.end_date)
+      AND pois.sponsored = $1
+      GROUP BY sponsors.poi_id`;
+    var result = await pool.query(query, [false]);
+    return result.rows;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.findSponsorsToDeactivate = async () => {
+  try {
+    // find POIs which are outside of sponsored window but not yet deactivated
+    var query = `
+      SELECT sponsors.poi_id FROM sponsors
+      JOIN pois ON sponsors.poi_id = pois.id
+      WHERE ((SELECT CURRENT_DATE) < sponsors.start_date
+      AND (SELECT CURRENT_DATE) > sponsors.end_date)
+      AND pois.sponsored = $1
+      GROUP BY sponsors.poi_id`;
+    var result = await pool.query(query, [true]);
+    return result.rows;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.activateSponsor = async (poi) => {
+  try {
+    var query = `UPDATE pois SET sponsored = $1 WHERE id = $2`;
+    var result = await pool.query(query, [true, poi]);
+    return result;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.deactivateSponsor = async (poi) => {
+  try {
+    var query = `UPDATE pois SET sponsored = $1 WHERE id = $2`;
+    var result = await pool.query(query, [false, poi]);
+    return result;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+// Maybe keep record of all sponsors even if expired, no need to delete? TBD
+pool.deleteSponsor = async (id) => {
+  try {
+    var query = `DELETE FROM sponsors WHERE id = $1`;
+    var result = await pool.query(query, id);
+    return result;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
 // details models
 
 // filter models

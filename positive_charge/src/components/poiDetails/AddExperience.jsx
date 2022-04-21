@@ -51,7 +51,7 @@ export default function AddExperience({open, onClose, name}) {
   }
 
   const submitFormRedirect = () => {
-    navigate('/');
+    navigate('/seePOI');
   }
   return open &&
     ReactDom.createPortal(

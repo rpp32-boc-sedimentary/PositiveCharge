@@ -17,6 +17,8 @@
     "jsonwebtoken": "^8.5.1",
     "leaflet": "^1.7.1",
     "leaflet-routing-machine": "^3.2.12",
+    "moment": "^2.29.3",
+    "node-cron": "^3.0.0",
     "pg": "^8.7.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -29,7 +31,7 @@
     "yelp-fusion": "^3.0.0"
   },
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest --coverage --forceExit",
     "client": "webpack --mode development --watch",
     "server": "npx nodemon ./servers/server.js",
     "start": "npm run client & npm run server"
@@ -54,14 +56,18 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
+    "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "@babel/runtime": "^7.17.9",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^14.1.0",
+    "@testing-library/user-event": "^14.1.1",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
+    "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.4",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^6.7.1",
@@ -70,6 +76,7 @@
     "nodemon": "^2.0.15",
     "sass-loader": "^12.6.0",
     "style-loader": "^3.3.1",
+    "supertest": "^6.2.2",
     "webpack": "^5.71.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4"

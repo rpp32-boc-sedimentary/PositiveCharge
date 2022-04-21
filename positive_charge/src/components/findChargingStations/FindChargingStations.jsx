@@ -1,7 +1,6 @@
 import React from 'react';
-import { ReactDOM } from 'react';
 import axios from 'axios';
-import SeePOI from '../seePOI/seePOI.jsx';
+import Map from '../map/map.jsx'
 import { Link } from 'react-router-dom';
 
 class FindChargingStations extends React.Component {
@@ -10,6 +9,7 @@ class FindChargingStations extends React.Component {
     this.state = {
       userLatitude: 0,
       userLongitude: 0,
+      userHeading: 'North',
       chosenDistance: 5,
       stationsList: [],
       chargerCoords: {}
@@ -44,7 +44,7 @@ class FindChargingStations extends React.Component {
   }
 
   populateStationsList() {
-    axios.get('/findStations', {
+    axios.get('http://localhost:3000/findStations', {
       params: {
         userLat: this.state.userLatitude,
         userLong: this.state.userLongitude,
@@ -52,7 +52,6 @@ class FindChargingStations extends React.Component {
       }
     })
       .then((stations) => {
-        console.log('Stations', stations.data);
         this.setState({ stationsList: stations.data });
       })
       .catch((err) => {
@@ -84,83 +83,193 @@ class FindChargingStations extends React.Component {
     this.setState({ chargerCoords: { chargerLat: latitude, chargerLong: longitude } });
   }
 
+  handleHeadingChange(event) {
+    this.setState({ userHeading: event.nativeEvent.target.selectedOptions[0].textContent });
+  }
+
+  showFeedbackMap() {
+    if (this.state.userLatitude !== 0 && this.state.userLongitude !== 0) {
+      return <Map userLocation={{ userLat: this.state.userLatitude, userLong: this.state.userLongitude }} props={[{ lat: '', long: '' }]} />;
+    }
+  }
+
   render() {
     return (
       <div className='findStationsDiv'>
-        <label>
+        <label id='stationsYourLocationLabel'>
           Your Location:
-          <button onClick={this.getUserLocation.bind(this)}>Use my location</button>
+          <button className='stationsUseMyLocationButton' onClick={this.getUserLocation.bind(this)}>Use my location</button>
         </label>
         <br></br>
         <div>
           <ol></ol>
         </div>
-        <label>
+        {this.showFeedbackMap()}
+        <div>
+          <ol></ol>
+        </div>
+        <label id='stationsDirectionLabel'>
+          Heading:
+          <select id='stationsDirectionSelector' onChange={this.handleHeadingChange.bind(this)}>
+            <option>North</option>
+            <option>South</option>
+            <option>East</option>
+            <option>West</option>
+          </select>
+        </label>
+        <div>
+          <ol></ol>
+        </div>
+        <label id='stationsDistanceLabel'>
           Distance:
-          <input type='number' className='stationsDistanceInput' onChange={this.updateChosenDistance.bind(this)}></input>
+          <input type='number' id='stationsDistanceInput'  min='1' max='10' step="0.25" value={this.state.chosenDistance} onChange={this.updateChosenDistance.bind(this)}></input>
           miles
         </label>
         <br></br>
         <div>
           <ol></ol>
         </div>
-        <button className='findStationsButton' onClick={this.populateStationsList.bind(this)}>Find Stations</button>
+        <button input='findStationsButton' onClick={this.populateStationsList.bind(this)}>Find Stations</button>
         <div>
           <ol></ol>
         </div>
-        <label>
+        <label id='stationsNearbyListLabel'>
           Nearby Stations:
-          <table>
+          <table id='stationsNearbyTable'>
+            <thead>
             <tr>
               <td className='stationName'>
                 Name
               </td>
-              <td>
+              <td className='stationAddress'>
                 Address
               </td>
-              <td>
+              <td className='stationConnectorTypes'>
                 Connector types
               </td>
-              <td>
+              <td className='stationNetwork'>
                 Networked
               </td>
-              <td>
+              <td className='stationDistance'>
                 Distance
               </td>
             </tr>
+            </thead>
+            <tbody>
             {
               this.state.stationsList.map((currentStation) => {
                 var networked = 'TRUE';
                 if (currentStation.ev_network === 'Non-Networked') {
                   networked = 'FALSE';
                 }
-                return (
-                  <tr className='stationTableRow' onClick={this.handleStationSelect.bind(this)}>
-                    <td>
-                      {currentStation.station_name}
-                    </td>
-                    <td>
-                      {currentStation.street_address}
-                    </td>
-                    <td>
-                      {currentStation.ev_connector_types.map((connector, index) => {
-                        if (index + 1 < currentStation.ev_connector_types.length) {
-                          return connector + ', ';
-                        } else {
-                          return connector;
-                        }
-                      })}
-                    </td>
-                    <td>
-                      {networked}
-                    </td>
-                    <td>
-                      {currentStation.distance + ' miles'}
-                    </td>
-                  </tr>
-                )
+                if (this.state.userHeading === 'North' && currentStation.latitude > this.state.userLatitude) {
+                  return (
+                    <tr className='stationTableRow' onClick={this.handleStationSelect.bind(this)}>
+                      <td className='stationName'>
+                        {currentStation.station_name}
+                      </td>
+                      <td className='stationAddress'>
+                        {currentStation.street_address}
+                      </td>
+                      <td className='stationConnectorTypes'>
+                        {currentStation.ev_connector_types.map((connector, index) => {
+                          if (index + 1 < currentStation.ev_connector_types.length) {
+                            return connector + ', ';
+                          } else {
+                            return connector;
+                          }
+                        })}
+                      </td>
+                      <td className='stationNetwork'>
+                        {networked}
+                      </td>
+                      <td className='stationDistance'>
+                        {currentStation.distance + ' miles'}
+                      </td>
+                    </tr>
+                  )
+                } else if (this.state.userHeading === 'South' && currentStation.latitude < this.state.userLatitude) {
+                  return (
+                    <tr className='stationTableRow' onClick={this.handleStationSelect.bind(this)}>
+                      <td className='stationName'>
+                        {currentStation.station_name}
+                      </td>
+                      <td className='stationAddress'>
+                        {currentStation.street_address}
+                      </td>
+                      <td className='stationConnectorTypes'>
+                        {currentStation.ev_connector_types.map((connector, index) => {
+                          if (index + 1 < currentStation.ev_connector_types.length) {
+                            return connector + ', ';
+                          } else {
+                            return connector;
+                          }
+                        })}
+                      </td>
+                      <td className='stationNetwork'>
+                        {networked}
+                      </td>
+                      <td className='stationDistance'>
+                        {currentStation.distance + ' miles'}
+                      </td>
+                    </tr>
+                  )
+                } else if (this.state.userHeading === 'East' && currentStation.longitude > this.state.userLongitude) {
+                  return (
+                    <tr className='stationTableRow' onClick={this.handleStationSelect.bind(this)}>
+                      <td className='stationName'>
+                        {currentStation.station_name}
+                      </td>
+                      <td className='stationAddress'>
+                        {currentStation.street_address}
+                      </td>
+                      <td className='stationConnectorTypes'>
+                        {currentStation.ev_connector_types.map((connector, index) => {
+                          if (index + 1 < currentStation.ev_connector_types.length) {
+                            return connector + ', ';
+                          } else {
+                            return connector;
+                          }
+                        })}
+                      </td>
+                      <td className='stationNetwork'>
+                        {networked}
+                      </td>
+                      <td className='stationDistance'>
+                        {currentStation.distance + ' miles'}
+                      </td>
+                    </tr>
+                  )
+                } else if (this.state.userHeading === 'West' && currentStation.longitude < this.state.userLongitude) {
+                  return (
+                    <tr className='stationTableRow' onClick={this.handleStationSelect.bind(this)}>
+                      <td className='stationName'>
+                        {currentStation.station_name}
+                      </td>
+                      <td className='stationAddress'>
+                        {currentStation.street_address}
+                      </td>
+                      <td className='stationConnectorTypes'>
+                        {currentStation.ev_connector_types.map((connector, index) => {
+                          if (index + 1 < currentStation.ev_connector_types.length) {
+                            return connector + ', ';
+                          } else {
+                            return connector;
+                          }
+                        })}
+                      </td>
+                      <td className='stationNetwork'>
+                        {networked}
+                      </td>
+                      <td className='stationDistance'>
+                        {currentStation.distance + ' miles'}
+                      </td>
+                    </tr>
+                  )
+                }
               })
             }
+            </tbody>
           </table>
         </label>
         <Link to='/seePOI' state={{ chargerCoords: this.state.chargerCoords }}><button onClick={() => console.log(this.state.chargerCoords)}>See Points of Interest</button></Link>
