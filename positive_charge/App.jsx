@@ -30,7 +30,6 @@ class App extends React.Component {
     axios.get('/verify')
     .then((result) => {
       if (result.data !== 'Token required for authentication') {
-        console.log('data here ',result)
         this.setState({
           isLoggedIn: true,
           userName: result.data[0],
