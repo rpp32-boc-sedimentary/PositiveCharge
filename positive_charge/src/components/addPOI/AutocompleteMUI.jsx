@@ -10,9 +10,30 @@ import throttle from 'lodash/throttle';
 
 // This key was created specifically for the demo in mui.com.
 // You need to create a new one for your application.
-const GOOGLE_MAPS_API_KEY = 'AIzaSyC3aviU6KHXAjoSnxcw6qbOhjnFctbxPkE';
+const GOOGLE_MAPS_API_KEY = 'AIzaSyBZmKIxRLOMTufnC13rHM7vzzeWGRJ-kKE';
+
+function removeGoogleMapScript() {
+  console.debug('removing google script...');
+  let keywords = ['maps.googleapis'];
+
+  //Remove google from BOM (window object)
+  window.google = undefined;
+
+  //Remove google map scripts from DOM
+  let scripts = document.head.getElementsByTagName("script");
+  for (let i = scripts.length - 1; i >= 0; i--) {
+      let scriptSource = scripts[i].getAttribute('src');
+      if (scriptSource != null) {
+          if (keywords.filter(item => scriptSource.includes(item)).length) {
+              scripts[i].remove();
+              // scripts[i].parentNode.removeChild(scripts[i]);
+          }
+      }
+  }
+}
 
 function loadScript(src, position, id) {
+  removeGoogleMapScript()
   if (!position) {
     return;
   }

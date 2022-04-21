@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import PlacesAutocomplete from './PlacesAutocomplete.jsx'
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
@@ -12,6 +11,7 @@ import Button from '@mui/material/Button';
 import HelpIcon from '@mui/icons-material/Help';
 import Tooltip from '@mui/material/Tooltip';
 import GoogleMaps from './AutocompleteMUI.jsx'
+import Box from '@mui/material/Box';
 
 
 function AddPOI () {
@@ -81,11 +81,14 @@ function AddPOI () {
       <div className="add-poi-form-wrapper">
         <h1>Add a Point of Interest</h1>
         <form>
+          <Box
+            component="form"
+          >
           <TextField
             id="poi-name"
-            label="Name"
-            helperText="Name of the Point of Interest"
-            onChange={e => setPointName(e.target.value)}></TextField><br></br>
+            label="Name of the Point of Interest"
+            sx={{ width: "300px" }}
+            onChange={e => setPointName(e.target.value)}></TextField><br /><br />
         {/* <label htmlFor="poi-name-input" required>Name: </label><br />
         <input
           type="text"
@@ -99,9 +102,7 @@ function AddPOI () {
         />
         <br/><br/> */}
 
-        {/* <label htmlFor="poi-location-input" required>Location: </label>
-        <PlacesAutocomplete setAddress={setAddress} setLat={setLat} setLng={setLng}/> */}
-        <GoogleMaps />
+        <GoogleMaps setAddress={setAddress}/>
 
         <br></br><br></br>
         <InputLabel id="category-label">Category</InputLabel>
@@ -130,14 +131,6 @@ function AddPOI () {
           <option value="other">Other</option>
         </select><br></br><br></br> */}
 
-        <h3>Price</h3>
-        <Tooltip
-          // title="$: $1-$15\n$$: $15-$30\n$$$: $30+"
-          title={<div>$: $1-$15<br />$$: $15-$30<br />$$$: $30</div>}
-          placement="right"
-        >
-          <HelpIcon></HelpIcon>
-        </Tooltip><br></br>
         <ToggleButtonGroup
           value={price}
           exclusive
@@ -148,6 +141,13 @@ function AddPOI () {
           <ToggleButton value="$$">$$</ToggleButton>
           <ToggleButton value="$$$">$$$</ToggleButton>
         </ToggleButtonGroup>
+        <Tooltip
+          // title="$: $1-$15\n$$: $15-$30\n$$$: $30+"
+          title={<div>$: $1-$15<br />$$: $15-$30<br />$$$: $30</div>}
+          placement="right"
+        >
+          <HelpIcon></HelpIcon>
+        </Tooltip><br></br>
         {/* <input type="radio" className="radio-button poi-price-input" name="price" id="free" value="free" onClick={e => setPrice(e.target.value)}></input>
         <label htmlFor="free">Free</label>
 
@@ -182,6 +182,7 @@ function AddPOI () {
         {noPrice &&
         <p className="warning">Please select a price level</p>}
         <br />
+        </Box>
         </form>
       </div>
     </div>
