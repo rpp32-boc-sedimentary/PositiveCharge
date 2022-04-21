@@ -267,10 +267,10 @@ pool.getUser = async (email) => {
 }
 
 //sponsor models
-pool.getPoi = async (name) => {
+pool.getPoi = async (params) => {
   try {
-    var query = `SELECT * FROM pois WHERE name = $1`;
-    var poi = await pool.query(query, name);
+    var query = `SELECT * FROM pois WHERE name = $1 OR yelp_id=$2`;
+    var poi = await pool.query(query, params);
     console.log('poi', poi.rows);
     return poi.rows;
   }
