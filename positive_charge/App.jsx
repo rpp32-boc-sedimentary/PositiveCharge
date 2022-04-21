@@ -5,7 +5,7 @@ import AddPOI from './src/components/addPOI/AddPOI.jsx'
 import Login from './src/components/auth/Login.jsx';
 import Signup from './src/components/auth/Signup.jsx';
 import Modal from './src/components/poiDetails/Modal.jsx';
-import SeePOI from './src/components/seePOI/seePOI.jsx';
+import Placeholder from './src/components/seePOI/placeholder.jsx';
 import MoreDetails from './src/components/seePOI/moreDetails.jsx';
 import FindChargingStations from './src/components/findChargingStations/FindChargingStations.jsx';
 import Sponsor from './src/components/sponsor/Sponsor.jsx';
@@ -40,10 +40,11 @@ class App extends React.Component {
     })
   }
 
-  logIn(user) {
+  logIn(user, email) {
     this.setState({
       isLoggedIn: true,
-      userName: user
+      userName: user,
+      email: email
     })
   }
 
@@ -102,7 +103,7 @@ class App extends React.Component {
             <Route path="/login" element={<Login logIn={this.logIn}/>} />
             <Route path="signup" element={<Signup />} />
             <Route path="/logout" element={this.state.isLoggedIn ? <Navigate to="/" replace={true} /> : null} />
-            <Route path='/seePOI' element={<SeePOI />}/>
+            <Route path='/seePOI' element={<Placeholder />}/>
             <Route path='/moreDetails' element={<MoreDetails />}/>
             <Route path="/addPOI" element={<AddPOI />} />
             <Route path='/modal' element={<Modal />}></Route>
