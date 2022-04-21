@@ -4,11 +4,11 @@ const _ = require('underscore');
 const LfCategories = (props) => {
 
   return (
-    <div>
+    <div className="cksButton">
       { _.map(props.suggestedCategories, (val, key) =>
         <label>
-          { key }
           <input type="checkbox" key={ key } name={ key } checked={ val } onChange={ props.handleSuggestedCategoriesLF } readOnly/>
+          <span>{ key }</span>
         </label>
       )}
     </div>

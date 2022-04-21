@@ -32,7 +32,7 @@
     "yelp-fusion": "^3.0.0"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "client": "webpack --mode development --watch",
     "server": "npx nodemon ./servers/server.js",
     "start": "npm run client & npm run server"

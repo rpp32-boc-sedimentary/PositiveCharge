@@ -22,6 +22,7 @@ FILTER COMPONENT
     display: flex;
     flex-direction: column;
 
+
     .ckButton {
       background-color: rgb(182, 181, 181);
       border: 1px solid rgb(52, 49, 49);
@@ -64,6 +65,7 @@ FILTER COMPONENT
   .cksButton {
     background-color: rgb(182, 181, 181);
     border: 1px solid rgb(52, 49, 49);
+    border-radius: 4px;
     height: auto;
     float: left;
     text-align: center;

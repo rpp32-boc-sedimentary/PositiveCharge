@@ -25,18 +25,20 @@ class LittleFilter extends React.Component {
       categoriesChecked: {},
       suggestedCategories: {},
       //userLocation: {lat: 37.776447823372365, long: -122.43286289002232},
-      sampleData: dummyData.poiData,
+      //sampleData: dummyData.poiData,
       modifiedData: [],
       filteredData: [],
       lessThanFive: false,
       quickWalk: false,
       dataFromDom: [],
+      showMore: false,
 
     }
 
     this.handleBigModalState = this.handleBigModalState.bind(this);
     this.handlePriceModalState = this.handlePriceModalState.bind(this);
 
+    this.handleShowMore = this.handleShowMore.bind(this);
     this.handlePrice = this.handlePrice.bind(this);
     this.handleDistance = this.handleDistance.bind(this);
     this.handleAllCategories = this.handleAllCategories.bind(this);
@@ -65,6 +67,38 @@ class LittleFilter extends React.Component {
       priceModalState: !this.state.priceModalState
     })
   };
+
+  /*
+  show more function
+    needs to work even when there are no filters
+    need a container that is always populated with modified data,
+  it will have the categories as well as the durations.
+    when user clicks show more, up to 20 will appear, the list should
+    already be sorted by rating
+    when someone clicks on show more, the button name will change to show less, which someone can click and see less
+    the button should only appear when there are more than 5 items in the list
+    the button will only be on the little filter
+
+
+    so modified data contains all of the data that will be used to display any locations that are not filtered.
+    What if filtered data is a copy of modified data initially and that will be rendered at first. It will be sorted and user can click more and show less. when user starts filtering, the modified data will be filtered and set to filtered data. Modified data will contain all data in case it needs to be refiltered.
+  */
+
+
+  handleShowMore = () => {
+    let showMoreStatus = this.state.showMore;
+    let showThisMany;
+    this.setState({
+      showMore: !showMoreStatus
+    }, () => {
+      if (!this.state.showMore) {
+        showThisMany = this.state.filteredData.slice(0, 5);
+      } else {
+        showThisMany = this.state.filteredData.slice(0, 20);
+      }
+      this.props.changeDisplay(showThisMany);
+    });
+  }
 
   //add function to change the color of the button when clicked
   handleSort = (e) => {
@@ -156,7 +190,7 @@ class LittleFilter extends React.Component {
 
   handlePriceApply = (e) => {
     e.preventDefault();
-    let filtered = helpers.filterOnPrice(this.state.price, this.state.sampleData);
+    let filtered = helpers.filterOnPrice(this.state.price, this.state.filteredData);
     this.setState({
       filteredData: filtered
     }, () => {
@@ -172,13 +206,21 @@ class LittleFilter extends React.Component {
 
   applyFilters = (e) => {
     const { filterOnPrice, filterOnCategories, filterLfCategories, filterOnDistance, filterQuickWalks } = helpers;
-    let filteredData = filterOnPrice(this.state.price, this.state.modifiedData);
+    let filteredData = filterOnPrice(this.state.price, this.state.filteredData);
     filteredData = filterOnCategories(this.state.categoriesChecked, filteredData);
     filteredData = filterLfCategories(this.state.suggestedCategories, filteredData);
     filteredData = filterOnDistance(this.state.distance, filteredData);
     filteredData = filterQuickWalks(this.state.quickWalk, filteredData);
     filteredData = helpers.sortFunc(this.state.sortVal, filteredData);
-    this.props.changeDisplay(filteredData);
+    let showFive = filteredData.slice(0, 5);
+    let showTwenty = filteredData.slice(0, 20);
+    // what if there are only 3 in the filtered data??
+    // the conditional should take care of itself
+    if (this.state.showMore) {
+      this.props.changeDisplay(showTwenty);
+    } else {
+      this.props.changeDisplay(showFive);
+    }
     this.setState({
       filteredData
     }, () => {
@@ -209,29 +251,14 @@ class LittleFilter extends React.Component {
     });
   };
 
-  // DELETE Later, for testing purposes
-  // getYelpDataTest = () => {
-  //   axios.get('/filter/graphql', {
-  //     params: {
-  //       lat: this.state.userLocation.lat,
-  //       long: this.state.userLocation.long
-  //     }
-  //   })
-  //     .then(data => {
-  //       console.log('data', data);
-  //     })
-  //     .catch(err => {
-  //       console.log('error', err);
-  //     })
-  // };
-
-
   componentDidMount = () => {
     console.log('props from DOM', this.props)
+    console.log('filtered in the biginning', this.state.filteredData)
     let data = this.props.allData;
     data['landmarks & historical'] = data.lAndH;
     delete data.lAndH;
     delete data.all;
+    console.log('data all', data)
     let addedCategories = helpers.addCategory(data);
     this.findTimeToTravel(addedCategories);
 
@@ -249,6 +276,7 @@ class LittleFilter extends React.Component {
       .then(data => {
         this.setState({
           modifiedData: data.data.all,
+          filteredData: data.data.all,
           lessThanFive: data.data.lessThanFive
         }, () => {
           let categoriesChecked = helpers.findCategories(this.state.modifiedData);
@@ -278,6 +306,8 @@ class LittleFilter extends React.Component {
 
         <button className="sfChild" onClick={ this.handleBigModalState }>More Filters</button>
 
+        { this.state.filteredData.length > 5 ? <button onClick={this.handleShowMore}>{ this.state.showMore ? "Show Less" : "Show More"}</button> : null }
+
         { this.state.modalState ? <BigFilter manageModalState={ this.handleBigModalState } distance = { this.state.distance } handleDistance={ this.handleDistance } price={ this.state.price } handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } categoriesChecked={ this.state.categoriesChecked } handleAllCategories={ this.handleAllCategories } suggestedCategories=
         { this.state.suggestedCategories } handleSuggestedCategoriesBf={ this.handleSuggestedCategoriesBf } lessThanFive={ this.state.lessThanFive } quickWalk={ this.state.quickWalk } handleQuickBf={ this.handleQuickBf } /> : null }
 
@@ -287,7 +317,7 @@ class LittleFilter extends React.Component {
 
         { Object.keys(this.state.suggestedCategories).length > 0 ? <LfCategories suggestedCategories={ this.state.suggestedCategories } handleSuggestedCategoriesLF={ this.handleSuggestedCategoriesLF } /> : null}
 
-        { this.state.lessThanFive ? <div className="cksButton"><label>Quick Walk<input type="checkbox" checked={ this.state.quickWalk } name="quickWalk" onChange={ this.handleQuickLf } /></label></div> : null }
+        { this.state.lessThanFive ? <div className="cksButton"><label><input type="checkbox" checked={ this.state.quickWalk } name="quickWalk" onChange={ this.handleQuickLf } /><span>Quick Walk</span></label></div> : null }
       </div>
     )
   }
