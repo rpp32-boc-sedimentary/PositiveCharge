@@ -77,6 +77,7 @@ const PlacesAutocomplete = (props) => {
         onChange={handleInput}
         disabled={!ready}
         placeholder="Enter a place"
+        id="poi-location-input"
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && <ul>{renderSuggestions()}</ul>}

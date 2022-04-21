@@ -75,66 +75,67 @@ function AddPOI () {
         <input
           type="text"
           className="text-input"
-          id="point-name-input"
+          id="poi-name-input"
+          data-testid="name-input"
           placeholder=""
           value={pointName}
           onChange={e =>
             setPointName(e.target.value)}
-        >
-          </input><br></br><br></br>
+        />
+        <br/><br/>
 
-          <label htmlFor="poi-location-input" required>Location: </label>
-          <PlacesAutocomplete setAddress={setAddress} setLat={setLat} setLng={setLng}/>
+        <label htmlFor="poi-location-input" required>Location: </label>
+        <PlacesAutocomplete setAddress={setAddress} setLat={setLat} setLng={setLng}/>
 
-          <br></br><br></br>
+        <br></br><br></br>
 
-          <label htmlFor="poi-category-select" required>Category: </label><br />
-          <select id="category-select"
-          value={category}
-          onChange={e => setCategory(e.target.value)}>
-            <option value="food">Food</option>
-            <option value="cafe">Cafe</option>
-            <option value="museum">Museum</option>
-            <option value="landmark">Landmark or Historical</option>
-            <option value="park">Park</option>
-            <option value="other">Other</option>
-          </select><br></br><br></br>
+        <label htmlFor="poi-category-select" required>Category: </label><br />
+        <select id="category-select"
+        value={category}
+        onChange={e => setCategory(e.target.value)}>
+          <option value="food">Food</option>
+          <option value="cafe">Cafe</option>
+          <option value="museum">Museum</option>
+          <option value="landmark">Landmark or Historical</option>
+          <option value="park">Park</option>
+          <option value="other">Other</option>
+        </select><br></br><br></br>
 
-          <h3>Cost</h3>
-          <input type="radio" className="radio-button poi-price-input" name="price" id="free" value="free" onClick={e => setPrice(e.target.value)}></input>
-          <label htmlFor="free">Free</label>
+        <h3>Cost</h3>
+        <input type="radio" className="radio-button poi-price-input" name="price" id="free" value="free" onClick={e => setPrice(e.target.value)}></input>
+        <label htmlFor="free">Free</label>
 
-          <input type="radio" className="radio-button price-input" name="price" id="$" value="$" onClick={e => setPrice("1")}></input>
-          <label htmlFor="$">$</label>
+        <input type="radio" className="radio-button price-input" name="price" id="$" value="$" onClick={e => setPrice("1")}></input>
+        <label htmlFor="$">$</label>
 
-          <input type="radio" className="radio-button price-input" name="price" id="$$" value="$$" onClick={e => setPrice("2")}></input>
-          <label htmlFor="$$">$$</label>
+        <input type="radio" className="radio-button price-input" name="price" id="$$" value="$$" onClick={e => setPrice("2")}></input>
+        <label htmlFor="$$">$$</label>
 
-          <input type="radio" className="radio-button price-input" name="price" id="$$$" value="$$$" onClick={e => setPrice("3")}></input>
-          <label htmlFor="$$$">$$$</label><br></br>
+        <input type="radio" className="radio-button price-input" name="price" id="$$$" value="$$$" onClick={e => setPrice("3")}></input>
+        <label htmlFor="$$$">$$$</label><br></br>
 
-          {!showCostGuide &&
-          <p onClick={() => setShowCostGuide(true)}>Show Cost Guidelines</p>}
+        {!showCostGuide &&
+        <p onClick={() => setShowCostGuide(true)}>Show Cost Guidelines</p>}
 
-          {showCostGuide &&
-          <>
-          <p>Cost Guidelines</p>
-          <p>$: Low. For restaurants, the average meal costs less than $15</p>
-          <p>$$: Medium. For restaurants, the average meal costs $15 - $30</p>
-          <p>$$$: High. For restaurants, the average meal costs more than $30</p>
-          </>}
+        {showCostGuide &&
+        <>
+        <p>Cost Guidelines</p>
+        <p>$: Low. For restaurants, the average meal costs less than $15</p>
+        <p>$$: Medium. For restaurants, the average meal costs $15 - $30</p>
+        <p>$$$: High. For restaurants, the average meal costs more than $30</p>
+        </>}
 
-          {/* Check if user is a business user, if so, show checkbox for "this is my business" */}
+        {/* Check if user is a business user, if so, show checkbox for "this is my business" */}
 
-          <input type="submit" value="Add POI" disabled={!canSubmit}></input>
-          <br/>
-          {noName &&
-          <p className="warning">Please add a name</p>}
-          {noCoords &&
-          <p className="warning">Please select a valid address</p>}
-          {noPrice &&
-          <p className="warning">Please select a price level</p>}
-          <br />
+        <input type="submit" value="Add POI" disabled={!canSubmit}></input>
+        <br/>
+        {noName &&
+        <p className="warning">Please add a name</p>}
+        {noCoords &&
+        <p className="warning">Please select a valid address</p>}
+        {noPrice &&
+        <p className="warning">Please select a price level</p>}
+        <br />
         </form>
       </div>
     </div>

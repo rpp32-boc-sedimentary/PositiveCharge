@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@react-leaflet/core": "^1.1.1",
-    "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
@@ -30,7 +29,7 @@
     "yelp-fusion": "^3.0.0"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "client": "webpack --mode development --watch",
     "server": "npx nodemon ./servers/server.js",
     "start": "npm run client & npm run server"
@@ -59,6 +58,7 @@
     "@babel/preset-react": "^7.16.7",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
+    "@testing-library/user-event": "^14.1.0",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.2.4",
