@@ -147,5 +147,20 @@ seePOIRouter.post('/getParksPOI', async (req, res) => {
   })
 });
 
+seePOIRouter.post('/seeDataPOI', async (req, res, next) => {
+
+  const result = await seePOIRouter.seeDataPoi(req.body);
+  try {
+    console.log('result in see route', result)
+    res.status(201).send(result);
+  }
+  catch {
+    console.log('error in see route', err)
+    res.status(500).send(err)
+  }
+
+
+});
+
 
 module.exports = seePOIRouter;
