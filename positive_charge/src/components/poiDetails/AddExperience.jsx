@@ -4,45 +4,20 @@ import { useNavigate } from "react-router";
 import axios from 'axios';
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Button,
   Typography,
   TextField,
-  InputAdornment
+  InputAdornment,
+  Snackbar
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-/*
-Styles here are just for positioning of the modal and will be refactored to scss or sass or whatever we decide to use later
-*/
-const modalStyle = {
-  position: 'fixed',
-  width: '50%',
-  height: '50%',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  backgroundColor: '#FFF',
-  padding: '50px',
-  zIndex: 1001
-}
-
-const overlayStyle = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, .6)',
-  zIndex: 1001
-}
-
 
 export default function AddExperience({open, onClose, name}) {
 
   const [experience, setExperience] = useState('');
+
   const navigate = useNavigate();
 
   const shareExperience = (path) => {
@@ -62,19 +37,17 @@ export default function AddExperience({open, onClose, name}) {
   const submitFormRedirect = () => {
     navigate('/');
   }
+
   return (
     <Dialog
       className='add-experience-modal'
       onClose={onClose}
       open={open}
-      fullWidth='xl'
+      fullWidth={true}
     >
       <Typography />
       <DialogContent>
-        <form
-
-          autoComplete='off'
-        >
+        <form autoComplete='off'>
           <TextField
             id="add-experience-textfield"
             label="Share your experience"

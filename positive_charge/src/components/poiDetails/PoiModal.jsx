@@ -1,51 +1,35 @@
 import React, { useState } from 'react';
-import ReactDom from 'react-dom';
 import axios from 'axios';
 import {
   Dialog,
   DialogTitle,
-  DialogContent,
   DialogContentText,
   DialogActions,
   Button,
   List,
   ListItem,
-  ListItemButton,
   Divider,
-  IconButton
+  IconButton,
+  Snackbar,
+  BottomNavigation,
+  BottomNavigationAction
 } from '@mui/material';
+
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FlagIcon from '@mui/icons-material/Flag';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 
-import AddExperience from './AddExperience.jsx';
-
-const modalStyle = {
-  position: 'fixed',
-  width: '70%',
-  height: '80%',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  backgroundColor: '#FFF',
-  padding: '50px',
-  zIndex: 1000
-};
-
-const overlayStyle = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, .8)',
-  zIndex: 1000
-};
-
+import AddExperience from './AddExperience.jsx'
 
 export default function PoiModal({open, onClose, detail, name}) {
 
   const [isOpen, setIsOpen] = useState(false);
   const [showMore, showMoreExp] = useState(false);
+  const [snackbarLoveOpen, setSnackbarLoveOpen] = useState(false);
+  const [snackbarFlagOpen, setSnackbarFlagOpen] = useState(false);
 
   const love = (path, exp) => {
     axios.post(`/details/${path}/love`, {
@@ -54,7 +38,6 @@ export default function PoiModal({open, onClose, detail, name}) {
       'email': name.userEmail
     })
       .then((response) => {
-        alert(`Thanks for the love!`)
       })
   };
 
@@ -65,7 +48,6 @@ export default function PoiModal({open, onClose, detail, name}) {
       'email': name.userEmail
     })
       .then((response) => {
-        alert('We will review the flag you submitted')
       })
   };
 
@@ -80,19 +62,44 @@ export default function PoiModal({open, onClose, detail, name}) {
   let minExp = Math.min(5, sortedDetails.length);
 
   const displayExperiences = () => {
+
     let exp = showMore ? minExp = sortedDetails.length : minExp;
+
     return sortedDetails.slice(0, exp).map((exp, index) => {
-      return <List key={index}>
-         <DialogContentText>{exp.experience}</DialogContentText><br/>
-         <DialogContentText>{exp.exp_loves} {exp.exp_loves === 1 ? 'love' : 'loves'}</DialogContentText><br/>
-         <DialogActions>
-          <IconButton variant='outlined' onClick={() => love('experience', exp.experience)}><FavoriteIcon/></IconButton>
-          <IconButton variant='outlined' onClick={() => flag('experience', exp.experience)}>
+      return <ListItem key={index}>
+         <DialogContentText>{exp.experience}</DialogContentText>
+
+          <IconButton
+            onClick={() => {
+              love('experience', exp.experience)
+              setSnackbarLoveOpen(true)
+              }}>
+            <FavoriteIcon/>{exp.exp_loves}
+          </IconButton>
+          <Snackbar
+            open={snackbarLoveOpen}
+            autoHideDuration={4000}
+            onClose={() => {setSnackbarLoveOpen(false)}}
+            message="Thanks for the love!"
+          />
+          <br/>
+          <br/>
+          <IconButton
+            onClick={() => {
+              flag('experience', exp.experience)
+              setSnackbarFlagOpen(true)
+              }}>
             <FlagIcon/>
           </IconButton>
-         </DialogActions>
-       </List>
+          <Snackbar
+            open={snackbarFlagOpen}
+            autoHideDuration={4000}
+            onClose={() => {setSnackbarFlagOpen(false)}}
+            message="Thanks for informing us! We'll review your flag."
+          />
+       </ListItem>
      })
+
   }
 
   return (
@@ -100,42 +107,77 @@ export default function PoiModal({open, onClose, detail, name}) {
       className='experiences-modal'
       onClose={onClose}
       open={open}
-      fullWidth='xl'
+      fullWidth={true}
     >
-      <DialogTitle>{name?.props ? name.props.name : 'loading...'}</DialogTitle>
+      <DialogTitle>{name?.props ? `Experiences at ${name.props.name}` : 'loading...'}</DialogTitle>
 
       <List>
         {detail[0]?.experience ? displayExperiences() : 'Be the first to add your experience!'}
       </List>
 
-      <DialogActions>
-        <Button variant='outlined' onClick={() => showMoreExp(!showMore)}>{showMore ? 'see less' : 'see more experiences'}</Button>
-      </DialogActions>
+      {detail.length > 5 ?
+        <IconButton variant='outlined' onClick={() => showMoreExp(!showMore)}>{showMore ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconButton>
+        : null}
 
       <Divider />
 
       <DialogActions>
-        <Button variant='outlined' onClick={() => {love('poi')}}>Love</Button>
-        {detail[0]?.loves ? detail[0].loves + ' loves' : null}
+        <FavoriteIcon/>{detail[0]?.loves ? detail[0].loves : null}
+        <Snackbar
+            open={snackbarLoveOpen}
+            autoHideDuration={4000}
+            onClose={() => {setSnackbarLoveOpen(false)}}
+            message="Thanks for the love!"
+          />
       </DialogActions>
 
-      <DialogActions>
-        <Button variant='outlined' onClick={() => setIsOpen(true)}>experience</Button>
-      </DialogActions>
+      <BottomNavigation>
+        <BottomNavigationAction
+            label="Love"
+            value="love"
+            icon={<FavoriteIcon />}
+            onClick={() => {
+              love('poi')
+              setSnackbarLoveOpen(true)
+              }}
+        />
+
+        <BottomNavigationAction
+            label="Share Experience"
+            value="share"
+            icon={<AddIcon />}
+            onClick={() => setIsOpen(true)}
+        />
+
+        <BottomNavigationAction
+            label="Flag"
+            value="flag"
+            icon={<FlagIcon />}
+            onClick={() => {
+              flag('poi')
+              setSnackbarFlagOpen(true)
+              }}
+        />
+
+        <BottomNavigationAction
+            label="Close"
+            value="close"
+            icon={<CloseIcon />}
+            onClick={onClose}
+        />
+
+      </BottomNavigation>
 
       <DialogActions>
         <AddExperience open={isOpen} onClose={() => setIsOpen(false)} name={name}></AddExperience>
       </DialogActions>
 
-      <DialogActions>
-        <Button variant='outlined' onClick={() => flag('poi')}>
-          {detail[0]?.flag_status === true ? 'Flagged' : 'Flag'}
-        </Button>
-      </DialogActions>
-
-      <DialogActions>
-        <Button variant='outlined' onClick={onClose}>Close</Button>
-      </DialogActions>
+      <Snackbar
+          open={snackbarFlagOpen}
+          autoHideDuration={4000}
+          onClose={() => {setSnackbarFlagOpen(false)}}
+          message="Thanks for informing us! We'll review your flag."
+        />
 
     </Dialog>
   );
