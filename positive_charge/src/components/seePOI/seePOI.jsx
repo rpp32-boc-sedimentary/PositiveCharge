@@ -25,8 +25,24 @@ class SeePOI extends React.Component {
     this.mapPOI = this.mapPOI.bind(this);
     this.walkTime = this.walkTime.bind(this);
     this.changeDisplay = this.changeDisplay.bind(this);
+    this.getDatabaseData = this.getDatabaseData.bind(this);
 
   }
+
+  getDatabaseData () {
+    let data = [this.props.props.chargerCoords.chargerLat, this.props.props.chargerCoords.chargerLong]
+
+    axios.post('/getPOI/seeDataPOI', data)
+    .then (result => {
+      console.log('seepoi', result.data.rows);
+    })
+    .catch (err => {
+      console.error(err);
+    })
+  }
+
+
+
 
   getPOIData (path, callback) {
     axios.post(path, {data:{lat: this.state.lat, long: this.state.long, dist: this.state.dist}})
@@ -75,6 +91,7 @@ class SeePOI extends React.Component {
 
 
   componentDidMount () {
+    this.getDatabaseData();
     this.setState({lat: this.props.props.chargerCoords.chargerLat, long: this.props.props.chargerCoords.chargerLong}, () => {
       this.getPOIData('/getPOI/getPOI', (data) => {this.setState({all: data})});
       this.getPOIData('/getPOI/getFoodPOI', (data) => {this.setState({food: data})});
