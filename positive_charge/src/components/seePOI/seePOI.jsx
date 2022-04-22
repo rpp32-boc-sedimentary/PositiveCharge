@@ -26,7 +26,7 @@ class SeePOI extends React.Component {
     this.walkTime = this.walkTime.bind(this);
     this.changeDisplay = this.changeDisplay.bind(this);
     this.getDatabaseData = this.getDatabaseData.bind(this);
-
+    this.getSponserData = this.getSponserData.bind(this);
   }
 
   getDatabaseData (callback) {
@@ -41,7 +41,17 @@ class SeePOI extends React.Component {
     })
   }
 
+  getSponserData (callback) {
+    let data = [this.props.props.chargerCoords.chargerLat, this.props.props.chargerCoords.chargerLong]
 
+    axios.post('/getPOI/seeSponserPOI', data)
+    .then (result => {
+      callback(result.data.rows);
+    })
+    .catch (err => {
+      console.error(err);
+    })
+  }
 
 
   getPOIData (path, callback) {
@@ -93,6 +103,7 @@ class SeePOI extends React.Component {
   componentDidMount () {
     this.setState({lat: this.props.props.chargerCoords.chargerLat, long: this.props.props.chargerCoords.chargerLong}, () => {
       this.getDatabaseData((data) => this.setState({database: data}));
+      this.getSponserData((data) => this.setState({sponser: data}));
       this.getPOIData('/getPOI/getPOI', (data) => {this.setState({all: data})});
       this.getPOIData('/getPOI/getFoodPOI', (data) => {this.setState({food: data})});
       this.getPOIData('/getPOI/getCafesPOI', (data) => {this.setState({cafe: data})});
@@ -103,9 +114,39 @@ class SeePOI extends React.Component {
   }
 
   componentDidUpdate () {
-    if (this.state.data === undefined && this.state.all !== undefined) {
-      this.setState({data: this.state.all.businesses.slice(0,5)}, () => {
+    if (this.state.data === undefined && this.state.all !== undefined && this.state.sponser !== undefined && this.state.database !== undefined) {
+      let data = [];
+      let sponL = this.state.sponser.length;
+      let baseL = this.state.database.length;
+
+      if (sponL >= 5) {
+        data = this.state.sponser.slice(0, 5);
+      } else if (sponL > 0) {
+        if (baseL > 0) {
+          if(baseL + sponL >= 5) {
+            let pullTo = 5 - sponL;
+            data = this.state.sponser.concat(this.state.database.slice(0, pullTo));
+          } else {
+            let pullTo = 5 - (sponL + baseL);
+            data = this.state.sponser.concat(this.state.database, this.state.all.businesses.slice(0, pullTo));
+          }
+        } else {
+          let pullTo = 5 - sponL;
+          data = this.state.sponser.concat(this.state.all.businesses.slice(0, pullTo));
+        }
+      } else if (baseL > 0) {
+        if (baseL >= 5) {
+          data = this.state.database.slice(0, 5);
+        } else {
+          let pullTo = 5 - baseL;
+          data = this.state.database.concat(this.state.all.businesses.slice(0, pullTo))
+        }
+      } else {
+        data = this.state.all.businesses.slice(0, 5);
+      }
+      this.setState({data: data}, () => {
         this.filterForMap()
+        console.log('seePOI', this.state);
       })
     }
     if (this.state.all && this.state.food && this.state.cafe && this.state.museum && this.state.landmark && this.state.park && this.state.flag === undefined) {

@@ -335,8 +335,19 @@ pool.deleteSponsor = async (id) => {
 pool.seeDataPoi = async (params) => {
 
   try {
-    let query = 'SELECT *, earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) as distance FROM pois a WHERE earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) < 1260';
-   //let query = 'UPDATE pois SET lat_float = -104.71158, long_float = 39.60185 WHERE '
+    let query = 'SELECT *, earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) as distance FROM pois a WHERE earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) < 1260 AND a.sponsored = false';
+    let result = await pool.query(query, params);
+    return result;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.seeSponserPoi = async (params) => {
+
+  try {
+    let query = 'SELECT *, earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) as distance FROM pois a WHERE earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) < 1260 AND a.sponsored = true';
     let result = await pool.query(query, params);
     return result;
   }
