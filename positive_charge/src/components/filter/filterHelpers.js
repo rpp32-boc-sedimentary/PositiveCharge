@@ -31,11 +31,13 @@ const filterOnPrice = (selectedFilter, data) => {
 };
 
 const filterOnCategories = (selectedFilter, data) => {
-  if (!selectedFilter.food && !selectedFilter.museum && !selectedFilter.cafe && !selectedFilter.park && !selectedFilter['landmarks & historical']) {
+  console.log('selected filter', selectedFilter)
+  if (!selectedFilter.food && !selectedFilter.museum && !selectedFilter.cafe && !selectedFilter.park && !selectedFilter.landmark) {
     return data;
   }
   let categoryFiltered = [];
   data.forEach(item => {
+    console.log('item in filter', item)
     if (selectedFilter[item.category]) {
       categoryFiltered.push(item);
     }
@@ -160,12 +162,10 @@ const sortFunc = (sortVal, data) => {
 const addCategoryToYelp = (data) => {
   let yelpWithCategories = [];
   for (var key in data) {
-    console.log('key', key)
-    if (key === 'database' || key === 'all') {
+    if (key === 'database') {
       continue;
     } else {
       data[key].businesses.forEach(business => {
-        console.log('in for each', business)
         if (business.distance > 1260) {
           return;
         } else {
@@ -190,6 +190,5 @@ module.exports = {
   findSuggested,
   filterQuickWalks,
   sortFunc,
-  addCategory,
   addCategoryToYelp
 }

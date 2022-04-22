@@ -113,4 +113,16 @@ router.post('/walkingTime', (req, res) => {
 })
 
 
+router.get('/getAll', async (req, res) => {
+  try {
+    const result = await router.getAllPoi();
+    console.log(result);
+  } catch (err) {
+    console.log('error getting all in routes', err)
+  }
+})
+
+
+
+
 module.exports = router;

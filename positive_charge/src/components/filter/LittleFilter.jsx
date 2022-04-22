@@ -30,7 +30,6 @@ class LittleFilter extends React.Component {
       categoriesChecked: {},
       suggestedCategories: {},
       //userLocation: {lat: 37.776447823372365, long: -122.43286289002232},
-      //sampleData: dummyData.poiData,
       modifiedData: [],
       filteredData: [],
       lessThanFive: false,
@@ -58,6 +57,10 @@ class LittleFilter extends React.Component {
     this.handleBigFilterApply = this.handleBigFilterApply.bind(this);
     this.applyFilters = this.applyFilters.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
+
+
+
+    this.getUserPois = this.getUserPois.bind(this);
     //this.getYelpDataTest = this.getYelpDataTest.bind(this);
   }
 
@@ -212,7 +215,7 @@ class LittleFilter extends React.Component {
 
   applyFilters = (e) => {
     const { filterOnPrice, filterOnCategories, filterLfCategories, filterOnDistance, filterQuickWalks } = helpers;
-    let filteredData = filterOnPrice(this.state.price, this.state.filteredData);
+    let filteredData = filterOnPrice(this.state.price, this.state.modifiedData);
     filteredData = filterOnCategories(this.state.categoriesChecked, filteredData);
     filteredData = filterLfCategories(this.state.suggestedCategories, filteredData);
     filteredData = filterOnDistance(this.state.distance, filteredData);
@@ -262,13 +265,10 @@ class LittleFilter extends React.Component {
     this.setState({
       userPois
     }, () => {
-      console.log('user pois set?', this.state.userPois)
     })
-    data['landmarks & historical'] = data.lAndH;
     console.log('data in database?', data.database);
-    delete data.lAndH;
+    delete data.all;
     let addedCategories = helpers.addCategoryToYelp(data);
-    console.log('added cata', addedCategories)
     this.findTimeToTravel(addedCategories);
 
 
@@ -301,15 +301,31 @@ class LittleFilter extends React.Component {
       })
   }
 
+
+  getUserPois = () => {
+    axios.get('/filter/getAll')
+      .then(data => {
+        console.log('data is here from db', data)
+      })
+      .catch(err => {
+        console.log('error getting data', err)
+      })
+  }
+
 //when cancel is clicked all filters should clear???
 
   render() {
 
     return (
       <div className="smallFilter">
-        <div className="clickableElement">
-          <Box sx={{minWidth: 100}}>
-            <FormControl minWidth>
+
+        <div className="sfWrapper">
+
+          <button className="sfButton" onClick={ this.getUserPois }>test</button>
+
+
+          {/* <Box sx={{minWidth: 100}}>
+            <FormControl>
               <InputLabel id="demo-simple-select-label">Sort</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -322,27 +338,27 @@ class LittleFilter extends React.Component {
                 <MenuItem value={"Distance"}>Distance</MenuItem>
               </Select>
             </FormControl>
-          </Box>
+          </Box> */}
+
+          <select className="sfButton item2 clickableElement" name="category" onChange={ this.handleSort }>
+            <option>Loves</option>
+            <option>Distance</option>
+          </select>
+
+
+          { this.state.filteredData.length > 5 ? <button className="clickableElement sfButton" onClick={this.handleShowMore}>{ this.state.showMore ? "Show Less" : "Show More"}</button> : null }
+
+          <button className="sfButton item1 clickableElement" onClick={ this.handleBigModalState }>More Filters</button>
+          { this.state.modalState ? <BigFilter manageModalState={ this.handleBigModalState } distance = { this.state.distance } handleDistance={ this.handleDistance } price={ this.state.price } handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } categoriesChecked={ this.state.categoriesChecked } handleAllCategories={ this.handleAllCategories } suggestedCategories=
+          { this.state.suggestedCategories } handleSuggestedCategoriesBf={ this.handleSuggestedCategoriesBf } lessThanFive={ this.state.lessThanFive } quickWalk={ this.state.quickWalk } handleQuickBf={ this.handleQuickBf } /> : null }
+
+          <button className="sfButton item3" onClick={ this.handlePriceModalState }>Price</button>
+          { this.state.priceModalState ?  <PriceFilter className="clickableElement" priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
+
+          { Object.keys(this.state.suggestedCategories).length > 0 ? <LfCategories suggestedCategories={ this.state.suggestedCategories } handleSuggestedCategoriesLF={ this.handleSuggestedCategoriesLF } /> : null}
+
+          { this.state.lessThanFive ? <div className="chButton item4 clickableElement"><label><input type="checkbox" checked={ this.state.quickWalk } name="quickWalk" onChange={ this.handleQuickLf } /><span>Quick Walk</span></label></div> : null }
         </div>
-
-        <select className="sfChild clickableElement" name="category" onChange={ this.handleSort }>
-          <option>Loves</option>
-          <option>Distance</option>
-        </select>
-
-        <button className="sfChild clickableElement" onClick={ this.handleBigModalState }>More Filters</button>
-
-        { this.state.filteredData.length > 5 ? <button className="clickableElement" onClick={this.handleShowMore}>{ this.state.showMore ? "Show Less" : "Show More"}</button> : null }
-
-        { this.state.modalState ? <BigFilter manageModalState={ this.handleBigModalState } distance = { this.state.distance } handleDistance={ this.handleDistance } price={ this.state.price } handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } categoriesChecked={ this.state.categoriesChecked } handleAllCategories={ this.handleAllCategories } suggestedCategories=
-        { this.state.suggestedCategories } handleSuggestedCategoriesBf={ this.handleSuggestedCategoriesBf } lessThanFive={ this.state.lessThanFive } quickWalk={ this.state.quickWalk } handleQuickBf={ this.handleQuickBf } /> : null }
-
-        <button onClick={ this.handlePriceModalState }>Price</button>
-        { this.state.priceModalState ?  <PriceFilter className="clickableElement" priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
-
-        { Object.keys(this.state.suggestedCategories).length > 0 ? <LfCategories suggestedCategories={ this.state.suggestedCategories } handleSuggestedCategoriesLF={ this.handleSuggestedCategoriesLF } /> : null}
-
-        { this.state.lessThanFive ? <div className="cksButton clickableElement"><label><input type="checkbox" checked={ this.state.quickWalk } name="quickWalk" onChange={ this.handleQuickLf } /><span>Quick Walk</span></label></div> : null }
       </div>
     )
   }

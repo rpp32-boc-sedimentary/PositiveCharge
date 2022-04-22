@@ -37,25 +37,25 @@ class BigFilter extends React.Component {
           <hr/>
           <div className="categoryHeader">Maximum Walking Duration</div>
           <div className="bigFilterSection">
-            <div className="cksButton">
+            <div>
               <label className="categories">
                 <input type="radio" value="5 min or less" checked={ this.props.distance === "5 min or less" } onChange={ this.props.handleDistance } />
                 <span>5 Minutes</span>
               </label>
             </div>
-            <div className="cksButton">
+            <div>
               <label className="categories">
                 <input type="radio" value="10 min or less" checked={ this.props.distance === "10 min or less" } onChange={ this.props.handleDistance } />
                 <span>10 Minutes</span>
               </label>
             </div>
-            <div className="cksButton">
+            <div>
               <label className="categories">
                 <input type="radio" value="15 min or less" checked={ this.props.distance === "15 min or less" } onChange={ this.props.handleDistance } />
                 <span>15 Minutes</span>
               </label>
             </div>
-            <div className="cksButton">
+            <div>
               <label className="categories">
                 <input type="radio" value="All distances" checked={ this.props.distance === "All distances" } onChange={ this.props.handleDistance } />
                 <span>All</span>
