@@ -329,8 +329,6 @@ pool.deleteSponsor = async (id) => {
   }
 }
 
-<<<<<<< HEAD
-=======
 // details models
 
 // filter models
@@ -339,9 +337,10 @@ pool.deleteSponsor = async (id) => {
 
 // SEE POI models
 pool.seeDataPoi = async (params) => {
+
   try {
-    let query = 'SELECT *, earth_distance ( ll_to_earth($1, $2), ll_to_earth(a.lat, a.long) ) / 1609.344 as distance FROM pois a';
-    //let query = 'SELECT * FROM pois'
+    let query = 'SELECT *, earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) as distance FROM pois a WHERE earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) < 1260';
+   //let query = 'UPDATE pois SET lat_float = -104.71158, long_float = 39.60185 WHERE '
     let result = await pool.query(query, params);
     return result;
   }
@@ -350,5 +349,4 @@ pool.seeDataPoi = async (params) => {
   }
 }
 
->>>>>>> b02e840 (working on accsessing database poi by distance)
 module.exports = { pool };
