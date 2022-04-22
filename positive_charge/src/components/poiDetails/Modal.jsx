@@ -8,7 +8,8 @@ export default function Modal(data) {
   const getDetails = (data) => {
     axios.get(`/details/view`, {
       params: {
-        id: data.props.id
+        id: data.props.id,
+        email: data.userEmail
       }
     })
       .then((response) => {
