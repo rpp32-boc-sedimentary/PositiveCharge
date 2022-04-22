@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+
 
 function Sponsor() {
 
@@ -108,31 +119,179 @@ function Sponsor() {
   // }
 
   return (
-    <div className="sponsor">
-      <h1>Sponsor this point of interest: {data.props.name}</h1>
-      <form onSubmit={handleSubmit}>
-        <h3>Enter Date Range:</h3>
-        <label htmlFor="startDate">Starting on: </label>
-        <input type="date" name="startDate" value={startDate} onChange={e => setStart(e.target.value)} required></input>
-        <label htmlFor="months">Number of months: </label>
-        <input type="number" name="months" value={months} onChange={e => setMonths(e.target.value)} required></input>
-        <br/>
-
-        <h3>Pricing</h3>
-        <ul>
-          <li>$5 per month (31 day increments from start date)</li>
-          <li>$45 per year</li>
-        </ul>
-
-        <h3>Enter Payment Information:</h3>
-        <button>Paypal</button>
-        <button>Google Pay</button>
-        <button>Apple Pay</button>
-
-        <br/><br/>
-        <input id="sponsor-btn" type="Submit" value="SPONSOR"/>
-      </form>
-    </div>
+    <Container className="sponsor" maxWidth="sm">
+      <Box
+        sx={{
+          marginTop:8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Typography component="h1" variant="h4" sx={{ mb: 3 }}>
+          Sponsor: {data.props.name}
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography component="h3" variant="h6" color="text.primary" sx={{ mb: 2 }}>Enter Date Range</Typography>
+              <TextField
+                type="date"
+                name="startDate"
+                value={startDate}
+                id="startDate"
+                label="Starting on"
+                onChange={e => setStart(e.target.value)}
+                required
+                sx={{ width: 220 }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              {/* <label htmlFor="startDate">Starting on: </label>
+              <input type="date" name="startDate" value={startDate} onChange={e => setStart(e.target.value)} required></input> */}
+              <TextField
+                type="number"
+                name="months"
+                id="months"
+                label="Number of months"
+                value={months}
+                onChange={e => setMonths(e.target.value)}
+                required
+                sx={{ width: 220 }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              {/* <label htmlFor="months">Number of months: </label>
+              <input type="number" name="months" value={months} onChange={e => setMonths(e.target.value)} required></input> */}
+            </Grid>
+            <Grid item xs={12}>
+              <Typography component="h3" variant="h6" color="text.primary" sx={{ mt: 2 }}>Pricing</Typography>
+              <Container maxWidth="lg" component="main">
+                <Grid container spacing={5} alignItems="flex-end">
+                  <Grid
+                    item
+                    xs={6}
+                    // sm={6}
+                    // md={4}
+                  >
+                    <Card>
+                      <CardHeader
+                        title="Monthly"
+                        titleTypographyProps={{ align: 'center' }}
+                        sx={{
+                          backgroundColor: (theme) =>
+                            theme.palette.mode === 'light'
+                            ? theme.palette.grey[200]
+                            : theme.palette.grey[700]
+                        }}
+                      />
+                      <CardContent>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'basline',
+                            mb: 2,
+                          }}
+                        >
+                          <Typography variant="h5" color="text.primary">
+                            $5
+                          </Typography>
+                          <Typography variant="h7" color="text.secondary">
+                            /mo
+                          </Typography>
+                        </Box>
+                        <ul>
+                          <Typography
+                            component="li"
+                            variant="subtitle1"
+                            align="center"
+                          >
+                            Prioritized listing
+                          </Typography>
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={6}
+                    // sm={6}
+                    // md={4}
+                  >
+                    <Card>
+                      <CardHeader
+                        title="Yearly"
+                        titleTypographyProps={{ align: 'center' }}
+                        sx={{
+                          backgroundColor: (theme) =>
+                            theme.palette.mode === 'light'
+                            ? theme.palette.grey[200]
+                            : theme.palette.grey[700]
+                        }}
+                      />
+                      <CardContent>
+                      <Box
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'basline',
+                            mb: 2,
+                          }}
+                      >
+                        <Typography variant="h5" color="text.primary">
+                          $3.75
+                        </Typography>
+                        <Typography variant="h7" color="text.secondary">
+                          /mo
+                        </Typography>
+                      </Box>
+                      <ul>
+                        <Typography
+                          component="li"
+                          variant="subtitle1"
+                          align="center"
+                        >
+                          Prioritized listing
+                        </Typography>
+                        <Typography
+                          component="li"
+                          variant="subtitle1"
+                          align="center"
+                        >
+                          25% discount
+                        </Typography>
+                      </ul>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                </Grid>
+              </Container>
+              {/* <ul>
+                <li>$5 per month (31 day increments from start date)</li>
+                <li>$45 per year</li>
+              </ul> */}
+            </Grid>
+            <Grid item xs={12}>
+              <Typography component="h3" variant="h6" color="text.primary" sx={{ mb: 2 }}>Enter Payment Information</Typography>
+              <Button variant="outlined" sx={{ mr: 2}}>Paypal</Button>
+              <Button variant="outlined" sx={{ mr: 2}}>Google Pay</Button>
+              <Button variant="outlined" sx={{ mr: 2}}>Apple Pay</Button>
+            </Grid>
+          </Grid>
+          <Button
+            type="submit"
+            id="sponsor-btn" variant="contained"
+            sx={{ mt: 7, mb: 7 }}
+            fullWidth
+          >
+            Submit
+          </Button>
+        </Box>
+      </Box>
+    </Container>
   )
 }
 
