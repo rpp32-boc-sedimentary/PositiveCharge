@@ -6,7 +6,10 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Button from '@mui/material/Button';
-
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import MuiLink from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
 
 class Login extends React.Component {
   constructor(props) {
@@ -53,7 +56,7 @@ class Login extends React.Component {
   render() {
     let { user, error } = this.state;
     return (
-      <Container className="login" maxwidth="xs">
+      <Container className="login" maxWidth="xs">
         { error && <p>{error}</p>}
         { user && (
           <Navigate to="/" replace={true} />
@@ -67,24 +70,58 @@ class Login extends React.Component {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main'}}>
-              <LockOutlinedIcon />
-            </Avatar>
-          <h1>Login</h1>
-          <Box component="form" onSubmit={this.handleSubmit}>
-            <div>
-              <label htmlFor="email">Email: </label>
-              <input type="email" name="email" id="email" onChange={this.handleChange} required />
-            </div>
-            <div>
-              <label htmlFor="password">Password: </label>
-              <input type="text" name="password" id="password" onChange={this.handleChange} required />
-            </div>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h4">
+            Login
+          </Typography>
+          <Box component="form" onSubmit={this.handleSubmit} sx={{ mt: 2 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  id="email"
+                  name="email"
+                  label="Email"
+                  onChange={this.handleChange}
+                  required
+                  fullWidth
+                  autoComplete="email"
+                />
+                {/* <div>
+                  <label htmlFor="email">Email: </label>
+                  <input type="email" name="email" id="email" onChange={this.handleChange} required />
+                </div> */}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="password"
+                  name="password"
+                  label="Password"
+                  onChange={this.handleChange}
+                  required
+                  fullWidth
+                />
+                {/* <div>
+                  <label htmlFor="password">Password: </label>
+                  <input type="text" name="password" id="password" onChange={this.handleChange} required />
+                </div> */}
+              </Grid>
+            </Grid>
             {/* <input type="submit" value="Login" /> */}
-            <Button type="submit" variant="contained" sx={{mt: 3, mb: 2}}>Login</Button>
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{mt: 3, mb: 3}}
+              fullWidth
+            >
+              Login
+            </Button>
           </Box>
-          <div>Don't have an account?
-            <Link to="/signup">Sign Up</Link>
-          </div>
+          <Grid container justifyContent="flex-end">
+            <Grid item variant="inherit">Don't have an account?
+              <MuiLink component={Link} to="/signup" sx={{ml: 1}}>Sign Up</MuiLink>
+            </Grid>
+          </Grid>
         </Box>
       </Container>
     )
