@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import ReactDom from 'react-dom';
 import axios from 'axios';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  List,
+  ListItem,
+  ListItemButton,
+  Divider
+} from '@mui/material';
 
 import AddExperience from './AddExperience.jsx';
 
@@ -68,55 +80,59 @@ export default function PoiModal({open, onClose, detail, name}) {
   const displayExperiences = () => {
     let exp = showMore ? minExp = sortedDetails.length : minExp;
     return sortedDetails.slice(0, exp).map((exp, index) => {
-      return <div key={index}>
-         <span>{exp.experience}</span><br/>
-         <span>loves = {exp.exp_loves}</span><br/>
-         <span>{exp.exp_flag_status === true ? 'Flagged for review' : 'Flag experience'}</span>
-         {/* love button for experiences*/}
-         <button onClick={() => love('experience', exp.experience)}>Love</button>
-         {/* flag button for experiences*/}
-         <button onClick={() => flag('experience', exp.experience)}>Flag</button>
-       </div>
+      return <List key={index}>
+         <DialogContentText>{exp.experience}</DialogContentText><br/>
+         <DialogContentText>loves = {exp.exp_loves}</DialogContentText><br/>
+         <DialogContentText>{exp.exp_flag_status === true ? 'Flagged for review' : 'Flag experience'}</DialogContentText>
+         <DialogActions>
+          <Button variant='outlined' onClick={() => love('experience', exp.experience)}>Love</Button>
+          <Button variant='outlined' onClick={() => flag('experience', exp.experience)}>Flag</Button>
+         </DialogActions>
+       </List>
      })
   }
 
-  return open &&
-    ReactDom.createPortal(
-      <>
-        {/* background */}
-        <div style={overlayStyle} />
+  return (
+    <Dialog
+      className='experiences-modal'
+      onClose={onClose}
+      open={open}
+      fullWidth='xl'
+    >
+      <DialogTitle>{name?.props ? name.props.name : 'loading...'}</DialogTitle>
 
-        {/* modal itself */}
-        <div style={modalStyle}>
-          <h2>{name?.props ? name.props.name : 'loading...'}</h2>
-          {/* experiences section */}
-          <div>
-            <div>
-              {/* experience list */}
-              {detail[0]?.experience ? displayExperiences() : 'Be the first to add your experience!'}
-            </div>
-            <button onClick={() => showMoreExp(!showMore)}>{showMore ? 'see less' : 'see more experiences'}</button>
-          </div>
-          <br/>
-          <br/>
-          <br/>
-          {/* love button for poi's */}
-          <button onClick={() => {love('poi')}}>Love</button>
-          {detail[0]?.loves ? detail[0].loves + ' loves' : null}<br/>
-          {/* add experience button for poi's */}
-          <button onClick={() => setIsOpen(true)}>add experience</button>
-          <AddExperience open={isOpen} onClose={() => setIsOpen(false)} name={name}></AddExperience>
+      <List>
+        {detail[0]?.experience ? displayExperiences() : 'Be the first to add your experience!'}
+      </List>
 
-          {/* flag button for poi's */}
-          {detail[0]?.flag_status === true ? 'This location is flagged for review' :
-          <button onClick={() => flag('poi')}>Flag</button>}
+      <DialogActions>
+        <Button variant='outlined' onClick={() => showMoreExp(!showMore)}>{showMore ? 'see less' : 'see more experiences'}</Button>
+      </DialogActions>
 
-          {/* close button */}
-          <button onClick={onClose}>Close</button>
+      <Divider />
 
-        </div>
+      <DialogActions>
+        <Button variant='outlined' onClick={() => {love('poi')}}>Love</Button>
+        {detail[0]?.loves ? detail[0].loves + ' loves' : null}
+      </DialogActions>
 
-      </>,
-    document.getElementById('modal-portal')
+      <DialogActions>
+        <Button variant='outlined' onClick={() => setIsOpen(true)}>experience</Button>
+      </DialogActions>
+
+      <DialogActions>
+        <AddExperience open={isOpen} onClose={() => setIsOpen(false)} name={name}></AddExperience>
+      </DialogActions>
+
+      <DialogActions>
+        {detail[0]?.flag_status === true ? 'This location is flagged for review' :
+        <Button variant='outlined' onClick={() => flag('poi')}>Flag</Button>}
+      </DialogActions>
+
+      <DialogActions>
+        <Button variant='outlined' onClick={onClose}>Close</Button>
+      </DialogActions>
+
+    </Dialog>
   );
 }
