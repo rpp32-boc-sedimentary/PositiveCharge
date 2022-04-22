@@ -167,3 +167,19 @@ FINDCHARGINGSTATIONS COMPONENT
 /*
 Add POI Component
 */
+
+.add-poi-form-container {
+  display: flex;
+  justify-content: center;
+}
+
+.centered-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.price-and-tooltip {
+  display: flex;
+  align-items: center;
+}
