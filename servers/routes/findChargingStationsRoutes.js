@@ -5,7 +5,6 @@ require('dotenv').config();
 
 
 findRouter.get('/findStations', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
   axios.get('https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json',
   {
     params: {
