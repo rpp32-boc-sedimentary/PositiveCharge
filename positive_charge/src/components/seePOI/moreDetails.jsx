@@ -13,7 +13,7 @@ const MoreDetails = (props) => {
         <span className='moreDetailsPhone'>Phone Number:{data.phone}</span><br></br>
         <span className='moreDetailsAddress'>{data.location.address1}, {data.location.city} {data.location.country}</span> <br></br>
         <span className='moreDetailsPrice'>Price:{data.price}</span> <span className='moreDetailsRating'>Rating:{data.rating}</span>
-        <Modal props={data}/>
+        <Modal props={data} userEmail={props.userEmail}/>
       </div>
       </>
     )
