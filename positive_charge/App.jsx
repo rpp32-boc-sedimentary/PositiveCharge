@@ -12,8 +12,18 @@ import Sponsor from './src/components/sponsor/Sponsor.jsx';
 import './src/styles.scss';
 import axios from 'axios';
 import ResponsiveAppBar from './src/components/navbar.jsx'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#da8107',
+    },
+    secondary: {
+      main: '#11730a',
+    }
+  }
+})
 
 class App extends React.Component {
   constructor(props) {
@@ -80,13 +90,15 @@ class App extends React.Component {
     }
   }
 
+
   render() {
     let { isLoggedIn, userName } = this.state;
     return (
       <>
-        <ResponsiveAppBar />
-        { isLoggedIn ? <h3>Welcome back, {userName} !</h3> : null }
+      <ThemeProvider theme={theme}>
         <BrowserRouter>
+          <ResponsiveAppBar />
+          { isLoggedIn ? <h3>Welcome back, {userName} !</h3> : null }
           <div className="links">
             <ul>
               <li>
@@ -101,8 +113,6 @@ class App extends React.Component {
               </li>
             </ul>
           </div>
-
-
           <Routes>
             <Route path="/" element={<FindChargingStations />}/>
             <Route path="/login" element={<Login logIn={this.logIn}/>} />
@@ -115,6 +125,7 @@ class App extends React.Component {
             <Route path='/sponsor' element={<Sponsor />}></Route>
           </Routes>
         </BrowserRouter>
+      </ThemeProvider>
       </>
     )
   }

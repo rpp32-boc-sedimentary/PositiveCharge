@@ -29,10 +29,10 @@ function AddPOI () {
     let data = [
       pointName,
       address,
-      lat,
       lng,
-      category,
-      price
+      lat,
+      price,
+      category
   ]
     if (validatePoiInfo(data)) {
       axios.post('/addPOI', data)
