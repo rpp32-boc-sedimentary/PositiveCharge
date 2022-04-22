@@ -14,9 +14,10 @@ router.route('/view')
   });
 // put verify token back in for production
 router.post('/poi/love', verifyToken, async (req, res, next) => {
-  let id = req.body.name
+  let id = req.body.name;
+  let email = req.body.email;
     try {
-      const result = await router.lovePoi([id])
+      const result = await router.lovePoi([id, email])
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
@@ -24,9 +25,10 @@ router.post('/poi/love', verifyToken, async (req, res, next) => {
   });
 // put verify token back in for production
 router.post('/poi/flag', verifyToken, async (req, res, next) => {
-  let id = req.body.name
+  let id = req.body.name;
+  let email = req.body.email;
     try {
-      const result = await router.flagPoi([id]);
+      const result = await router.flagPoi([id, email]);
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
@@ -34,10 +36,11 @@ router.post('/poi/flag', verifyToken, async (req, res, next) => {
   });
 // put verify token back in for production
 router.post('/experience/love', verifyToken, async (req, res, next) => {
-  let id = req.body.name
+  let id = req.body.name;
   let exp = req.body.experience;
+  let email = req.body.email;
     try {
-      const result = await router.loveExp([id, exp]);
+      const result = await router.loveExp([id, exp, email]);
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)
@@ -45,10 +48,11 @@ router.post('/experience/love', verifyToken, async (req, res, next) => {
   });
 // put verify token back in for production
 router.post('/experience/flag', verifyToken, async (req, res, next) => {
-  let id = req.body.name
+  let id = req.body.name;
   let exp = req.body.experience;
+  let email = req.body.email;
     try {
-      const result = await router.flagExp([id, exp]);
+      const result = await router.flagExp([id, exp, email]);
       res.status(201).send(result)
     } catch (err) {
       res.status(500).send(err.message)

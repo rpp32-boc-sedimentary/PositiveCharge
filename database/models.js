@@ -7,7 +7,7 @@ const pool = new Pool({
   password: process.env.DB_Password,
   database: process.env.DB_Name,
   max: 50,
-  connectionTimeoutMillis: 1000,
+  connectionTimeoutMillis: 5000,
   idleTimeoutMillis: 1000
 });
 
@@ -30,22 +30,35 @@ pool.grabview = async (params) => {
      pois.yelp_id = experiences.poi_id
    AND
      experiences.poi_id = $1`;
-  const grabDetails = await pool.query(query, params)
+  const grabDetails = await pool.query(query, params);
   return grabDetails.rows;
 }
 
 pool.lovePoi = async (params) => {
-  const lovePoiQuery = `UPDATE pois
-  SET loves = loves + 1
-  WHERE yelp_id = $1`;
+  const lovePoiQuery = `UPDATE pois SET loves = loves + 1 WHERE yelp_id = $1`;
+  const changeLove = `UPDATE users_details SET love_poi = NOT love_poi WHERE poi_id = $1 AND user_email = $2`;
   try {
-    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, params);
+    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
     if (checkPoi.rows[0].exists) {
-      const lovedPoi = await pool.query(lovePoiQuery, params);
-      return;
+      const checkUserExists = await pool.query(`select exists(select 1 from users_details where poi_id = $1 AND user_email = $2)`, params)
+      if (checkUserExists.rows[0].exists === false) {
+        const createUserInteractionRow = await pool.query(`INSERT INTO users_details (user_email, poi_id, loves_exp, love_poi, flag_poi) VALUES ($2, $1, null, false, false, false, false)`, params)
+      }
+      const check = await pool.query(`SELECT love_poi FROM users_details WHERE poi_id = $1 AND user_email = $2`, params);
+      if (check.rows[0].love_poi === false) {
+        const setLoveToTrue = await pool.query(changeLove, params);
+        const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
+        return params;
+      } else {
+        const setLoveToFalse = await pool.query(changeLove, params);
+        const unlovePoi = await pool.query(`UPDATE pois SET loves = loves - 1 WHERE yelp_id = $1`, [params[0]]);
+        return params;
+      }
     } else {
-      let addingPoi = await addNewPoi(params);
-      const lovedPoi = await pool.query(lovePoiQuery, params);
+      let addingPoi = await addNewPoi([params[0]]);
+      const createUserInteractionRow = await pool.query(`INSERT INTO users_details (user_email, poi_id, loves_exp, love_poi, flag_poi) VALUES ($2, $1, null, false, false, false, false)`, params)
+      const setLoveToTrue = await pool.query(changeLove, params);
+      const lovedPoi = await pool.query(lovePoiQuery, [params[0]]);
       return params;
     }
   } catch (err) {
@@ -55,17 +68,32 @@ pool.lovePoi = async (params) => {
 }
 
 pool.flagPoi = async (params) => {
-  const flagPoiQuery = `UPDATE pois
-  SET flag_status = NOT flag_status
-  WHERE yelp_id = $1`;
+  const flagPoiQuery = `UPDATE pois SET flag_status = NOT flag_status WHERE yelp_id = $1`;
+  const changeFlagUsers = `UPDATE users_details SET flag_poi = NOT flag_poi WHERE poi_id = $1 AND user_email = $2`;
   try {
-    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, params);
+    let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
     if (checkPoi.rows[0].exists) {
-      const changeFlagPoi = await pool.query(flagPoiQuery, params);
-      return;
+      const checkUserExists = await pool.query(`select exists(select 1 from users_details where poi_id = $1 AND user_email = $2)`, params)
+      if (!checkUserExists.rows[0].exists) {
+        console.log('creating user')
+        const createUserInteractionRow = await pool.query(`INSERT INTO users_details (user_email, poi_id, loves_exp, love_poi, flag_poi) VALUES ($2, $1, null, false, false, false, false)`, params)
+      }
+      const check = await pool.query(`SELECT flag_poi FROM users_details WHERE poi_id = $1 AND user_email = $2`, params);
+
+      if (check.rows[0].flag_poi === false) {
+        const changeFlag = await pool.query(changeFlagUsers, params);
+        const changeFlagPoi = await pool.query(flagPoiQuery, [params[0]]);
+        return params;
+      } else {
+        const changeFlag = await pool.query(changeFlagUsers, params);
+        const changeFlagPoi = await pool.query(flagPoiQuery, [params[0]]);
+        return params;
+      }
     } else {
-      let addingPoi = await addNewPoi(params);
-      const changeFlagPoi = await pool.query(flagPoiQuery, params);
+      let addingPoi = await addNewPoi([params[0]]);
+      const createUserInteractionRow = await pool.query(`INSERT INTO users_details (user_email, poi_id, loves_exp, love_poi, flag_poi) VALUES ($2, $1, null, false, false, false, false)`, params)
+      const changeFlag = await pool.query(changeFlagUsers, params);
+      const changeFlagPoi = await pool.query(flagPoiQuery, [params[0]]);
       return params;
     }
   } catch (err) {
@@ -75,30 +103,61 @@ pool.flagPoi = async (params) => {
 }
 
 pool.loveExp = async (params) => {
-  const loveExpQuery = `UPDATE experiences
-  SET exp_loves = exp_loves + 1
-  WHERE poi_id = $1
-  AND experience = $2`;
-  const lovedExp = await pool.query(loveExpQuery, params);
-  return params;
+  const loveExpQueryAdd = `UPDATE experiences SET exp_loves = exp_loves + 1 WHERE poi_id = $1 AND experience = $2`;
+  const loveExpQueryMinus = `UPDATE experiences SET exp_loves = exp_loves - 1 WHERE poi_id = $1 AND experience = $2`;
+  const changeLoveAdd = `UPDATE users_details SET loves_exp = array_cat(loves_exp, ARRAY [$2]::varchar[]) WHERE poi_id = $1 AND user_email = $3`;
+  const changeLoveMinus = `UPDATE users_details SET loves_exp = array_remove(loves_exp, $2) WHERE poi_id = $1 AND user_email = $3`;
+  try {
+    const checkUserExists = await pool.query(`select exists(select 1 from users_details where poi_id = $1 AND user_email = $2)`, [params[0], params[2]]);
+    if (!checkUserExists.rows[0].exists) {
+      console.log('creating new user row for this poi')
+      const createUserInteractionRow = await pool.query(`INSERT INTO users_details (poi_id, user_email, love_poi, flag_poi) VALUES ($1, $2, false, false)`, [params[0], params[2]])
+    }
+    const check = await pool.query(`SELECT exists(select 1 FROM users_details WHERE poi_id = $1 AND user_email = $3 AND $2 = ANY (loves_exp))`, params);
+    if (check.rows[0].exists === false) {
+      const userLovedExperience = await pool.query(changeLoveAdd, params);
+      const addLoveToExperience = await pool.query(loveExpQueryAdd, [params[0], params[1]]);
+      return params;
+    } else {
+      const userLovedExperience = await pool.query(changeLoveMinus, params);
+      console.log('gets here')
+      const minusLoveFromExperience = await pool.query(loveExpQueryMinus, [params[0], params[1]]);
+      console.log('not here')
+      return params;
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
 pool.flagExp = async (params) => {
-  const flagExpQuery = `UPDATE experiences
-  SET exp_flag_status = NOT exp_flag_status
-  WHERE poi_id = $1
-  AND experience = $2`;
-  const changeFlagExp = await pool.query(flagExpQuery, params);
-  return params;
+  const flagExpQueryChange = `UPDATE experiences SET exp_flag_status = NOT exp_flag_status WHERE poi_id = $1 AND experience = $2`;
+  const changeFlagAdd = `UPDATE users_details SET flags_exp = array_cat(flags_exp, ARRAY [$2]::varchar[]) WHERE poi_id = $1 AND user_email = $3`;
+  const changeFlagMinus = `UPDATE users_details SET flags_exp = array_remove(flags_exp, $2) WHERE poi_id = $1 AND user_email = $3`;
+  try {
+    const checkUserExists = await pool.query(`select exists(select 1 from users_details where poi_id = $1 AND user_email = $2)`, [params[0], params[2]]);
+    if (!checkUserExists.rows[0].exists) {
+      console.log('creating new user row for this poi')
+      const createUserInteractionRow = await pool.query(`INSERT INTO users_details (poi_id, user_email, love_poi, flag_poi) VALUES ($1, $2, false, false)`, [params[0], params[2]])
+    }
+    const check = await pool.query(`SELECT exists(select 1 FROM users_details WHERE poi_id = $1 AND user_email = $3 AND $2 = ANY (flags_exp))`, params);
+    if (check.rows[0].exists === false) {
+      const userFlaggedExperience = await pool.query(changeFlagAdd, params);
+      const addFlagToExperience = await pool.query(flagExpQueryChange, [params[0], params[1]]);
+      return params;
+    } else {
+      const userFlaggedExperience = await pool.query(changeFlagMinus, params);
+      const minusFlagFromExperience = await pool.query(flagExpQueryChange, [params[0], params[1]]);
+      return params;
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
 pool.addExperience = async (params) => {
   let addPoiParams = [params[0]];
-
-  let addExperienceQuery = `INSERT INTO experiences
-  (poi_id, experience, exp_loves, exp_flag_status, photos)
-  VALUES ($1, $2, 0, false, null)`;
-
+  let addExperienceQuery = `INSERT INTO experiences (poi_id, experience, exp_loves, exp_flag_status, photos) VALUES ($1, $2, 0, false, null)`;
   try {
     let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, addPoiParams);
     if (checkPoi.rows[0].exists) {
@@ -150,26 +209,6 @@ pool.addPOI = async (newPoi) => {
     return err.stack
   }
 }
-
-// pool.addPOI = async () => {
-//   try {
-//     const result = await pool.query('SELECT * FROM pois WHERE false')
-//     return result
-//   } catch (err) {
-//     console.log('err.stack', err.stack)
-//   }
-// }
-
-// pool.addPOI = async () => {
-//   try {
-//     const query = 'SELECT * from pois WHERE true'
-//     const result = await pool.query(query)
-//     return result.rows
-//   } catch (err) {
-//     console.log(err.stack)
-//   }
-// }
-
 
 // Auth models
 pool.addUser = async (params) => {
@@ -289,13 +328,5 @@ pool.deleteSponsor = async (id) => {
     console.error(err);
   }
 }
-
-// details models
-
-// filter models
-
-// map models
-
-// SEE POI models
 
 module.exports = { pool };
