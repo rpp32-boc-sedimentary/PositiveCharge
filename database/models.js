@@ -185,10 +185,17 @@ pool.deleteExperience = async (params) => {
 
 // ADD POI models
 pool.addPOI = async (params) => {
-  let query = `INSERT INTO pois
+  let query
+  if (params.length === 1) {
+    query = `INSERT INTO pois (yelp_id)
+      VALUES ($1)
+      RETURNING *`
+  } else {
+    query = `INSERT INTO pois
     (name, address, long, lat, price, category)
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *`;
+  }
   try {
     const result = await pool.query(query, params)
     console.log(result.rows)
