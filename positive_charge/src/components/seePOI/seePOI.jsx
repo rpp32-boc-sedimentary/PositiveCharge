@@ -16,8 +16,8 @@ class SeePOI extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      lat: 39.73818,
-      long: -104.98997,
+      lat: 38.6235914,
+      long: -90.33517859999999,
       dist: 1260
     };
     this.getPOIData = this.getPOIData.bind(this);
@@ -25,8 +25,24 @@ class SeePOI extends React.Component {
     this.mapPOI = this.mapPOI.bind(this);
     this.walkTime = this.walkTime.bind(this);
     this.changeDisplay = this.changeDisplay.bind(this);
+    this.getDatabaseData = this.getDatabaseData.bind(this);
 
   }
+
+  getDatabaseData (callback) {
+    let data = [this.props.props.chargerCoords.chargerLat, this.props.props.chargerCoords.chargerLong]
+
+    axios.post('/getPOI/seeDataPOI', data)
+    .then (result => {
+      callback(result.data.rows);
+    })
+    .catch (err => {
+      console.error(err);
+    })
+  }
+
+
+
 
   getPOIData (path, callback) {
     axios.post(path, {data:{lat: this.state.lat, long: this.state.long, dist: this.state.dist}})
@@ -76,6 +92,7 @@ class SeePOI extends React.Component {
 
   componentDidMount () {
     this.setState({lat: this.props.props.chargerCoords.chargerLat, long: this.props.props.chargerCoords.chargerLong}, () => {
+      this.getDatabaseData((data) => this.setState({database: data}));
       this.getPOIData('/getPOI/getPOI', (data) => {this.setState({all: data})});
       this.getPOIData('/getPOI/getFoodPOI', (data) => {this.setState({food: data})});
       this.getPOIData('/getPOI/getCafesPOI', (data) => {this.setState({cafes: data})});
@@ -107,7 +124,7 @@ class SeePOI extends React.Component {
         <h3 className='seePOIListHeader'>Experiences Near You</h3>
         <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData} userLocation={{userLat: this.state.lat, userLong: this.state.long}}></Map> : <div className='loading'> Loading...</div>}</div>
         <div className='poiList'>{this.state.data !== undefined ? <PoiList props={this.state.data} walkTime={this.walkTime}></PoiList> : <div className='loading'> Loading...</div>} </div>
-        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} userLocation={{lat: this.state.lat, long: this.state.long}} allData={{all: this.state.all, food: this.state.food, cafes:this.state.cafes, lAndH:this.state.lAndH, museums:this.state.museums, parks:this.state.parks}} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div>
+        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} userLocation={{lat: this.state.lat, long: this.state.long}} allData={{all: this.state.all, database:this.state.database, food: this.state.food, cafes:this.state.cafes, lAndH:this.state.lAndH, museums:this.state.museums, parks:this.state.parks}} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div>
         <div className='addPOI'><Link to='/addPOI'>Add a Point of Interest</Link></div>
       </div>
     )
