@@ -137,3 +137,53 @@ Add POI Component
   display: flex;
   align-items: center;
 }
+
+/* seePOI component */
+.placeholder{
+  background-color: #ff9800;
+}
+
+
+.seePOI {
+  background-color: #ff9800;
+  height: flex;
+  width: 100%;
+}
+
+  .map{
+    float: left
+  }
+
+  .returnCharger{
+    float: left;
+  }
+
+  .login{
+    float: right;
+  }
+
+  .signup{
+    float: right;
+  }
+
+  .seePOIListHeader{
+    background: #ff9800;
+    float:left;
+  }
+
+  .poiList{
+    float: left;
+  }
+
+  .filters{
+    float: left;
+  }
+
+  .addPOI{
+    float: left;
+  }
+
+
+
+
+
