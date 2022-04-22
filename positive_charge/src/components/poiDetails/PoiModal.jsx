@@ -11,8 +11,11 @@ import {
   List,
   ListItem,
   ListItemButton,
-  Divider
+  Divider,
+  IconButton
 } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FlagIcon from '@mui/icons-material/Flag';
 
 import AddExperience from './AddExperience.jsx';
 
@@ -62,7 +65,6 @@ export default function PoiModal({open, onClose, detail, name}) {
       'email': name.userEmail
     })
       .then((response) => {
-        // send something like flagged x thing
         alert('We will review the flag you submitted')
       })
   };
@@ -82,11 +84,12 @@ export default function PoiModal({open, onClose, detail, name}) {
     return sortedDetails.slice(0, exp).map((exp, index) => {
       return <List key={index}>
          <DialogContentText>{exp.experience}</DialogContentText><br/>
-         <DialogContentText>loves = {exp.exp_loves}</DialogContentText><br/>
-         <DialogContentText>{exp.exp_flag_status === true ? 'Flagged for review' : 'Flag experience'}</DialogContentText>
+         <DialogContentText>{exp.exp_loves} {exp.exp_loves === 1 ? 'love' : 'loves'}</DialogContentText><br/>
          <DialogActions>
-          <Button variant='outlined' onClick={() => love('experience', exp.experience)}>Love</Button>
-          <Button variant='outlined' onClick={() => flag('experience', exp.experience)}>Flag</Button>
+          <IconButton variant='outlined' onClick={() => love('experience', exp.experience)}><FavoriteIcon/></IconButton>
+          <IconButton variant='outlined' onClick={() => flag('experience', exp.experience)}>
+            <FlagIcon/>
+          </IconButton>
          </DialogActions>
        </List>
      })
@@ -125,8 +128,9 @@ export default function PoiModal({open, onClose, detail, name}) {
       </DialogActions>
 
       <DialogActions>
-        {detail[0]?.flag_status === true ? 'This location is flagged for review' :
-        <Button variant='outlined' onClick={() => flag('poi')}>Flag</Button>}
+        <Button variant='outlined' onClick={() => flag('poi')}>
+          {detail[0]?.flag_status === true ? 'Flagged' : 'Flag'}
+        </Button>
       </DialogActions>
 
       <DialogActions>
