@@ -22,6 +22,7 @@ module.exports = (database) => {
   _.extend(filterRouter, database);
   _.extend(sponsorRouter, database);
   _.extend(findRouter, database);
+  _.extend(seePOIRouter, database);
 
   app.use(express.static(path.join(__dirname, '../positive_charge/public')));
   app.use(bodyParser.json());
