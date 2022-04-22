@@ -184,23 +184,19 @@ pool.deleteExperience = async (params) => {
 }
 
 // ADD POI models
-pool.addPOI = async (newPoi) => {
-  let params
+pool.addPOI = async (params) => {
   let query
-  if (Array.isArray(newPoi) && newPoi.length === 1 && typeof newPoi[0] === 'string') {
-    params = newPoi
-  } if (params.length === 1) {
+  if (params.length === 1) {
     query = `INSERT INTO pois (yelp_id)
-    VALUES ($1)
-    RETURNING *`
+      VALUES ($1)
+      RETURNING *`
   } else {
-    console.log('newPoi', newPoi)
     query = `INSERT INTO pois
     (name, address, long, lat, price, category)
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *`;
-    params = [newPoi.name, newPoi.address, newPoi.lng, newPoi.lat, newPoi.price, newPoi.category]
-  } try {
+  }
+  try {
     const result = await pool.query(query, params)
     console.log(result.rows)
     return result.rows
@@ -322,6 +318,37 @@ pool.deleteSponsor = async (id) => {
   try {
     var query = `DELETE FROM sponsors WHERE id = $1`;
     var result = await pool.query(query, id);
+    return result;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+// details models
+
+// filter models
+
+// map models
+
+// SEE POI models
+pool.seeDataPoi = async (params) => {
+
+  try {
+    let query = 'SELECT *, earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) as distance FROM pois a WHERE earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) < 1260 AND a.sponsored = false';
+    let result = await pool.query(query, params);
+    return result;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.seeSponserPoi = async (params) => {
+
+  try {
+    let query = 'SELECT *, earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) as distance FROM pois a WHERE earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) < 1260 AND a.sponsored = true';
+    let result = await pool.query(query, params);
     return result;
   }
   catch (err) {

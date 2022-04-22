@@ -16,8 +16,8 @@ class SeePOI extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      lat: 39.73818,
-      long: -104.98997,
+      lat: 38.6235914,
+      long: -90.33517859999999,
       dist: 1260
     };
     this.getPOIData = this.getPOIData.bind(this);
@@ -25,8 +25,34 @@ class SeePOI extends React.Component {
     this.mapPOI = this.mapPOI.bind(this);
     this.walkTime = this.walkTime.bind(this);
     this.changeDisplay = this.changeDisplay.bind(this);
-
+    this.getDatabaseData = this.getDatabaseData.bind(this);
+    this.getSponserData = this.getSponserData.bind(this);
   }
+
+  getDatabaseData (callback) {
+    let data = [this.props.props.chargerCoords.chargerLat, this.props.props.chargerCoords.chargerLong]
+
+    axios.post('/getPOI/seeDataPOI', data)
+    .then (result => {
+      callback(result.data.rows);
+    })
+    .catch (err => {
+      console.error(err);
+    })
+  }
+
+  getSponserData (callback) {
+    let data = [this.props.props.chargerCoords.chargerLat, this.props.props.chargerCoords.chargerLong]
+
+    axios.post('/getPOI/seeSponserPOI', data)
+    .then (result => {
+      callback(result.data.rows);
+    })
+    .catch (err => {
+      console.error(err);
+    })
+  }
+
 
   getPOIData (path, callback) {
     axios.post(path, {data:{lat: this.state.lat, long: this.state.long, dist: this.state.dist}})
@@ -76,6 +102,8 @@ class SeePOI extends React.Component {
 
   componentDidMount () {
     this.setState({lat: this.props.props.chargerCoords.chargerLat, long: this.props.props.chargerCoords.chargerLong}, () => {
+      this.getDatabaseData((data) => this.setState({database: data}));
+      this.getSponserData((data) => this.setState({sponser: data}));
       this.getPOIData('/getPOI/getPOI', (data) => {this.setState({all: data})});
       this.getPOIData('/getPOI/getFoodPOI', (data) => {this.setState({food: data})});
       this.getPOIData('/getPOI/getCafesPOI', (data) => {this.setState({cafes: data})});
@@ -86,9 +114,39 @@ class SeePOI extends React.Component {
   }
 
   componentDidUpdate () {
-    if (this.state.data === undefined && this.state.all !== undefined) {
-      this.setState({data: this.state.all.businesses.slice(0,5)}, () => {
+    if (this.state.data === undefined && this.state.all !== undefined && this.state.sponser !== undefined && this.state.database !== undefined) {
+      let data = [];
+      let sponL = this.state.sponser.length;
+      let baseL = this.state.database.length;
+
+      if (sponL >= 5) {
+        data = this.state.sponser.slice(0, 5);
+      } else if (sponL > 0) {
+        if (baseL > 0) {
+          if(baseL + sponL >= 5) {
+            let pullTo = 5 - sponL;
+            data = this.state.sponser.concat(this.state.database.slice(0, pullTo));
+          } else {
+            let pullTo = 5 - (sponL + baseL);
+            data = this.state.sponser.concat(this.state.database, this.state.all.businesses.slice(0, pullTo));
+          }
+        } else {
+          let pullTo = 5 - sponL;
+          data = this.state.sponser.concat(this.state.all.businesses.slice(0, pullTo));
+        }
+      } else if (baseL > 0) {
+        if (baseL >= 5) {
+          data = this.state.database.slice(0, 5);
+        } else {
+          let pullTo = 5 - baseL;
+          data = this.state.database.concat(this.state.all.businesses.slice(0, pullTo))
+        }
+      } else {
+        data = this.state.all.businesses.slice(0, 5);
+      }
+      this.setState({data: data}, () => {
         this.filterForMap()
+        console.log('seePOI', this.state);
       })
     }
     if (this.state.all && this.state.food && this.state.cafes && this.state.museums && this.state.lAndH && this.state.parks && this.state.flag === undefined) {
@@ -107,7 +165,7 @@ class SeePOI extends React.Component {
         <h3 className='seePOIListHeader'>Experiences Near You</h3>
         <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData} userLocation={{userLat: this.state.lat, userLong: this.state.long}}></Map> : <div className='loading'> Loading...</div>}</div>
         <div className='poiList'>{this.state.data !== undefined ? <PoiList props={this.state.data} walkTime={this.walkTime}></PoiList> : <div className='loading'> Loading...</div>} </div>
-        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} userLocation={{lat: this.state.lat, long: this.state.long}} allData={{all: this.state.all, food: this.state.food, cafes:this.state.cafes, lAndH:this.state.lAndH, museums:this.state.museums, parks:this.state.parks}} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div>
+        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} userLocation={{lat: this.state.lat, long: this.state.long}} allData={{all: this.state.all, database:this.state.database, food: this.state.food, cafes:this.state.cafes, lAndH:this.state.lAndH, museums:this.state.museums, parks:this.state.parks}} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div>
         <div className='addPOI'><Link to='/addPOI'>Add a Point of Interest</Link></div>
       </div>
     )

@@ -147,5 +147,29 @@ seePOIRouter.post('/getParksPOI', async (req, res) => {
   })
 });
 
+seePOIRouter.post('/seeDataPOI', async (req, res, next) => {
+
+  const result = await seePOIRouter.seeDataPoi(req.body);
+  try {
+    res.status(201).send(result);
+  }
+  catch {
+    res.status(500).send(err)
+  }
+
+});
+
+seePOIRouter.post('/seeSponserPOI', async (req, res, next) => {
+
+  const result = await seePOIRouter.seeSponserPoi(req.body);
+  try {
+    res.status(201).send(result);
+  }
+  catch {
+    res.status(500).send(err)
+  }
+
+});
+
 
 module.exports = seePOIRouter;
