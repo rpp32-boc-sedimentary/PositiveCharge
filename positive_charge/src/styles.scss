@@ -131,3 +131,60 @@ Add POI Component
   display: flex;
   align-items: center;
 }
+
+/* seePOI component */
+
+.seePOI {
+  display: grid;
+  background-color: #ff9800;
+  grid-template-columns: auto, auto, auto, auto, auto;
+  justify-content: start;
+  align-content: start;
+  height: flex;
+  width: flex;
+
+  .map{
+    grid-column: 2/4;
+    grid-row: 3/4;
+  }
+
+  .returnCharger{
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .login{
+    grid-column: 5;
+    grid-row: 1;
+    width: 50vw;
+  }
+
+  .signup{
+    grid-column: 5;
+    grid-row: 1;
+    width: 50vw;
+  }
+
+  .seePOIListHeader{
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .poiList{
+    grid-column: 3;
+    grid-row: 5/6;
+  }
+
+  .filters{
+    grid-column: 3;
+    grid-row: 7;
+  }
+
+  .addPOI{
+    grid-column: 3;
+    grid-row: 8;
+  }
+
+
+
+}
