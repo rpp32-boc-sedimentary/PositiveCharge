@@ -79,7 +79,7 @@ export default function PoiModal({open, onClose, detail, name}) {
           </IconButton>
           <Snackbar
             open={snackbarLoveOpen}
-            autoHideDuration={4000}
+            autoHideDuration={3000}
             onClose={() => {setSnackbarLoveOpen(false)}}
             message="Thanks for the love!"
           />
@@ -94,7 +94,7 @@ export default function PoiModal({open, onClose, detail, name}) {
           </IconButton>
           <Snackbar
             open={snackbarFlagOpen}
-            autoHideDuration={4000}
+            autoHideDuration={3000}
             onClose={() => {setSnackbarFlagOpen(false)}}
             message="Thanks for informing us! We'll review your flag."
           />
