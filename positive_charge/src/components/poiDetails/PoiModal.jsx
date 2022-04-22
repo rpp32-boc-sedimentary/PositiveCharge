@@ -12,7 +12,8 @@ import {
   IconButton,
   Snackbar,
   BottomNavigation,
-  BottomNavigationAction
+  BottomNavigationAction,
+  Typography
 } from '@mui/material';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -109,7 +110,11 @@ export default function PoiModal({open, onClose, detail, name}) {
       open={open}
       fullWidth={true}
     >
-      <DialogTitle>{name?.props ? `Experiences at ${name.props.name}` : 'loading...'}</DialogTitle>
+      <DialogTitle
+        sx={{
+          fontSize: 50
+        }}
+      >{name?.props ? `Experiences at ${name.props.name}` : 'loading...'}</DialogTitle>
 
       <List>
         {detail[0]?.experience ? displayExperiences() : 'Be the first to add your experience!'}
@@ -122,7 +127,6 @@ export default function PoiModal({open, onClose, detail, name}) {
       <Divider />
 
       <DialogActions>
-        <FavoriteIcon/>{detail[0]?.loves ? detail[0].loves : null}
         <Snackbar
             open={snackbarLoveOpen}
             autoHideDuration={4000}
@@ -133,37 +137,37 @@ export default function PoiModal({open, onClose, detail, name}) {
 
       <BottomNavigation>
         <BottomNavigationAction
-            label="Love"
-            value="love"
-            icon={<FavoriteIcon />}
-            onClick={() => {
-              love('poi')
-              setSnackbarLoveOpen(true)
-              }}
+          label="Love"
+          value="love"
+          icon={<FavoriteIcon />}
+          onClick={() => {
+            love('poi')
+            setSnackbarLoveOpen(true)
+            }}
         />
 
         <BottomNavigationAction
-            label="Share Experience"
-            value="share"
-            icon={<AddIcon />}
-            onClick={() => setIsOpen(true)}
+          label="Share Experience"
+          value="share"
+          icon={<AddIcon />}
+          onClick={() => setIsOpen(true)}
         />
 
         <BottomNavigationAction
-            label="Flag"
-            value="flag"
-            icon={<FlagIcon />}
-            onClick={() => {
-              flag('poi')
-              setSnackbarFlagOpen(true)
-              }}
+          label="Flag"
+          value="flag"
+          icon={<FlagIcon />}
+          onClick={() => {
+            flag('poi')
+            setSnackbarFlagOpen(true)
+            }}
         />
 
         <BottomNavigationAction
-            label="Close"
-            value="close"
-            icon={<CloseIcon />}
-            onClick={onClose}
+          label="Close"
+          value="close"
+          icon={<CloseIcon />}
+          onClick={onClose}
         />
 
       </BottomNavigation>
