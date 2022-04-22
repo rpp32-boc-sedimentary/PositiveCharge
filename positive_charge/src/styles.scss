@@ -135,54 +135,41 @@ Add POI Component
 /* seePOI component */
 
 .seePOI {
-  display: grid;
-  background-color: #ff9800;
-  grid-template-columns: auto, auto, auto, auto, auto;
-  justify-content: start;
-  align-content: start;
+  background: #ff9800;
   height: flex;
-  width: flex;
+  width: 100%;
 
   .map{
-    grid-column: 2/4;
-    grid-row: 3/4;
+    float: left
   }
 
   .returnCharger{
-    grid-column: 1;
-    grid-row: 1;
+    float: left;
   }
 
   .login{
-    grid-column: 5;
-    grid-row: 1;
-    width: 50vw;
+    float: right;
   }
 
   .signup{
-    grid-column: 5;
-    grid-row: 1;
-    width: 50vw;
+    float: right;
   }
 
   .seePOIListHeader{
-    grid-column: 3;
-    grid-row: 1;
+    float:left;
+    width: 50px;
   }
 
   .poiList{
-    grid-column: 3;
-    grid-row: 5/6;
+    float: left;
   }
 
   .filters{
-    grid-column: 3;
-    grid-row: 7;
+    float: left;
   }
 
   .addPOI{
-    grid-column: 3;
-    grid-row: 8;
+    float: left;
   }
 
 
