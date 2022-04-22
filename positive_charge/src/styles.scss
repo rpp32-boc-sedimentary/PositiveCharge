@@ -133,11 +133,16 @@ Add POI Component
 }
 
 /* seePOI component */
+.placeholder{
+  background-color: #ff9800;
+}
+
 
 .seePOI {
-  background: #ff9800;
+  background-color: #ff9800;
   height: flex;
   width: 100%;
+}
 
   .map{
     float: left
@@ -156,8 +161,8 @@ Add POI Component
   }
 
   .seePOIListHeader{
+    background: #ff9800;
     float:left;
-    width: 50px;
   }
 
   .poiList{
@@ -174,4 +179,5 @@ Add POI Component
 
 
 
-}
+
+
