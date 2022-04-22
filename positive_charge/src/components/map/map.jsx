@@ -12,12 +12,13 @@ class Map extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            lat: 39.595244, //this.props.userLocation.userLat
-            long: -104.7049212, //this.props.userLocation.userLong
+            lat: this.props.userLocation.userLat,
+            long: this.props.userLocation.userLong,
             destinations: this.props.props,
             isDriving: false,
             directions: [],
-            currDestination: {}
+            currDestination: {},
+            walkingTime: 0
         }
         this.getDirections = this.getDirections.bind(this);
         this.haversine = this.haversine.bind(this);
@@ -49,12 +50,14 @@ class Map extends React.Component {
         let c = 2 * Math.asin(Math.sqrt(a));
         let r = 3956;
         let distance = (c * r);
-
-        return distance < 0.1 ? `. Continue for ${parseInt(distance * 5028)} feet` : `. Continue for ${+(Math.round(distance + "e+2") + "e-2")} miles`;
+        
+        let totalFeet = distance * 5028;
+        let totalMin = (totalFeet / 4.7) / 60;
+        distance = distance < 0.1 ? `. Continue for ${parseInt(distance * 5028)} feet` : `. Continue for ${+(Math.round(distance + "e+2") + "e-2")} miles`;
+        return [distance, totalMin];
     }
 
     getDirections(event) {
-        console.log(event);
         axios.get('/map', {
             params: {
                 startingLat: this.state.lat,
@@ -65,17 +68,21 @@ class Map extends React.Component {
         })
         .then(response => {
             var directions = [];
+            var timeToWalk = 0;
             var instructions = response.data.guidance.instructions;
             instructions.forEach((direction) => {
                 directions.push(direction.message);
             });
             for(var index = 0; index < instructions.length - 1; index++) {
                 var distance = this.haversine(instructions[index].point.latitude, instructions[index + 1].point.latitude, instructions[index].point.longitude, instructions[index + 1].point.longitude)
-                directions[index] += distance;
+                directions[index] += distance[0];
+                timeToWalk += distance[1];
             }
+            timeToWalk = timeToWalk < 1 ? " Less than one minute away " : `${Math.round(timeToWalk)} minutes away`
             this.setState({
                 directions: directions,
-                currDestination: { lat: event.latlng.lat, long: event.latlng.lng, destination: event.sourceTarget._popup.options.children }
+                currDestination: { lat: event.latlng.lat, long: event.latlng.lng, destination: event.sourceTarget._popup.options.children },
+                walkingTime: timeToWalk
             })
         })
         .catch(err => {
@@ -115,6 +122,10 @@ class Map extends React.Component {
                     ? <div></div>
                     : <h3> Directions to {this.state.currDestination.destination}</h3>
                 }
+                {/* {Object.keys(this.state.currDestination).length === 0 
+                    ? <div></div>
+                    : <h5> {this.state.walkingTime}</h5>
+                } */}
                 <Directions directions={this.state.directions}></Directions>
             </div>
 
