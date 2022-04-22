@@ -114,7 +114,6 @@ const filterQuickWalks = (selected, data) => {
   return filtered;
 };
 
-//sorting function
 const sortFunc = (sortVal, data) => {
   let compare;
   if (sortVal === 'Loves') {
@@ -143,20 +142,44 @@ const sortFunc = (sortVal, data) => {
   return sorted;
 };
 
-const addCategory = (data) => {
-  let allData = [];
-  _.each(data, (value, key) => {
-    value.businesses.forEach(business => {
-      if (business.distance > 1260) {
-        return;
-      } else {
-        business.category = key;
-        allData.push(business);
-      }
-    })
-  })
-  return allData;
+// const addCategory = (data) => {
+//   let allData = [];
+//   _.each(data, (value, key) => {
+//     value.businesses.forEach(business => {
+//       if (business.distance > 1260) {
+//         return;
+//       } else {
+//         business.category = key;
+//         allData.push(business);
+//       }
+//     })
+//   })
+//   return allData;
+// }
+
+const addCategoryToYelp = (data) => {
+  let yelpWithCategories = [];
+  for (var key in data) {
+    console.log('key', key)
+    if (key === 'database' || key === 'all') {
+      continue;
+    } else {
+      data[key].businesses.forEach(business => {
+        console.log('in for each', business)
+        if (business.distance > 1260) {
+          return;
+        } else {
+          business.category = key;
+          yelpWithCategories.push(business);
+        }
+      });
+    }
+  }
+  return yelpWithCategories;
+
 }
+
+
 
 module.exports = {
   filterOnPrice,
@@ -167,5 +190,6 @@ module.exports = {
   findSuggested,
   filterQuickWalks,
   sortFunc,
-  addCategory
+  addCategory,
+  addCategoryToYelp
 }

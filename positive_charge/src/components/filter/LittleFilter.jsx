@@ -5,6 +5,11 @@ import LfCategories from './LfCategories.jsx';
 import axios from 'axios';
 import dummyData from '../../../../database/dummyData/pois.js';
 import helpers from './filterHelpers.js';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 class LittleFilter extends React.Component {
   constructor(props) {
@@ -31,6 +36,7 @@ class LittleFilter extends React.Component {
       lessThanFive: false,
       quickWalk: false,
       dataFromDom: [],
+      userPois: [],
       showMore: false,
 
     }
@@ -214,8 +220,6 @@ class LittleFilter extends React.Component {
     filteredData = helpers.sortFunc(this.state.sortVal, filteredData);
     let showFive = filteredData.slice(0, 5);
     let showTwenty = filteredData.slice(0, 20);
-    // what if there are only 3 in the filtered data??
-    // the conditional should take care of itself
     if (this.state.showMore) {
       this.props.changeDisplay(showTwenty);
     } else {
@@ -253,13 +257,18 @@ class LittleFilter extends React.Component {
 
   componentDidMount = () => {
     console.log('props from DOM', this.props)
-    console.log('filtered in the biginning', this.state.filteredData)
     let data = this.props.allData;
+    let userPois = data.database;
+    this.setState({
+      userPois
+    }, () => {
+      console.log('user pois set?', this.state.userPois)
+    })
     data['landmarks & historical'] = data.lAndH;
+    console.log('data in database?', data.database);
     delete data.lAndH;
-    delete data.all;
-    console.log('data all', data)
-    let addedCategories = helpers.addCategory(data);
+    let addedCategories = helpers.addCategoryToYelp(data);
+    console.log('added cata', addedCategories)
     this.findTimeToTravel(addedCategories);
 
 
@@ -298,6 +307,23 @@ class LittleFilter extends React.Component {
 
     return (
       <div className="smallFilter">
+        <div className="clickableElement">
+          <Box sx={{minWidth: 100}}>
+            <FormControl minWidth>
+              <InputLabel id="demo-simple-select-label">Sort</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+
+                label="Sort"
+                onChange={ this.handleSort }
+              >
+                <MenuItem value={"Loves"}>Loves</MenuItem>
+                <MenuItem value={"Distance"}>Distance</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </div>
 
         <select className="sfChild clickableElement" name="category" onChange={ this.handleSort }>
           <option>Loves</option>
@@ -311,8 +337,8 @@ class LittleFilter extends React.Component {
         { this.state.modalState ? <BigFilter manageModalState={ this.handleBigModalState } distance = { this.state.distance } handleDistance={ this.handleDistance } price={ this.state.price } handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } categoriesChecked={ this.state.categoriesChecked } handleAllCategories={ this.handleAllCategories } suggestedCategories=
         { this.state.suggestedCategories } handleSuggestedCategoriesBf={ this.handleSuggestedCategoriesBf } lessThanFive={ this.state.lessThanFive } quickWalk={ this.state.quickWalk } handleQuickBf={ this.handleQuickBf } /> : null }
 
-
-        <PriceFilter className="clickableElement" priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/>
+        <button onClick={ this.handlePriceModalState }>Price</button>
+        { this.state.priceModalState ?  <PriceFilter className="clickableElement" priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
 
         { Object.keys(this.state.suggestedCategories).length > 0 ? <LfCategories suggestedCategories={ this.state.suggestedCategories } handleSuggestedCategoriesLF={ this.handleSuggestedCategoriesLF } /> : null}
 
