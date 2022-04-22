@@ -11,6 +11,7 @@ import FindChargingStations from './src/components/findChargingStations/FindChar
 import Sponsor from './src/components/sponsor/Sponsor.jsx';
 import './src/styles.scss';
 import axios from 'axios';
+import ResponsiveAppBar from './src/components/navbar.jsx'
 
 
 
@@ -83,6 +84,7 @@ class App extends React.Component {
     let { isLoggedIn, userName } = this.state;
     return (
       <>
+        <ResponsiveAppBar />
         { isLoggedIn ? <h3>Welcome back, {userName} !</h3> : null }
         <BrowserRouter>
           <div className="links">
@@ -99,6 +101,7 @@ class App extends React.Component {
               </li>
             </ul>
           </div>
+
 
           <Routes>
             <Route path="/" element={<FindChargingStations />}/>

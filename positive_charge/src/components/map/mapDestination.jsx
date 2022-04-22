@@ -15,7 +15,7 @@ var MapDestination = (props) => {
                         click: props.getDirections
                     }}>
                         <Popup>
-                            {dest.destinationName}
+                            <span className='text'>{dest.destinationName}</span>
                         </Popup>
                 </Marker>
             )
