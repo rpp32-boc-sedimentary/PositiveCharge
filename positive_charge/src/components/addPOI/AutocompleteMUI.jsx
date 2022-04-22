@@ -151,7 +151,7 @@ export default function GoogleMaps(props) {
         setInputValue(newInputValue);
       }}
       renderInput={(params) => (
-        <TextField {...params} label="Add a location" fullWidth />
+        <TextField {...params} label="Location" fullWidth />
       )}
       renderOption={(props, option) => {
         const matches = option.structured_formatting.main_text_matched_substrings;

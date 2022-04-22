@@ -90,7 +90,7 @@ function AddPOI () {
           >
           <TextField
             id="poi-name"
-            label="Name of the Point of Interest"
+            label="Name"
             sx={{ width: "300px" }}
             onChange={e => setPointName(e.target.value)}></TextField><br /><br />
         {/* <label htmlFor="poi-name-input" required>Name: </label><br />
@@ -178,15 +178,15 @@ function AddPOI () {
         </>} */}
 
         {/* Check if user is a business user, if so, show checkbox for "this is my business" */}
-
-        <Button variant="contained" onClick={() => handleSubmit()}>Add this Point of Interest</Button><br></br>
+        <br /><br />
+        <Button variant="contained" onClick={() => handleSubmit()}>Add this Place</Button><br></br>
         <br/>
-        {noName &&
+        {/* {noName &&
         <p className="warning">Please add a name</p>}
         {noCoords &&
         <p className="warning">Please select a valid address</p>}
         {noPrice &&
-        <p className="warning">Please select a price level</p>}
+        <p className="warning">Please select a price level</p>} */}
         <br />
         </Box>
       </div>
