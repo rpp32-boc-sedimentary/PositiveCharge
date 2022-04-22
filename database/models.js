@@ -318,4 +318,24 @@ pool.deleteSponsor = async (id) => {
   }
 }
 
+// details models
+
+// filter models
+
+// map models
+
+// SEE POI models
+pool.seeDataPoi = async (params) => {
+
+  try {
+    let query = 'SELECT *, earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) as distance FROM pois a WHERE earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) < 1260';
+   //let query = 'UPDATE pois SET lat_float = -104.71158, long_float = 39.60185 WHERE '
+    let result = await pool.query(query, params);
+    return result;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
 module.exports = { pool };

@@ -5,6 +5,9 @@ import Routing from './routing.jsx';
 import Directions from './directions.jsx';
 import axios from 'axios';
 import L from 'leaflet';
+import List from '@mui/material/List';
+import ListSubheader from '@mui/material/ListSubheader';
+
 
 
 
@@ -97,9 +100,9 @@ class Map extends React.Component {
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={[this.state.lat, this.state.long]} icon={L.icon({ iconUrl: './img/personMarker.png', iconSize: [90, 90] })}>
+                    <Marker position={[this.state.lat, this.state.long]} zIndexOffset={9000} icon={L.icon({ iconUrl: './img/personMarker.png', iconSize: [90, 90] })}>
                         <Popup>
-                            Your Location
+                            <span className="text"> Your Location </span>
                         </Popup>
                     </Marker>
                     <MapDestination
@@ -120,13 +123,12 @@ class Map extends React.Component {
                 </MapContainer>
                 {Object.keys(this.state.currDestination).length === 0 
                     ? <div></div>
-                    : <h3> Directions to {this.state.currDestination.destination}</h3>
+                    : <h3 className='text'> Directions to {this.state.currDestination.destination}</h3>
                 }
-                {/* {Object.keys(this.state.currDestination).length === 0 
-                    ? <div></div>
-                    : <h5> {this.state.walkingTime}</h5>
-                } */}
-                <Directions directions={this.state.directions}></Directions>
+                <List >
+                    <Directions directions={this.state.directions}></Directions>
+                </List>
+                
             </div>
 
         )
