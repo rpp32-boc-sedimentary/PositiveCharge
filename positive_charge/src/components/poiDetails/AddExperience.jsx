@@ -38,9 +38,7 @@ export default function AddExperience({open, onClose, name}) {
     axios.post(`/details${path}`, {
       experience: experience,
       id: name.props.id,
-      name: name.props.name,
-      lat: name.props.coordinates.latitude,
-      long: name.props.coordinates.longitude
+      name: name.props.name
     })
       .then((result) => {
 
@@ -51,7 +49,7 @@ export default function AddExperience({open, onClose, name}) {
   }
 
   const submitFormRedirect = () => {
-    navigate('/seePOI');
+    navigate('/');
   }
   return open &&
     ReactDom.createPortal(

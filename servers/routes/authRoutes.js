@@ -33,7 +33,7 @@ authRouter.get('/signup', (req, res) => {
 })
 
 authRouter.get('/verify', verifyToken, (req, res) => {
-  res.send(req.user.name);
+  res.send([req.user.name, req.user.email]);
 })
 
 authRouter.post('/login', async (req, res) => {
