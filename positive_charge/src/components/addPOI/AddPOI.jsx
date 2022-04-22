@@ -12,7 +12,6 @@ import HelpIcon from '@mui/icons-material/Help';
 import Tooltip from '@mui/material/Tooltip';
 import GoogleMaps from './AutocompleteMUI.jsx'
 import Box from '@mui/material/Box';
-import PlacesAutocomplete from './PlacesAutocomplete.jsx'
 
 
 function AddPOI () {
@@ -33,14 +32,14 @@ function AddPOI () {
   }, [address])
 
   function handleSubmit() {
-    let data = {
-      name: pointName,
+    let data = [
+      pointName,
       address,
       lat,
       lng,
       category,
       price
-    }
+  ]
     if (validatePoiInfo(data)) {
       axios.post('/addPOI', data)
       .then(() => {
@@ -84,7 +83,7 @@ function AddPOI () {
   return (
     <div className="add-poi-form-container">
       <div className="add-poi-form-wrapper">
-        <h1>Add a Point of Interest</h1>
+        <h1 className="text">Add a Point of Interest</h1>
           <Box
             component="form"
           >
