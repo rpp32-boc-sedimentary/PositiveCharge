@@ -38,11 +38,7 @@
     "testURL": "http://localhost:3000"
   },
   "scripts": {
-<<<<<<< HEAD
-    "test": "jest --coverage",
-=======
     "test": "jest --coverage --forceExit",
->>>>>>> 6f2e0eb9f8354ee1390ef779784a0a734d4a3324
     "client": "webpack --mode development --watch",
     "server": "npx nodemon ./servers/server.js",
     "start": "npm run client & npm run server"

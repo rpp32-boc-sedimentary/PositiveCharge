@@ -9,13 +9,16 @@ const AllCategories = (props) => {
     )
   } else {
     return (
-      _.map(props.categoriesChecked, (val, key) =>
-        <label className="categories">
-          { key }
-          <input type="checkbox" key={ key } name={ key } checked={ val } onChange={ props.handleAllCategories } />
-        </label>
-      )
-
+      <div>
+        {_.map(props.categoriesChecked, (val, key) =>
+          <div className="cksButton cksButtonWidth">
+            <label>
+              <input type="checkbox" key={ key } name={ key } checked={ val } onChange={ props.handleAllCategories } />
+              <span>{ key }</span>
+            </label>
+          </div>
+        )}
+      </div>
     )
   }
 }

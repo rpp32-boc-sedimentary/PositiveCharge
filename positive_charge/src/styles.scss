@@ -2,6 +2,46 @@
 FILTER COMPONENT
 */
 
+.cksButton {
+  background-color: rgb(182, 181, 181);
+  border: 1px solid rgb(52, 49, 49);
+  border-radius: 4px;
+  height: auto;
+  float: left;
+  text-align: center;
+  font-size: 12px;
+  width: 4.0em;
+}
+
+.cksButton label {
+  float: left;
+  width: 4.0em;
+}
+
+.cksButton label span {
+  text-align: center;
+  padding: 3px 0px;
+  display: block;
+}
+.cksButton label input {
+  position: absolute;
+  top: -20px;
+}
+
+.cksButton input:hover + span {
+  background-color: rgb(243, 226, 183);
+}
+
+.cksButton input:checked + span {
+  background-color: orange;
+  color: black;
+}
+
+.cksButton input:checked:hover + span {
+  background-color: rgb(205, 138, 5);
+  color: black;
+}
+
 .smallFilter {
   font-size: 30px;
   //display: flex;
@@ -34,85 +74,9 @@ FILTER COMPONENT
     background: white;
     display: flex;
     flex-direction: column;
-
-
-    .ckButton {
-      background-color: rgb(182, 181, 181);
-      border: 1px solid rgb(52, 49, 49);
-      height: auto;
-      float: left;
-      text-align: center;
-      font-size: 1rem;
-    }
-
-    .ckButton label {
-      float: left;
-      width: 4.0em;
-    }
-
-    .ckButton label span {
-      text-align: center;
-      padding: 3px 0px;
-      display: block;
-    }
-    .ckButton label input {
-      position: absolute;
-      top: -20px;
-    }
-
-    .ckButton input:hover + span {
-      background-color: rgb(243, 226, 183);
-    }
-
-    .ckButton input:checked + span {
-      background-color: orange;
-      color: black;
-    }
-
-    .ckButton input:checked:hover + span {
-      background-color: rgb(205, 138, 5);
-      color: black;
-    }
   }
 
-  .cksButton {
-    background-color: rgb(182, 181, 181);
-    border: 1px solid rgb(52, 49, 49);
-    border-radius: 4px;
-    height: auto;
-    float: left;
-    text-align: center;
-    font-size: 1rem;
-  }
 
-  .cksButton label {
-    float: left;
-    width: 4.0em;
-  }
-
-  .cksButton label span {
-    text-align: center;
-    padding: 3px 0px;
-    display: block;
-  }
-  .cksButton label input {
-    position: absolute;
-    top: -20px;
-  }
-
-  .cksButton input:hover + span {
-    background-color: rgb(243, 226, 183);
-  }
-
-  .cksButton input:checked + span {
-    background-color: orange;
-    color: black;
-  }
-
-  .cksButton input:checked:hover + span {
-    background-color: rgb(205, 138, 5);
-    color: black;
-  }
 
   .dropdown-container {
     position: relative;
@@ -135,9 +99,6 @@ FILTER COMPONENT
   display: flex;
   flex-direction: column;
 
-  .categoryHeader {
-    font-size: 1.5rem;
-  }
   .categories {
     font-size: 1rem;
   }
@@ -146,15 +107,37 @@ FILTER COMPONENT
 
 
 .bigModal {
-  width: 300px;
-  height: 500px;
-  background: rgb(255, 255, 255);
-  color: #000;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: calc(100% - 40px);
+  height: calc(100% - 20px);
+  top: 0%;
+  left: 0%;
+  bottom: 0%;
+  z-index: 1000;
+  background: rgb(237, 234, 234);
+  color: rgb(51, 49, 49);
   border-radius: 10px;
-  border-color: black;
-  border-width: medium;
   position: absolute;
+  box-shadow: 0 5px 10px 2px rgba(195, 192, 192, .5);
+  text-align: center;
+  font-size: 20px;
+  font-family: Verdana, sans-serif;
+
+  .bigFilterSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  hr {
+    width: 100%;
+    color:rgb(207, 203, 203);
+    height: 1px;
+  }
+
+
 }
 
 /*

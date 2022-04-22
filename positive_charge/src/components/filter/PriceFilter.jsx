@@ -5,28 +5,28 @@ const PriceFilter = (props) => {
   const renderDropDown = () => {
     return (
         <form className='priceFilterModal' onSubmit={ props.handlePriceApply }>
-          <div className='ckButton'>
+          <div className='cksButton'>
             <label>
               <input type='checkbox' name='free' checked={props.price.free} onChange={ props.handlePrice } />
               <span>Free</span>
             </label>
           </div>
 
-          <div className='ckButton'>
+          <div className='cksButton'>
             <label>
               <input type='checkbox' name='$' checked={props.price.$} onChange={ props.handlePrice } />
               <span>$</span>
             </label>
           </div>
 
-          <div className='ckButton'>
+          <div className='cksButton'>
             <label>
               <input type='checkbox' name='$$' checked={props.price.$$} onChange={ props.handlePrice }  />
               <span>$$</span>
             </label>
           </div>
 
-          <div className='ckButton'>
+          <div className='cksButton'>
             <label>
               <input type='checkbox' name='$$$' checked={props.price.$$$} onChange={ props.handlePrice }  />
               <span>$$$</span>
