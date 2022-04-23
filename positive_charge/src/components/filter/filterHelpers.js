@@ -147,9 +147,10 @@ const sortFunc = (sortVal, data) => {
 const addCategoryToYelp = (data) => {
   let yelpWithCategories = [];
   for (var key in data) {
-    if (key === 'database') {
+    if (key === 'database'|| key === 'sponser') {
       continue;
     } else {
+      console.log('key', key)
       data[key].businesses.forEach(business => {
         if (business.distance > 1260) {
           return;
