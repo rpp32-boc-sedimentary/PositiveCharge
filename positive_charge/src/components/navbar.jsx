@@ -147,7 +147,8 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
           <Box
             component="img"
             alt="logo"
-            src="/img/posChargeBlk.png"
+            src="/img/posChargeWht_medium.png"
+            onClick={() => handleClickHome()}
           >
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
