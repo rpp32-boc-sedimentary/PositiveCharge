@@ -177,17 +177,23 @@ class SeePOI extends React.Component {
 
   render() {
     return(
-
+    <ThemeProvider theme={theme}>
+      <>
       <div className='seePOI'>
-        <div className='returnCharger'><Link to='/'>Find a different charger</Link></div>
-        <div className='login'><Link to='/login'>Log In</Link></div><div className='signup'><Link to='/signup'>Sign up</Link></div>
-        <h3 className='seePOIListHeader'>Experiences Near You</h3> <br></br>
+        <div className='returnCharger'><Link to='/' style={{textDecoration: 'none'}}>Find a different charger</Link></div>
+        <div className='login'><Link to='/login' style={{textDecoration: 'none'}}>Log In</Link></div><div className='signup'><Link to='/signup' style={{textDecoration: 'none'}}>Sign up</Link></div>
+        <div className='seePOIListHeader'>Experiences Near You</div><br></br>
         <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData} userLocation={{userLat: this.state.lat, userLong: this.state.long}}></Map> : <div className='loading'> Loading...</div>}</div>
+        <div classname='seePOIbottom'>
         <div className='poiList'>{this.state.data !== undefined ? <PoiList props={this.state.data} walkTime={this.walkTime}></PoiList> : <div className='loading'> Loading...</div>} </div>
-        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} userLocation={{lat: this.state.lat, long: this.state.long}} allData={{all: this.state.all, database:this.state.database, food: this.state.food, cafe:this.state.cafe, landmark:this.state.landmark, museum:this.state.museum, park:this.state.park}} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div>
-        <div className='addPOI'><Link to='/addPOI'>Add a Point of Interest</Link></div>
-      </div>
 
+        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} userLocation={{lat: this.state.lat, long: this.state.long}} allData={{all: this.state.all, database:this.state.database, food: this.state.food, cafe:this.state.cafe, landmark:this.state.landmark, museum:this.state.museum, park:this.state.park}} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div>
+
+        <div className='addPOI'><Link to='/addPOI'>Add a Point of Interest</Link></div>
+        </div>
+      </div>
+      </>
+    </ThemeProvider>
     )
 
   }
