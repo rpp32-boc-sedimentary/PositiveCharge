@@ -14,14 +14,14 @@ import {
   BottomNavigation,
   BottomNavigationAction,
   Typography,
-  Box
+  Box,
+  Avatar
 } from '@mui/material';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FlagIcon from '@mui/icons-material/Flag';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 
@@ -80,12 +80,21 @@ export default function PoiModal({ open, onClose, detail, name }) {
               gap: 1,
               gridTemplateRows: 'auto',
               bgcolor: 'primary.main',
-              gridTemplateAreas: `"ex ex ex ex ex ex ex ex ex ex ex"
+              gridTemplateAreas: `"pic . . . . . . . . . ."
+                                  "ex ex ex ex ex ex ex ex ex ex ex"
                                   "ex ex ex ex ex ex ex ex ex ex ex"
                                   "ex ex ex ex ex ex ex ex ex ex ex"
                                   "love . . . . . . . . . flag"`
             }}
-          >
+            >
+            <Box pl={.5} pt={.5}>
+              <Avatar
+                sx={{
+                  gridArea: 'pic'
+                }}>?
+              </Avatar>
+
+            </Box>
             <CardContent
               sx={{
                 gridArea: 'ex',
@@ -148,11 +157,9 @@ export default function PoiModal({ open, onClose, detail, name }) {
         {detail[0]?.experience ? displayExperiences() : 'Be the first to add your experience!'}
       </List>
 
-
       {detail.length > 5 ?
         <IconButton onClick={() => showMoreExp(!showMore)}>{showMore ? <ExpandLessIcon /> : <ExpandMoreIcon />}</IconButton>
         : null}
-
 
       <Divider />
 
