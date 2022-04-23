@@ -80,14 +80,19 @@ class LittleFilter extends React.Component {
   handleShowMore = () => {
     let showMoreStatus = this.state.showMore;
     let showThisMany;
+    console.log('state shor more', showMoreStatus)
+    console.log('combined at first', this.state.combinedFiltered);
     this.setState({
       showMore: !showMoreStatus
     }, () => {
       if (!this.state.showMore) {
+        console.log('state', this.state.combinedFiltered)
         showThisMany = this.state.combinedFiltered.slice(0, 5);
       } else {
         showThisMany = this.state.combinedFiltered.slice(0, 20);
       }
+      console.log('hitting')
+      console.log('show how man', showThisMany)
       this.props.changeDisplay(showThisMany);
     });
   }
@@ -264,6 +269,7 @@ class LittleFilter extends React.Component {
   };
 
   componentDidMount = () => {
+    console.log('show more in comp', this.state.showMore)
     console.log('props from DOM', this.props)
     let data = this.props.allData;
     let userPois = data.database;
@@ -316,7 +322,8 @@ class LittleFilter extends React.Component {
       modifiedData: yelpData,
       categoriesChecked,
       suggestedCategories,
-      lessThanFive
+      lessThanFive,
+      combinedData: allData
     });
   };
 
