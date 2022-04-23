@@ -320,6 +320,7 @@ Add POI Component
   .returnCharger{
     float: left;
     height: 100%;
+    margin: 1rem;
   }
 
 
@@ -344,8 +345,8 @@ Add POI Component
     width: 95%;
     height: 100%;
     text-align: center;
-    text-decoration-line: underline;
-
+    // text-decoration-line: underline;
+    margin-bottom: 1rem;
   }
 
   .poiItems:hover{
