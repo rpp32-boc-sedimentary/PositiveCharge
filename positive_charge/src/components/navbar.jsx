@@ -39,6 +39,10 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
     setAnchorElUser(null);
   };
 
+  const handleClickHome = () => {
+    navigate('/');
+  }
+
   const handleLogin = () => {
     navigate('/login');
   }
@@ -134,7 +138,7 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={page === 'Home' ? handleClickHome : handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
