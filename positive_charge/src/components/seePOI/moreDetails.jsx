@@ -23,7 +23,7 @@ const MoreDetails = (props) => {
       <div className='moreDetails'>
         <span className='moreDetailsName'>{data.name} </span> <br></br>
         <span className='moreDetailsAddress'>{data.address}</span> <br></br>
-        <span className='moreDetailsPrice'>Price:{data.price}</span> <span className='moreDetailsRating'>loves:{data.loves}</span>
+        <span className='moreDetailsPrice'>Price:{data.price}</span> <span className='moreDetailsRating'>loves:{data.loves}</span> {data.sponsored === true ? <span className='sponsored'>This location has been sponsored</span> : <span></span>}
         <Modal props={data} userEmail={props.userEmail}/>
       </div>
       </>
