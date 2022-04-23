@@ -11,13 +11,18 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import MuiLink from '@mui/material/Link';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const pages = ['Home', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
+  // const location = useLocation();
+  // const { data } = location.state;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,18 +39,73 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
+  const handleClickHome = () => {
+    navigate('/');
+  }
+
+  const handleLogin = () => {
+    navigate('/login');
+  }
+
+  const handleSignup = () => {
+    navigate('/signup');
+  }
+
+  const logDisplay = () => {
+    // console.log(data);
+    if (!isLoggedIn) {
+      return (
+        <>
+          <Button onClick={handleLogin} sx={{ my: 2, color: 'white', display: 'block' }}>Login</Button>
+          <Typography>/</Typography>
+          <Button onClick={handleSignup} sx={{ my: 2, color: 'white', display: 'block' }}>Sign Up</Button>
+        </>
+      )
+    } else {
+      return (
+        // <Button onClick={logOut} sx={{ my: 2, color: 'white', display: 'block' }}>Log Out</Button>
+        <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar
+                  // alt="Remy Sharp"
+                  src="/static/images/avatar/2.jpg"
+                  sx={{ bgcolor: '#11730a' }}
+                />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={setting === 'Logout' ? (handleCloseUserMenu, logOut) : handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+      )
+    }
+    return null;
+  }
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-          >
-            Positive Charge
-          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -57,6 +117,7 @@ const ResponsiveAppBar = () => {
               color="inherit"
             >
               <MenuIcon />
+
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -77,20 +138,18 @@ const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={page === 'Home' ? handleClickHome : handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+          <Box
+            component="img"
+            alt="logo"
+            src="/img/posChargeBlk.png"
           >
-            Positive Charge
-          </Typography>
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -103,38 +162,13 @@ const ResponsiveAppBar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {logDisplay()}
+
+
         </Toolbar>
       </Container>
     </AppBar>
+
   );
 };
 export default ResponsiveAppBar;

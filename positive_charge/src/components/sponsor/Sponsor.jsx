@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 
@@ -47,6 +46,7 @@ function Sponsor() {
         // if poi doesn't exist, add the poi
         axios.post('/addPOI', [yelpId])
         .then((poi) => {
+          console.log('addPOI result: ', poi);
           poi_id = poi[0].id;
           return {user: user_id, poi: poi_id};
         })
@@ -128,8 +128,11 @@ function Sponsor() {
           alignItems: 'center',
         }}
       >
-        <Typography component="h1" variant="h4" sx={{ mb: 3 }}>
-          Sponsor: {data.props.name}
+        <Typography component="h1" variant="h4" sx={{ mb: 1 }}>
+          Sponsor this point of interest:
+        </Typography>
+        <Typography component="h1" variant="h3" sx={{ mb: 3, color: '#11730a' }}>
+          {data.props.name}
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
           <Grid container spacing={3}>
@@ -182,12 +185,18 @@ function Sponsor() {
                         titleTypographyProps={{ align: 'center' }}
                         sx={{
                           backgroundColor: (theme) =>
-                            theme.palette.mode === 'light'
-                            ? theme.palette.grey[200]
-                            : theme.palette.grey[700]
+                            theme.palette.primary.main
                         }}
                       />
-                      <CardContent>
+                      <CardContent
+                        sx={{
+                          bgcolor: (theme) =>
+                            theme.palette.primary.light
+                            // theme.palette.mode === 'light'
+                            // ? theme.palette.grey[200]
+                            // : theme.palette.grey[700]
+                        }}
+                      >
                         <Box
                           sx={{
                             display: 'flex',
@@ -227,12 +236,15 @@ function Sponsor() {
                         titleTypographyProps={{ align: 'center' }}
                         sx={{
                           backgroundColor: (theme) =>
-                            theme.palette.mode === 'light'
-                            ? theme.palette.grey[200]
-                            : theme.palette.grey[700]
+                            theme.palette.primary.main
                         }}
                       />
-                      <CardContent>
+                      <CardContent
+                        sx={{
+                          backgroundColor: (theme) =>
+                            theme.palette.primary.light
+                        }}
+                      >
                       <Box
                           sx={{
                             display: 'flex',
@@ -276,9 +288,9 @@ function Sponsor() {
             </Grid>
             <Grid item xs={12}>
               <Typography component="h3" variant="h6" color="text.primary" sx={{ mb: 2 }}>Enter Payment Information</Typography>
-              <Button variant="outlined" sx={{ mr: 2}}>Paypal</Button>
-              <Button variant="outlined" sx={{ mr: 2}}>Google Pay</Button>
-              <Button variant="outlined" sx={{ mr: 2}}>Apple Pay</Button>
+              <Button variant="outlined" color="secondary" sx={{ mr: 2}}>Paypal</Button>
+              <Button variant="outlined" color="secondary" sx={{ mr: 2}}>Google Pay</Button>
+              <Button variant="outlined" color="secondary" sx={{ mr: 2}}>Apple Pay</Button>
             </Grid>
           </Grid>
           <Button

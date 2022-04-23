@@ -18,6 +18,9 @@ const theme = createTheme({
   palette: {
     primary: {
       main: '#da8107',
+      light: '#edc47e',
+      dark: '#cd6501',
+      // contrastText: '#fff',
     },
     secondary: {
       main: '#11730a',
@@ -81,40 +84,38 @@ class App extends React.Component {
     })
   }
 
-  greeting() {
-    if (this.state.isLoggedIn) {
-      return (
-        <li>
-          <Link to="/logout" onClick={this.logOut}>Log Out</Link>
-        </li>
-      )
-    } else {
-      return (
-        <li>
-          <Link to="/login">Log In </Link> / <Link to="/signup">Sign Up</Link>
-        </li>
-      )
-    }
-  }
+  // greeting() {
+  //   if (this.state.isLoggedIn) {
+  //     return (
+  //       <li>
+  //         <Link to="/logout" onClick={this.logOut}>Log Out</Link>
+  //       </li>
+  //     )
+  //   } else {
+  //     return (
+  //       <li>
+  //         <Link to="/login">Log In </Link> / <Link to="/signup">Sign Up</Link>
+  //       </li>
+  //     )
+  //   }
+  // }
 
 
   render() {
     let { isLoggedIn, userName } = this.state;
     return (
       <>
+
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <ResponsiveAppBar />
+          <ResponsiveAppBar isLoggedIn={isLoggedIn} logOut={this.logOut}/>
           { isLoggedIn ? <h3>Welcome back, {userName} !</h3> : null }
           <div className="links">
             <ul>
               <li>
                 <Link to="/">Home</Link>
               </li>
-              {this.greeting()}
-              <li>
-                <Link to="/seePOI">seePOI</Link>
-              </li>
+              {/* {this.greeting()} */}
               <li>
                 <Link to="/addPOI">Add POI</Link>
               </li>
