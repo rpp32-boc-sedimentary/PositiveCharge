@@ -291,18 +291,17 @@ Add POI Component
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   height: 100%;
   width: 100%;
-  color: darkorange;
+  color: #da8107;
 
   #map {
     width:90vw;
-    border-style: solid;
+    border-style: inset;
     border-width: medium;
-    border-color:black;
+    border-color:#11730a;
   }
 }
 
   .map{
-
     float: left;
     justify-content: center;
     width: 95%;
@@ -315,12 +314,14 @@ Add POI Component
     height: 100%;
   }
 
+
   // .login{
 
   //   float: right;
   //   height: auto;
   //   margin-right: 10%;
   // }
+
 
   // .signup{
 
@@ -339,27 +340,67 @@ Add POI Component
 
   }
 
-
-  .poiList{
-
-    float: left;
-    width: 100%;
-    border-style: inset;
-    border-width: medium;
-    border-color:black;
-
+  .poiItems:hover{
+    background-color: lightpink;
   }
 
-  .filters{
+  .toMoreDetails{
+    display: table-cell;
+    color: #000;
+    text-decoration: none;
+  }
 
+
+  // .poiFullList{
+  //   width: 100%;
+  //   border-style: inset;
+  //   border-width: medium;
+  //   border-color:#11730a;
+  // }
+
+  // .poiList{
+  //   width:100%;
+  //   float:left;
+  //   text-align: center;
+  //   grid-template-columns: auto, auto, auto;
+
+  //   .distance{
+  //     margin-right: 3%;
+  //     text-align: right;
+  //     float:right;
+  //   }
+
+  //   .listNumber{
+  //     text-align: left;
+  //     float:left;
+  //   }
+  //   .POIName{
+  //     text-align: left;
+  //     float:left;
+  //   }
+  //   .likes{
+
+  //     text-align: center;
+  //   }
+  // }
+
+  .filters{
     float: left;
     width: 95%;
   }
 
   .addPOI{
-
+    text-align: center;
     float: left;
     width: 95%;
+  }
+
+  .moreDetails{
+    text-align: center;
+    width: 100%;
+    border-style: inset;
+    border-width: medium;
+    border-color:#11730a;
   }
 
 
