@@ -9,7 +9,6 @@ import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import FindChargingStations from '../../positive_charge/src/components/findChargingStations/FindChargingStations.jsx';
 import axios from 'axios';
-import request from 'supertest';
 
 
 jest.mock('axios');
@@ -20,14 +19,14 @@ test('renders FindChargingStations Component', () => {
 
 test('Use my location button renders', () => {
   render(<BrowserRouter><FindChargingStations /></BrowserRouter>);
-  const locationButton = screen.getByLabelText('Your Location:');
+  const locationButton = screen.getByLabelText('What is your current location?');
 
   expect(locationButton).toBeInTheDocument();
 });
 
 test('Heading selector renders', () => {
   render(<BrowserRouter><FindChargingStations /></BrowserRouter>);
-  const headingSelector = screen.getByLabelText('Heading:');
+  const headingSelector = screen.getByLabelText('Which direction are you traveling?');
 
   expect(headingSelector).toBeInTheDocument();
 });
@@ -35,7 +34,7 @@ test('Heading selector renders', () => {
 test('Distance numerical input renders', () => {
   render(<BrowserRouter><FindChargingStations /></BrowserRouter>);
 
-  const distanceInput = screen.getByLabelText('Distance:miles');
+  const distanceInput = screen.getByLabelText('How far away to search?miles');
 
   expect(distanceInput).toBeInTheDocument();
 });
@@ -83,7 +82,7 @@ test('Should make a GET request when Find Stations button is clicked', async () 
     "distance_km": 0.1769
   }]}});
   const user = userEvent.setup();
-  const locationButton = screen.getByLabelText('Your Location:');
+  const locationButton = screen.getByLabelText('What is your current location?');
   const findButton = screen.getByText('Find Stations');
   const APIGetSpy = jest.spyOn(axios, 'get');
 
@@ -92,6 +91,18 @@ test('Should make a GET request when Find Stations button is clicked', async () 
 
   expect(APIGetSpy).toBeCalled();
 });
+
+test('GET request to /findStations should respond with a stations list', async () => {
+  var response = await axios.get('http://localhost:3000/findStations', {
+    params: {
+      userLat: 39.0,
+      userLong: -100,
+      radius: 2
+    }
+  });
+
+  expect(Array.isArray(response.stations.data)).toBeTruthy();
+})
 
 
 

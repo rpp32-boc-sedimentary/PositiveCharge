@@ -22,6 +22,13 @@ const theme = createTheme({
     secondary: {
       main: '#11730a',
     }
+  },
+  components: {
+    Button: {
+      defaultProps: {
+        color: '#11730a'
+      }
+    }
   }
 })
 

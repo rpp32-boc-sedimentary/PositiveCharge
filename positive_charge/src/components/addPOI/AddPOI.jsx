@@ -11,6 +11,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import Tooltip from '@mui/material/Tooltip';
 import GoogleMaps from './AutocompleteMUI.jsx'
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 
 function AddPOI () {
@@ -19,11 +20,12 @@ function AddPOI () {
   const [lng, setLng] = useState('')
   const [address, setAddress] = useState('')
   const [category, setCategory] = useState('food')
-  const [price, setPrice] = useState('')
-
-  useEffect(() => {
-    console.log('address', address)
-  }, [address])
+  const [price, setPrice] = useState('free')
+  const [nameError, setNameError] = useState(false)
+  const [locationError, setLocationError] = useState(false)
+  const [nameHelperText, setNameHelperText] = useState('')
+  const [locationHelperText, setLocationHelperText] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
   function handleSubmit() {
     let data = [
@@ -36,8 +38,11 @@ function AddPOI () {
   ]
     if (validatePoiInfo(data)) {
       axios.post('/addPOI', data)
-      .then(() => {
-        return
+      .then((result) => {
+        console.log('result of post', result)
+        if (result.status === 201 && result.statusText === 'Created') {
+          setSuccessMessage(`Successfully added ${result.data[0].name}!`)
+        }
       })
       .catch(err => {
         console.error(err)
@@ -45,15 +50,49 @@ function AddPOI () {
     }
   }
 
+  useEffect(() => {
+    if (pointName !== '') {
+      setNameError(false)
+      setNameHelperText('')
+      setSuccessMessage('')
+    }
+  }, [pointName])
+
+  useEffect(() => {
+    if (lat !== '' && lng !== '') {
+      setLocationError(false)
+      setLocationHelperText('')
+      setSuccessMessage('')
+    }
+  }, [lat, lng])
+
+  useEffect(() => {
+    if (successMessage !== '') {
+      setPointName('')
+      setAddress('')
+    }
+  }, [successMessage])
+
   function validatePoiInfo(data) {
-    //placeholder before implementing MUI validation
-    return true
+    let valid = true
+    if (data[0] === '') {
+      setNameError(true)
+      setNameHelperText('What is this place called?')
+      valid = false
+    } if (data[2] === '' || data[3] === '') {
+      setLocationError(true)
+      setLocationHelperText('Where is this place?')
+      valid = false
+    } return valid
   }
+
+
 
   return (
     <div className="add-poi-form-container">
       <div className="add-poi-form-wrapper">
-        <h1 className="text">Add a Point of Interest</h1>
+        <h2 className="text">Add a Point of Interest</h2>
+        <div className="left">
           <Box
             component="form"
           >
@@ -61,8 +100,11 @@ function AddPOI () {
             id="poi-name"
             label="Name"
             sx={{ width: "300px" }}
+            error={nameError}
+            helperText={nameHelperText}
             onChange={e => setPointName(e.target.value)}></TextField><br /><br />
-        <GoogleMaps setAddress={setAddress} setLat={setLat} setLng={setLng}/>
+        <GoogleMaps setAddress={setAddress} setLat={setLat} setLng={setLng} locationHelperText={locationHelperText} locationError={locationError}/>
+
 
         <br></br>
         <InputLabel id="category-label">Category</InputLabel>
@@ -100,13 +142,18 @@ function AddPOI () {
         <br /><br />
         <div className="centered-button">
         <Button variant="contained"
+        color="secondary"
         onClick={() => handleSubmit()}
         >Add this Place</Button>
+        </div><br></br>
+        <div className="center">
+        <Typography color="secondary">{successMessage}</Typography>
         </div>
         <br></br>
         <br/>
         <br />
         </Box>
+        </div>
       </div>
     </div>
   )
