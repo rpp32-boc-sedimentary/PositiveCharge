@@ -133,14 +133,10 @@ Add POI Component
 }
 
 /* seePOI component */
-.placeholder{
-  background-color: #ff9800;
-}
-
 
 .seePOI {
   background-color: #ff9800;
-  height: flex;
+  height: 100%;
   width: 100%;
 }
 
@@ -163,10 +159,12 @@ Add POI Component
   .seePOIListHeader{
     background: #ff9800;
     float:left;
+
   }
 
   .poiList{
     float: left;
+
   }
 
   .filters{
