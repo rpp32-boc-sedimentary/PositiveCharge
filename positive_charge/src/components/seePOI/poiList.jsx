@@ -1,6 +1,9 @@
 import React from 'react';
 import MoreDetails from './moreDetails.jsx'
 import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { Table, TableHead, TableBody, TableRow, TableCell, InputLabel, Button, Input, Select, MenuItem } from '@mui/material';
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
+
 
 const PoiList = (props) => {
 
@@ -12,16 +15,37 @@ const PoiList = (props) => {
     let eachPOI = props.props.map((item, index) => {
 
       return (
-        <div className='poiItem' key={index}>
-        <span className='listNumber'>{index + 1}</span> <Link to='/moreDetails' style={{textDecoration: 'none'}} state={{data:item}} ><span className='POIName' >{item.name} </span></Link> <span className='likes'>{item.rating !== undefined ? <span className='likes'>{item.rating} yelp rating</span> : <span className='likes'>{item.loves} loves</span>} </span> <span className='distance' >{props.walkTime(item.distance)} min walk</span>
-        </div>
+
+        <TableRow className='poiItems'>
+          <Link to='/moreDetails' className='toMoreDetails' state={{data:item}}><TableCell className='poiName'>
+            {item.name}
+          </TableCell></Link>
+          <Link to='/moreDetails' className='toMoreDetails' state={{data:item}}><TableCell className='likes'>{item.rating !== undefined ? <span className='likes'>{item.rating} yelp rating</span> : <span className='likes'>{item.loves} loves</span>}</TableCell></Link>
+          <Link to='/moreDetails' className='toMoreDetails' state={{data:item}}><TableCell className='distance'>{props.walkTime(item.distance)} min walk</TableCell></Link>
+        </TableRow>
+
       )
     })
 
     return (
-      <div className='poiFullList'>
+      <Table id='poiTable'>
+            <TableHead style={{ backgroundColor: '#4eb5f1' }}>
+            <TableRow>
+              <TableCell className='poiName'>
+                Name
+              </TableCell>
+              <TableCell className='loves'>
+                Loves/Ratings
+              </TableCell>
+              <TableCell className='walkDist'>
+                Distance
+              </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
         {eachPOI}
-      </div>
+        </TableBody>
+        </Table>
     )
   }
   }

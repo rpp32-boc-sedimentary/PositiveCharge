@@ -337,38 +337,49 @@ Add POI Component
 
   }
 
-  .poiFullList{
-    width: 100%;
-    border-style: inset;
-    border-width: medium;
-    border-color:#11730a;
+  .poiItems:hover{
+    background-color: lightpink;
   }
 
-  .poiList{
-    width:100%;
-    float:left;
-    text-align: center;
-    grid-template-columns: auto, auto, auto;
-
-    .distance{
-      margin-right: 3%;
-      text-align: right;
-      float:right;
-    }
-
-    .listNumber{
-      text-align: left;
-      float:left;
-    }
-    .POIName{
-      text-align: left;
-      float:left;
-    }
-    .likes{
-
-      text-align: center;
-    }
+  .toMoreDetails{
+    display: table-cell;
+    color: #000;
+    text-decoration: none;
   }
+
+
+  // .poiFullList{
+  //   width: 100%;
+  //   border-style: inset;
+  //   border-width: medium;
+  //   border-color:#11730a;
+  // }
+
+  // .poiList{
+  //   width:100%;
+  //   float:left;
+  //   text-align: center;
+  //   grid-template-columns: auto, auto, auto;
+
+  //   .distance{
+  //     margin-right: 3%;
+  //     text-align: right;
+  //     float:right;
+  //   }
+
+  //   .listNumber{
+  //     text-align: left;
+  //     float:left;
+  //   }
+  //   .POIName{
+  //     text-align: left;
+  //     float:left;
+  //   }
+  //   .likes{
+
+  //     text-align: center;
+  //   }
+  // }
 
   .filters{
     float: left;
