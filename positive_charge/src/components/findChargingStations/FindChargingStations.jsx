@@ -19,7 +19,7 @@ class FindChargingStations extends React.Component {
   }
 
   getUserLocation() {
-    const options = {
+    const geoOptions = {
       enableHighAccuracy: true,
       timeout: 5000,
       maximumAge: 0
@@ -34,7 +34,7 @@ class FindChargingStations extends React.Component {
     }
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(positionCallback, postionError, options);
+      navigator.geolocation.getCurrentPosition(positionCallback, postionError, geoOptions);
     } else {
       alert('Geolocation is not supported by this browser');
     }
@@ -57,13 +57,12 @@ class FindChargingStations extends React.Component {
         this.setState({ stationsList: stations.data });
       })
       .catch((err) => {
-        alert('There was a problem finding charging stations in your area. Refresh and TableRowy again');
+        alert('There was a problem finding charging stations in your area. Refresh and try again');
         console.log('Error populating stations list: ', err);
       });
   }
 
   handleHeadingChange(event) {
-    console.log(event.target.value);
     this.setState({ userHeading: event.target.value });
   }
 
@@ -171,7 +170,7 @@ class FindChargingStations extends React.Component {
                         {currentStation.station_name}
                       </TableCell></Link>
                       <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationAddress'>
-                        {currentStation.sTableRoweet_address}
+                        {currentStation.street_address}
                       </TableCell></Link>
                       <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationConnectorTypes'>
                         {currentStation.ev_connector_types.map((connector, index) => {
@@ -197,7 +196,7 @@ class FindChargingStations extends React.Component {
                         {currentStation.station_name}
                       </TableCell></Link>
                       <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationAddress'>
-                        {currentStation.sTableRoweet_address}
+                        {currentStation.street_address}
                       </TableCell></Link>
                       <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationConnectorTypes'>
                         {currentStation.ev_connector_types.map((connector, index) => {
@@ -223,7 +222,7 @@ class FindChargingStations extends React.Component {
                         {currentStation.station_name}
                       </TableCell></Link>
                       <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationAddress'>
-                        {currentStation.sTableRoweet_address}
+                        {currentStation.street_address}
                       </TableCell></Link>
                       <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationConnectorTypes'>
                         {currentStation.ev_connector_types.map((connector, index) => {
