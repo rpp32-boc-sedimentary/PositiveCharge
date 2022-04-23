@@ -75,6 +75,7 @@ class FindChargingStations extends React.Component {
   render() {
     return (
       <div className='findStationsDiv'>
+        { this.props.isLoggedIn ? <h3>Welcome back, {this.props.userName}!</h3> : null }
         <InputLabel id='stationsYourLocationLabel'>
           What is your current location?
           <Button variant="contained" sx={{ ml: 5 }} id='stationsUseMyLocationButton' onClick={this.getUserLocation.bind(this)}><AddLocationAltIcon /></Button>
