@@ -60,31 +60,6 @@ class FindChargingStations extends React.Component {
       });
   }
 
-  // handleStationSelect(event) {
-  //   var chargerName = event.target.parentElement.children[0].textContent;
-  //   var latitude;
-  //   var longitude;
-
-  //   var rows = document.getElementsByClassName('stationTableRow');
-  //   for (var currentRow = 0; currentRow < rows.length; currentRow++) {
-  //     if (rows[currentRow].style['background-color'] !== '') {
-  //       rows[currentRow].style['background-color'] = '';
-  //     }
-  //   }
-  //   event.currentTarget.style['background-color'] = 'lightpink';
-
-  //   for (var station = 0; station < this.state.stationsList.length; station++) {
-  //     if (this.state.stationsList[station].station_name === chargerName) {
-  //       latitude = this.state.stationsList[station].latitude;
-  //       longitude = this.state.stationsList[station].longitude;
-  //     }
-  //   }
-
-  //   this.setState({ chargerCoords: { chargerLat: latitude, chargerLong: longitude } }, () => {
-  //     console.log(this.state.chargerCoords);
-  //   });
-  // }
-
   handleHeadingChange(event) {
     this.setState({ userHeading: event.nativeEvent.target.selectedOptions[0].textContent });
   }
