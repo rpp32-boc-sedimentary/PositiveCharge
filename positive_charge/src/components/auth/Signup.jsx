@@ -130,7 +130,7 @@ class Signup extends React.Component {
               Sign Up
             </Button>
           </Box>
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="flex-end" className="text">
             <Grid item>Already have an account?
               <MuiLink component={Link} to="/login" sx={{ ml: 1 }}>Login</MuiLink>
             </Grid>
