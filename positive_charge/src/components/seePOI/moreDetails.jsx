@@ -9,7 +9,7 @@ const MoreDetails = (props) => {
   if (data.location !== undefined) {
     return (
       <>
-      <div>
+      <div className='moreDetails'>
         <span className='moreDetailsName'>{data.name} </span> <br></br>
         <span className='moreDetailsAddress'>{data.location.address1}, {data.location.city} {data.location.country}</span> <br></br>
         <span className='moreDetailsPrice'>Price:{data.price}</span> <span className='moreDetailsRating'>Yelp Rating:{data.rating}</span>
@@ -20,7 +20,7 @@ const MoreDetails = (props) => {
   } else {
     return (
       <>
-      <div>
+      <div className='moreDetails'>
         <span className='moreDetailsName'>{data.name} </span> <br></br>
         <span className='moreDetailsAddress'>{data.address}</span> <br></br>
         <span className='moreDetailsPrice'>Price:{data.price}</span> <span className='moreDetailsRating'>loves:{data.loves}</span>

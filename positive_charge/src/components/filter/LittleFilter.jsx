@@ -35,8 +35,11 @@ class LittleFilter extends React.Component {
       quickWalk: false,
       dataFromDom: [],
       userPois: [],
+      filteredUserPois: [],
+      sponsoredPois: [],
+      filteredSponsored: [],
+      combinedFiltered: [],
       showMore: false,
-
     }
 
     this.handleBigModalState = this.handleBigModalState.bind(this);
@@ -52,14 +55,11 @@ class LittleFilter extends React.Component {
     this.handleQuickBf = this.handleQuickBf.bind(this);
     this.handleSort = this.handleSort.bind(this);
 
-    this.findTimeToTravel = this.findTimeToTravel.bind(this);
     this.handleBigFilterApply = this.handleBigFilterApply.bind(this);
     this.applyFilters = this.applyFilters.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
-
-
-
-    this.getUserPois = this.getUserPois.bind(this);
+    this.setInitialState = this.setInitialState.bind(this);
+    //this.getUserPois = this.getUserPois.bind(this);
     //this.getYelpDataTest = this.getYelpDataTest.bind(this);
   }
 
@@ -84,9 +84,9 @@ class LittleFilter extends React.Component {
       showMore: !showMoreStatus
     }, () => {
       if (!this.state.showMore) {
-        showThisMany = this.state.filteredData.slice(0, 5);
+        showThisMany = this.state.combinedFiltered.slice(0, 5);
       } else {
-        showThisMany = this.state.filteredData.slice(0, 20);
+        showThisMany = this.state.combinedFiltered.slice(0, 20);
       }
       this.props.changeDisplay(showThisMany);
     });
@@ -197,22 +197,44 @@ class LittleFilter extends React.Component {
   };
 
   applyFilters = (e) => {
-    const { filterOnPrice, filterOnCategories, filterLfCategories, filterOnDistance, filterQuickWalks } = helpers;
-    let filteredData = filterOnPrice(this.state.price, this.state.modifiedData);
-    filteredData = filterOnCategories(this.state.categoriesChecked, filteredData);
-    filteredData = filterLfCategories(this.state.suggestedCategories, filteredData);
-    filteredData = filterOnDistance(this.state.distance, filteredData);
-    filteredData = filterQuickWalks(this.state.quickWalk, filteredData);
-    filteredData = helpers.sortFunc(this.state.sortVal, filteredData);
-    let showFive = filteredData.slice(0, 5);
-    let showTwenty = filteredData.slice(0, 20);
+
+    const filtersChosen = {
+      price: this.state.price,
+      categoriesChecked: this.state.categoriesChecked,
+      suggestedCategories: this.state.suggestedCategories,
+      distance: this.state.distance,
+      quickWalk: this.state.quickWalk,
+      sortVal: this.state.sortVal
+    };
+
+    let filteredUserPois;
+    let filteredSponsored;
+    if (this.state.userPois.length) {
+      filteredUserPois = helpers.applyAllFilters(filtersChosen, this.state.userPois);
+    } else {
+      filteredUserPois = [];
+    }
+    if (this.state.sponsoredPois.length) {
+      filteredSponsored = helpers.applyAllFilters(filtersChosen, this.state.sponsoredPois)
+    } else {
+      filteredSponsored = [];
+    }
+    let filteredData = helpers.applyAllFilters(filtersChosen, this.state.modifiedData);
+    let combinedData = filteredSponsored.concat(filteredUserPois, filteredData);
+    console.log('combined', combinedData)
+
+    let showFive = combinedData.slice(0, 5);
+    let showTwenty = combinedData.slice(0, 20);
     if (this.state.showMore) {
       this.props.changeDisplay(showTwenty);
     } else {
       this.props.changeDisplay(showFive);
     }
     this.setState({
-      filteredData
+      filteredData,
+      filteredUserPois,
+      filteredSponsored,
+      combinedFiltered: combinedData
     }, () => {
     });
 
@@ -245,61 +267,97 @@ class LittleFilter extends React.Component {
     console.log('props from DOM', this.props)
     let data = this.props.allData;
     let userPois = data.database;
-    this.setState({
-      userPois
-    }, () => {
-    })
-    console.log('data in database?', data.database);
+    let sponsoredPois = data.sponser;
     delete data.all;
     delete data.dist;
     delete data.flag;
     delete data.lat;
     delete data.long;
     let addedCategories = helpers.addCategoryToYelp(data);
-    this.findTimeToTravel(addedCategories);
+    let addedDurations = helpers.walkTime(addedCategories);
+    if (addedDurations.lessThanFive) {
+      this.setState({
+        lessThanFive: true
+      })
+    }
+    let userPoisWithDuration;
+    let sponsoredPoisWithDuration;
+    if (userPois) {
+      userPoisWithDuration = helpers.walkTime(userPois);
+    } else {
+      userPoisWithDuration = [];
+    }
 
-
+    if (sponsoredPois) {
+      sponsoredPoisWithDuration = helpers.walkTime(sponsoredPois);
+    } else {
+      sponsoredPoisWithDuration = [];
+    }
+    //this.findTimeToTravel(addedCategories);
+    this.setInitialState(sponsoredPoisWithDuration, userPoisWithDuration, addedDurations);
   }
 
-  findTimeToTravel = (allData) => {
-    let starting = this.props.userLocation;
-    axios.post('/filter/walkingTime', {
-      data: {
-        starting,
-        data: allData
+  setInitialState = (sponsored, userAdded, yelpData) => {
+    let allData = sponsored.concat(userAdded, yelpData);
+    let lessThanFive = false;
+    allData.forEach(item => {
+      if (item.duration <= 5) {
+        lessThanFive = true;
       }
-    })
-      .then(data => {
-        this.setState({
-          modifiedData: data.data.all,
-          filteredData: data.data.all,
-          lessThanFive: data.data.lessThanFive
-        }, () => {
-          let categoriesChecked = helpers.findCategories(this.state.modifiedData);
-          let suggestedCategories = helpers.findSuggested(categoriesChecked);
-          this.setState({
-            categoriesChecked,
-            suggestedCategories
-          });
-        });
-      })
-      .catch(err => {
-        console.log('error sending', err)
-      })
-  }
+    });
+    let categoriesChecked = helpers.findCategories(allData);
+    let suggestedCategories = helpers.findSuggested(categoriesChecked);
+    this.setState({
+      userPois: userAdded,
+      filteredUserPois: userAdded,
+      sponsoredPois: sponsored,
+      filteredSponsored: sponsored,
+      filteredData: yelpData,
+      modifiedData: yelpData,
+      categoriesChecked,
+      suggestedCategories,
+      lessThanFive
+    });
+  };
+
+  // findTimeToTravel = (allData) => {
+  //   let starting = this.props.userLocation;
+  //   axios.post('/filter/walkingTime', {
+  //     data: {
+  //       starting,
+  //       data: allData
+  //     }
+  //   })
+  //     .then(data => {
+  //       this.setState({
+  //         modifiedData: data.data.all,
+  //         filteredData: data.data.all,
+  //         lessThanFive: data.data.lessThanFive
+  //       }, () => {
+  //         let categoriesChecked = helpers.findCategories(this.state.modifiedData);
+  //         let suggestedCategories = helpers.findSuggested(categoriesChecked);
+  //         this.setState({
+  //           categoriesChecked,
+  //           suggestedCategories
+  //         });
+  //       });
+  //     })
+  //     .catch(err => {
+  //       console.log('error sending', err)
+  //     })
+  // }
 
 
-  getUserPois = () => {
-    axios.get('/filter/getAll')
-      .then(data => {
-        console.log('data is here from db', data)
-      })
-      .catch(err => {
-        console.log('error getting data', err)
-      })
-  }
+  // getUserPois = () => {
+  //   axios.get('/filter/getAll')
+  //     .then(data => {
+  //       console.log('data is here from db', data)
+  //     })
+  //     .catch(err => {
+  //       console.log('error getting data', err)
+  //     })
+  // }
 
-//when cancel is clicked all filters should clear???
 
   render() {
 
@@ -308,18 +366,15 @@ class LittleFilter extends React.Component {
 
         <div className="sfWrapper">
 
-          <button className="sfButton" onClick={ this.getUserPois }>test</button>
-
           <select className="sfButton item2 clickableElement" name="category" onChange={ this.handleSort }>
             <option>Loves</option>
             <option>Distance</option>
           </select>
 
-
           { this.state.filteredData.length > 5 ? <button className="clickableElement sfButton" onClick={this.handleShowMore}>{ this.state.showMore ? "Show Less" : "Show More"}</button> : null }
 
           <button className="sfButton item1 clickableElement" onClick={ this.handleBigModalState }>More Filters</button>
-          { this.state.modalState ? <BigFilter manageModalState={ this.handleBigModalState } distance = { this.state.distance } handleDistance={ this.handleDistance } price={ this.state.price } handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } categoriesChecked={ this.state.categoriesChecked } handleAllCategories={ this.handleAllCategories } suggestedCategories=
+          { this.state.modalState ? <BigFilter modalState={this.state.modalState} manageModalState={ this.handleBigModalState } distance = { this.state.distance } handleDistance={ this.handleDistance } price={ this.state.price } handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } categoriesChecked={ this.state.categoriesChecked } handleAllCategories={ this.handleAllCategories } suggestedCategories=
           { this.state.suggestedCategories } handleSuggestedCategoriesBf={ this.handleSuggestedCategoriesBf } lessThanFive={ this.state.lessThanFive } quickWalk={ this.state.quickWalk } handleQuickBf={ this.handleQuickBf } /> : null }
 
           <button className="sfButton item3" onClick={ this.handlePriceModalState }>Price</button>
