@@ -20,7 +20,7 @@ const PoiList = (props) => {
           <Link to='/moreDetails' className='toMoreDetails' state={{data:item}}><TableCell className='poiName'>
             {item.name}
           </TableCell></Link>
-          <Link to='/moreDetails' className='toMoreDetails' state={{data:item}}><TableCell className='likes'>{item.rating !== undefined ? <span className='likes'>{item.rating} yelp rating</span> : <span className='likes'>{item.loves} loves</span>}</TableCell></Link>
+          <Link to='/moreDetails' className='toMoreDetails' state={{data:item}}><TableCell className='likes'>{item.rating !== undefined ? <span className='likes'>{item.rating} yelp rating</span> : <span className='likes'>{item.loves} loves</span>} {item.sponsored === true ? <span className='isSpons'>(sponsored)</span> : <span></span>}</TableCell></Link>
           <Link to='/moreDetails' className='toMoreDetails' state={{data:item}}><TableCell className='distance'>{props.walkTime(item.distance)} min walk</TableCell></Link>
         </TableRow>
 
