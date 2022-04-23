@@ -29,7 +29,6 @@ class LittleFilter extends React.Component {
       distance: '',
       categoriesChecked: {},
       suggestedCategories: {},
-      //userLocation: {lat: 37.776447823372365, long: -122.43286289002232},
       modifiedData: [],
       filteredData: [],
       lessThanFive: false,
@@ -76,22 +75,6 @@ class LittleFilter extends React.Component {
       priceModalState: !this.state.priceModalState
     })
   };
-
-  /*
-  show more function
-    needs to work even when there are no filters
-    need a container that is always populated with modified data,
-  it will have the categories as well as the durations.
-    when user clicks show more, up to 20 will appear, the list should
-    already be sorted by rating
-    when someone clicks on show more, the button name will change to show less, which someone can click and see less
-    the button should only appear when there are more than 5 items in the list
-    the button will only be on the little filter
-
-
-    so modified data contains all of the data that will be used to display any locations that are not filtered.
-    What if filtered data is a copy of modified data initially and that will be rendered at first. It will be sorted and user can click more and show less. when user starts filtering, the modified data will be filtered and set to filtered data. Modified data will contain all data in case it needs to be refiltered.
-  */
 
 
   handleShowMore = () => {
@@ -323,23 +306,6 @@ class LittleFilter extends React.Component {
 
           <button className="sfButton" onClick={ this.getUserPois }>test</button>
 
-
-          {/* <Box sx={{minWidth: 100}}>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Sort</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-
-                label="Sort"
-                onChange={ this.handleSort }
-              >
-                <MenuItem value={"Loves"}>Loves</MenuItem>
-                <MenuItem value={"Distance"}>Distance</MenuItem>
-              </Select>
-            </FormControl>
-          </Box> */}
-
           <select className="sfButton item2 clickableElement" name="category" onChange={ this.handleSort }>
             <option>Loves</option>
             <option>Distance</option>
@@ -365,5 +331,3 @@ class LittleFilter extends React.Component {
 }
 
 export default LittleFilter;
-
-//<button className="sfChild clickableElement" onClick={ this.handlePriceModalState }>Price</button>

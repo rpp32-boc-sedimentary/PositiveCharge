@@ -144,21 +144,6 @@ const sortFunc = (sortVal, data) => {
   return sorted;
 };
 
-// const addCategory = (data) => {
-//   let allData = [];
-//   _.each(data, (value, key) => {
-//     value.businesses.forEach(business => {
-//       if (business.distance > 1260) {
-//         return;
-//       } else {
-//         business.category = key;
-//         allData.push(business);
-//       }
-//     })
-//   })
-//   return allData;
-// }
-
 const addCategoryToYelp = (data) => {
   let yelpWithCategories = [];
   for (var key in data) {

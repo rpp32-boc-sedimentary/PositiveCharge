@@ -94,30 +94,3 @@ class BigFilter extends React.Component {
 
 
 export default BigFilter;
-
-
-
-            // <div>
-            //   <label className="categories">
-            //     <input type="checkbox" name="free" checked={ this.props.price.free } onChange={ this.props.handlePrice } />
-            //     <span>Free</span>
-            //   </label>
-            // </div>
-            // <div>
-            //   <label className="categories">
-            //     <input type="checkbox" name="$" checked={ this.props.price.$ } onChange={ this.props.handlePrice } />
-            //     <span>$</span>
-            //   </label>
-            // </div>
-            // <div >
-            //   <label className="categories">
-            //     <input type="checkbox" name="$$" checked={ this.props.price.$$ } onChange={ this.props.handlePrice } />
-            //     <span>$$</span>
-            //   </label>
-            // </div>
-            // <div>
-            //   <label className="categories">
-            //     <input type="checkbox" name="$$$" checked={ this.props.price.$$$ } onChange={ this.props.handlePrice } />
-            //     <span>$$$</span>
-            //   </label>
-            // </div>

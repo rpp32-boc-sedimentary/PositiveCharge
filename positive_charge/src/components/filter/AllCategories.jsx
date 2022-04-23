@@ -42,13 +42,3 @@ const AllCategories = (props) => {
 }
 
 export default AllCategories;
-      // <div>
-      //   {_.map(props.categoriesChecked, (val, key) =>
-      //     <div key={ key }>
-      //       <label>
-      //         <input type="checkbox" name={ key } checked={ val } onChange={ props.handleAllCategories } />
-      //         <span>{ key }</span>
-      //       </label>
-      //     </div>
-      //   )}
-      // </div>

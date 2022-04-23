@@ -27,13 +27,3 @@ const BfCategories = (props) => {
 
 export default BfCategories;
 
-    // <div>
-    //   {_.map(props.suggestedCategories, (val, key) =>
-    //     <div key={ key }>
-    //       <label className="categories">
-    //         <input type="checkbox" name={ key } checked={ val } onChange={ props.handleSuggestedCategoriesBf } readOnly />
-    //         <span>{ key }</span>
-    //       </label>
-    //     </div>
-    //   )}
-    // </div>
