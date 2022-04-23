@@ -422,6 +422,14 @@ Add POI Component
   }
 
 
+.toolbar {
+  display: flex;
+}
+
+.css-1lvtzne {
+  width: min-content
+}
+
 #logo{
   width: clamp(170px, 30%, 400px);
 }

@@ -108,7 +108,7 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters className="toolbar">
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
