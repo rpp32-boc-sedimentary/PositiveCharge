@@ -7,10 +7,10 @@ var MapDestination = (props) => {
     return(
         props.destinations.map((dest, index) => {
             return (
-                <Marker 
-                    position={[dest.lat, dest.long]} 
+                <Marker
+                    position={[dest.lat, dest.long]}
                     key={index}
-                    icon={L.icon({iconUrl: './img/experience.png', iconSize: [90, 90]})}
+                    icon={L.icon({iconUrl: './img/experience.png', iconSize: [50, 50]})}
                     eventHandlers={{
                         click: props.getDirections
                     }}>

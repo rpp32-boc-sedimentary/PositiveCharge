@@ -117,7 +117,7 @@ class Login extends React.Component {
               Login
             </Button>
           </Box>
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="flex-end" className="text">
             <Grid item variant="inherit">Don't have an account?
               <MuiLink component={Link} to="/signup" sx={{ml: 1}}>Sign Up</MuiLink>
             </Grid>

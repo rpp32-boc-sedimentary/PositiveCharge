@@ -18,7 +18,6 @@ const filterOnPrice = (selectedFilter, data) => {
     return data;
   }
   let priceFiltered = [];
-  console.log('data on price filter', data);
   data.forEach(item => {
     if (selectedFilter.free && !item.price) {
          priceFiltered.push(item);
@@ -31,13 +30,11 @@ const filterOnPrice = (selectedFilter, data) => {
 };
 
 const filterOnCategories = (selectedFilter, data) => {
-  console.log('selected filter', selectedFilter)
   if (!selectedFilter.food && !selectedFilter.museum && !selectedFilter.cafe && !selectedFilter.park && !selectedFilter.landmark) {
     return data;
   }
   let categoryFiltered = [];
   data.forEach(item => {
-    console.log('item in filter', item)
     if (selectedFilter[item.category]) {
       categoryFiltered.push(item);
     }
@@ -150,7 +147,6 @@ const addCategoryToYelp = (data) => {
     if (key === 'database'|| key === 'sponser') {
       continue;
     } else {
-      console.log('key', key)
       data[key].businesses.forEach(business => {
         if (business.distance > 1260) {
           return;
@@ -162,9 +158,31 @@ const addCategoryToYelp = (data) => {
     }
   }
   return yelpWithCategories;
+};
 
+
+
+const walkTime = (data) => {
+  data.forEach(item => {
+    if (item.distance) {
+      item.duration = Math.round((item.distance/84));
+    }
+  })
+  return data;
+};
+
+
+
+const applyAllFilters = (filters, pois) => {
+  let filtered;
+  filtered = filterOnPrice(filters.price, pois);
+  filtered = filterOnCategories(filters.categoriesChecked, filtered);
+  filtered = filterLfCategories(filters.suggestedCategories, filtered);
+  filtered = filterOnDistance(filters.distance, filtered);
+  filtered = filterQuickWalks(filters.quickWalk, filtered);
+  filtered = sortFunc(filters.sortVal, filtered);
+  return filtered;
 }
-
 
 
 module.exports = {
@@ -176,5 +194,7 @@ module.exports = {
   findSuggested,
   filterQuickWalks,
   sortFunc,
-  addCategoryToYelp
+  addCategoryToYelp,
+  walkTime,
+  applyAllFilters
 }

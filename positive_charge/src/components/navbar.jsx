@@ -14,8 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import MuiLink from '@mui/material/Link';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-const pages = ['Home', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Find a Charger'];
+const settings = ['Activity', 'Account', 'Logout'];
 
 const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -40,15 +40,18 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
   };
 
   const handleClickHome = () => {
+    handleCloseNavMenu()
     navigate('/');
   }
 
   const handleLogin = () => {
     navigate('/login');
+    handleCloseUserMenu()
   }
 
   const handleSignup = () => {
     navigate('/signup');
+    handleCloseUserMenu()
   }
 
   const logDisplay = () => {
@@ -138,7 +141,7 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={page === 'Home' ? handleClickHome : handleCloseNavMenu}>
+                <MenuItem key={page} onClick={page === 'Find a Charger' ? handleClickHome : handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -147,7 +150,8 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
           <Box
             component="img"
             alt="logo"
-            src="/img/posChargeBlk.png"
+            src="/img/posChargeWht_medium.png"
+            onClick={() => handleClickHome()}
           >
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>

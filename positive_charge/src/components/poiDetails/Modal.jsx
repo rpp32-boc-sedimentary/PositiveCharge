@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PoiModal from './PoiModal.jsx';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 export default function Modal(data) {
 
@@ -23,10 +24,14 @@ export default function Modal(data) {
   return (
     <>
       <div>
-        <button onClick={() => {
+        <Button
+          variant="contained"
+          sx={{ maxWidth: '80vw',
+        margin: '1rem'}}
+          onClick={() => {
           getDetails(data)
           setIsOpen(true)
-        }}>See what everyone is saying about {data.props.name}</button>
+        }}>See what everyone is saying about {data.props.name}</Button>
         <PoiModal open={isOpen} onClose={() => setIsOpen(false)} detail={details} name={data}/>
 
         {/* Sponsor link */}
