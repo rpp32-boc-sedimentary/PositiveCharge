@@ -430,4 +430,8 @@ Add POI Component
   width: min-content
 }
 
+#logo{
+  width: clamp(170px, 30%, 400px);
+}
+
 

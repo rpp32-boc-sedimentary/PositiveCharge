@@ -156,7 +156,6 @@ class SeePOI extends React.Component {
       }
       this.setState({data: data}, () => {
         this.filterForMap()
-        console.log('seePOI', this.state);
       })
     }
     if (this.state.all && this.state.food && this.state.cafe && this.state.museum && this.state.landmark && this.state.park && this.state.database && this.state.sponser && this.state.flag === undefined) {

@@ -15,7 +15,8 @@ import {
   BottomNavigationAction,
   Typography,
   Box,
-  Avatar
+  Avatar,
+  CardHeader
 } from '@mui/material';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -93,20 +94,23 @@ export default function PoiModal({ open, onClose, detail, name }) {
                   gridArea: 'pic'
                 }}>?
               </Avatar>
-
             </Box>
+
+
             <CardContent
               sx={{
                 gridArea: 'ex',
                 bgcolor: 'primary.main',
-
-              }}>
+              }}
+              >
               <Typography sx={{
                 fontSize: '1.25rem'
               }}>
                 {exp.experience}
               </Typography>
             </CardContent>
+
+
             <CardActions
               sx={{ gridArea: 'love', fontSize: 'small' }}>
               <IconButton
