@@ -1,43 +1,65 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+const modalRoot = document.getElementById('priceFilter-portal');
 
-const PriceFilter = (props) => {
+class PriceFilter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.modal = document.createElement('div');
+  }
 
-  return (
+  componentDidMount() {
+    modalRoot.appendChild(this.modal);
+  }
 
-    <div>
-        <form className='priceFilterModal' onSubmit={ props.handlePriceApply }>
-          <div className='ckButton'>
+  componentWillUnmount() {
+    modalRoot.removeChild(this.modal);
+  }
+
+
+  render() {
+
+    return ReactDOM.createPortal(
+      <>
+
+
+        <form className='priceFilterModal' onSubmit={ this.props.handlePriceApply }>
+          <div className='cksButton'>
             <label>
-              <input type='checkbox' name='free' checked={props.price.free} onChange={ props.handlePrice } />
+              <input type='checkbox' name='free' checked={this.props.price.free} onChange={ this.props.handlePrice } />
               <span>Free</span>
             </label>
           </div>
 
-          <div className='ckButton'>
+          <div className='cksButton'>
             <label>
-              <input type='checkbox' name='$' checked={props.price.$} onChange={ props.handlePrice } />
+              <input type='checkbox' name='$' checked={this.props.price.$} onChange={ this.props.handlePrice } />
               <span>$</span>
             </label>
           </div>
 
-          <div className='ckButton'>
+          <div className='cksButton'>
             <label>
-              <input type='checkbox' name='$$' checked={props.price.$$} onChange={ props.handlePrice }  />
+              <input type='checkbox' name='$$' checked={this.props.price.$$} onChange={ this.props.handlePrice }  />
               <span>$$</span>
             </label>
           </div>
 
-          <div className='ckButton'>
+          <div className='cksButton'>
             <label>
-              <input type='checkbox' name='$$$' checked={props.price.$$$} onChange={ props.handlePrice }  />
+              <input type='checkbox' name='$$$' checked={this.props.price.$$$} onChange={ this.props.handlePrice }  />
               <span>$$$</span>
             </label>
           </div>
           <input type='submit' value='Save'/>
         </form>
-    </div>
+      </>,
+      this.modal
 
-  )
+
+    )
+  }
+
 }
 
 export default PriceFilter;

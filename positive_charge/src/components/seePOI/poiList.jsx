@@ -13,7 +13,7 @@ const PoiList = (props) => {
 
       return (
         <div className={item.id} key={index}>
-        <span className='listNumber'>{index + 1}</span> <Link to='/moreDetails' state={{data:item}} ><span className='POIName' >{item.name} </span></Link> <span className='likes'>{item.rating} yelp rating </span> <span className='distance' >{props.walkTime(item.distance)} min walk</span>
+        <span className='listNumber'>{index + 1}</span> <Link to='/moreDetails' style={{textDecoration: 'none'}} state={{data:item}} ><span className='POIName' >{item.name} </span></Link> <span className='likes'>{item.rating !== undefined ? <span className='likes'>{item.rating} yelp rating</span> : <span className='likes'>{item.loves} loves</span>} </span> <span className='distance' >{props.walkTime(item.distance)} min walk</span>
         </div>
       )
     })

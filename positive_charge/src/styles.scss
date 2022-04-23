@@ -2,12 +2,138 @@
 FILTER COMPONENT
 */
 
+.cksButton {
+  background-color:#4eb5f1;
+  border: 1px solid rgb(52, 49, 49);
+  border-radius: 4px;
+  height: auto;
+  float: left;
+  text-align: center;
+  font-size: 12px;
+  width: 4.0em;
+}
+
+.cksButton label {
+  float: left;
+  width: 4.0em;
+}
+
+.cksButton label span {
+  text-align: center;
+  padding: 3px 0px;
+  display: block;
+}
+.cksButton label input {
+  position: absolute;
+  top: -20px;
+}
+
+.cksButton input:hover + span {
+  background-color: rgb(243, 226, 183);
+}
+
+.cksButton input:checked + span {
+  background-color: orange;
+  color: black;
+}
+
+.cksButton input:checked:hover + span {
+  background-color: rgb(205, 138, 5);
+  color: black;
+}
+
+
+.chButton {
+  //display:inline-block;
+  border-radius:2em;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family:'Roboto',sans-serif;
+  font-weight:300;
+  color:#FFFFFF;
+  background-color:#4eb5f1;
+  text-align:center;
+  height: auto;
+  float: left;
+  text-align: center;
+  width: 8.0em;
+  height: 2em;
+  font-size: 12px;
+}
+
+.chButton label {
+  float: left;
+  border-radius: 2em;
+  width: 8.0em;
+  height: 2em;
+}
+
+.chButton label span {
+  border-radius: 2em;
+  text-align: center;
+  padding: 3px 0px;
+  display: block;
+}
+.chButton label input {
+  position: absolute;
+  top: -20px;
+}
+
+.chButton input:hover + span {
+  background-color: rgb(243, 226, 183);
+}
+
+.chButton input:checked + span {
+  background-color: orange;
+  color: black;
+}
+
+.chButton input:checked:hover + span {
+  background-color: rgb(205, 138, 5);
+  color: black;
+}
+
 .smallFilter {
   font-size: 30px;
+  //flex-direction: row;
+  //justify-content: space-around;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  width: 50rem;
+  //flex-wrap: wrap;
+  width: 375px;
+  height: auto;
+  //margin: 10px;
+  //-webkit-overflow-scrolling: touch;
+  background-color: rgb(229, 229, 229);
+  justify-content: space-evenly;
+  //white-space: nowrap;
+
+
+  // .clickableElement {
+  //   display: inline-block;
+  //   //height: 75%;
+  //   //width: 30%;
+  //  // text-align: center;
+  //  // padding: 10px;
+  // }
+
+  .sfButton {
+    display:inline-block;
+    padding:0.3em 1.2em;
+    margin:0 0.3em 0.3em 0;
+    border-radius:2em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:#FFFFFF;
+    background-color:#4eb5f1;
+    text-align:center;
+    transition: all 0.2s;
+  }
+  .sfButton :hover {
+    background-color:#4095c6;
+  }
 
 
   .sfChild {
@@ -16,76 +142,76 @@ FILTER COMPONENT
     border-radius: 4px;
   }
 
-  .priceFilterModal {
-
-    background: white;
-    display: flex;
-    flex-direction: column;
-
-    .ckButton {
-      background-color: rgb(182, 181, 181);
-      border: 1px solid rgb(52, 49, 49);
-      height: auto;
-      float: left;
-      text-align: center;
-      font-size: 1rem;
-    }
-
-    .ckButton label {
-      float: left;
-      width: 4.0em;
-    }
-
-    .ckButton label span {
-      text-align: center;
-      padding: 3px 0px;
-      display: block;
-    }
-    .ckButton label input {
-      position: absolute;
-      top: -20px;
-    }
-
-    .ckButton input:hover + span {
-      background-color: rgb(243, 226, 183);
-    }
-
-    .ckButton input:checked + span {
-      background-color: orange;
-      color: black;
-    }
-
-    .ckButton input:checked:hover + span {
-      background-color: rgb(205, 138, 5);
-      color: black;
-    }
+  .item1 {
+    order: 1;
   }
+  .item2 {
+    order: 2;
+  }
+  .item3 {
+    order: 3;
+  }
+  .item4 {
+    order: 4;
+  }
+
 }
 
 .bigFilter {
   display: flex;
   flex-direction: column;
 
-  .categoryHeader {
-    font-size: 1.5rem;
-  }
   .categories {
     font-size: 1rem;
   }
 }
 
 
+.priceFilterModal {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 1000;
+  box-shadow: 0 5px 10px 2px rgba(195, 192, 192, .5);
+  border-radius: 10px;
+  width: 100px;
+  height: 100px;
+}
 
 .bigModal {
-  width: 300px;
-  height: 500px;
-  background: rgb(255, 255, 255);
-  color: #000;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: calc(100% - 40px);
+  height: calc(100% - 20px);
+  top: 0%;
+  left: 0%;
+  bottom: 0%;
+  z-index: 1000;
+  background: rgb(237, 234, 234);
+  color: rgb(51, 49, 49);
   border-radius: 10px;
-  border-color: black;
-  border-width: medium;
   position: absolute;
+  box-shadow: 0 5px 10px 2px rgba(195, 192, 192, .5);
+  text-align: center;
+  font-size: 16px;
+  font-family: Verdana, sans-serif;
+
+  .bigFilterSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+
+  hr {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(223, 220, 220, 0.3);
+  }
+
+
 }
 
 /*
@@ -156,45 +282,80 @@ Add POI Component
 }
 /* seePOI component */
 
+
 .seePOI {
-  background-color: #ff9800;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   height: 100%;
   width: 100%;
+  color: darkorange;
+
+  #map {
+    width:90vw;
+    border-style: solid;
+    border-width: medium;
+    border-color:black;
+  }
 }
 
   .map{
-    float: left
+
+    float: left;
+    justify-content: center;
+    width: 95%;
+    height: 100%;
+
   }
 
   .returnCharger{
     float: left;
+    height: 100%;
   }
 
-  // .login{
-  //   float: right;
-  // }
+  .login{
 
-  // .signup{
-  //   float: right;
-  // }
+    float: right;
+    height: auto;
+    margin-right: 10%;
+  }
+
+  .signup{
+
+    float: right;
+    height: 100%;
+    margin-right: 5%;
+  }
 
   .seePOIListHeader{
-    background: #ff9800;
+
     float:left;
+    width: 95%;
+    height: 100%;
+    text-align: center;
+    text-decoration-line: underline;
 
   }
 
+
   .poiList{
+
     float: left;
+    width: 100%;
+    border-style: inset;
+    border-width: medium;
+    border-color:black;
 
   }
 
   .filters{
+
     float: left;
+    width: 95%;
   }
 
   .addPOI{
+
     float: left;
+    width: 95%;
   }
 
 

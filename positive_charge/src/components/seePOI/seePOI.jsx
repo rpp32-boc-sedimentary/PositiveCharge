@@ -125,10 +125,10 @@ class SeePOI extends React.Component {
       this.getSponserData((data) => this.setState({sponser: data}));
       this.getPOIData('/getPOI/getPOI', (data) => {this.setState({all: data})});
       this.getPOIData('/getPOI/getFoodPOI', (data) => {this.setState({food: data})});
-      this.getPOIData('/getPOI/getCafesPOI', (data) => {this.setState({cafes: data})});
-      this.getPOIData('/getPOI/getMuseumsPOI', (data) => {this.setState({museums: data})});
-      this.getPOIData('/getPOI/getLAndHPOI', (data) => {this.setState({lAndH: data})});
-      this.getPOIData('/getPOI/getParksPOI', (data) => {this.setState({parks: data})});
+      this.getPOIData('/getPOI/getCafesPOI', (data) => {this.setState({cafe: data})});
+      this.getPOIData('/getPOI/getMuseumsPOI', (data) => {this.setState({museum: data})});
+      this.getPOIData('/getPOI/getLAndHPOI', (data) => {this.setState({landmark: data})});
+      this.getPOIData('/getPOI/getParksPOI', (data) => {this.setState({park: data})});
     })
   }
 
@@ -168,7 +168,7 @@ class SeePOI extends React.Component {
         console.log('seePOI', this.state);
       })
     }
-    if (this.state.all && this.state.food && this.state.cafes && this.state.museums && this.state.lAndH && this.state.parks && this.state.flag === undefined) {
+    if (this.state.all && this.state.food && this.state.cafe && this.state.museum && this.state.landmark && this.state.park && this.state.flag === undefined) {
       this.setState({flag: true})
     }
   }
@@ -177,17 +177,21 @@ class SeePOI extends React.Component {
 
   render() {
     return(
-
+    <ThemeProvider theme={theme}>
+      <>
       <div className='seePOI'>
-        <div className='returnCharger'><Link to='/'>Find a different charger</Link></div>
-        <div className='login'><Link to='/login'>Log In</Link></div><div className='signup'><Link to='/signup'>Sign up</Link></div>
-        <h3 className='seePOIListHeader'>Experiences Near You</h3> <br></br>
+        <div className='returnCharger'><Link to='/' style={{textDecoration: 'none'}}>Find a different charger</Link></div>
+        <div className='login'><Link to='/login' style={{textDecoration: 'none'}}>Log In</Link></div><div className='signup'><Link to='/signup' style={{textDecoration: 'none'}}>Sign up</Link></div>
+        <div className='seePOIListHeader'>Experiences Near You</div><br></br>
         <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData} userLocation={{userLat: this.state.lat, userLong: this.state.long}}></Map> : <div className='loading'> Loading...</div>}</div>
+        <div classname='seePOIbottom'>
         <div className='poiList'>{this.state.data !== undefined ? <PoiList props={this.state.data} walkTime={this.walkTime}></PoiList> : <div className='loading'> Loading...</div>} </div>
-        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} userLocation={{lat: this.state.lat, long: this.state.long}} allData={{all: this.state.all, database:this.state.database, food: this.state.food, cafes:this.state.cafes, lAndH:this.state.lAndH, museums:this.state.museums, parks:this.state.parks}} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div><br></br>
+        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} userLocation={{lat: this.state.lat, long: this.state.long}} allData={{all: this.state.all, database:this.state.database, food: this.state.food, cafe:this.state.cafe, landmark:this.state.landmark, museum:this.state.museum, park:this.state.park, sponser:this.state.sponser}} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div>
         <div className='addPOI'><Link to='/addPOI'>Add a Point of Interest</Link></div>
+        </div>
       </div>
-
+      </>
+    </ThemeProvider>
     )
 
   }
