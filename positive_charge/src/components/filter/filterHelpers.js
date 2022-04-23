@@ -1,3 +1,4 @@
+const _ = require('underscore');
 
 const findCategories = (data) => {
   let categories = {};
@@ -17,6 +18,7 @@ const filterOnPrice = (selectedFilter, data) => {
     return data;
   }
   let priceFiltered = [];
+  console.log('data on price filter', data);
   data.forEach(item => {
     if (selectedFilter.free && !item.price) {
          priceFiltered.push(item);
@@ -29,11 +31,13 @@ const filterOnPrice = (selectedFilter, data) => {
 };
 
 const filterOnCategories = (selectedFilter, data) => {
-  if (!selectedFilter.food && !selectedFilter.museum && !selectedFilter.cafe && !selectedFilter.park && !selectedFilter['landmarks & historical']) {
+  console.log('selected filter', selectedFilter)
+  if (!selectedFilter.food && !selectedFilter.museum && !selectedFilter.cafe && !selectedFilter.park && !selectedFilter.landmark) {
     return data;
   }
   let categoryFiltered = [];
   data.forEach(item => {
+    console.log('item in filter', item)
     if (selectedFilter[item.category]) {
       categoryFiltered.push(item);
     }
@@ -112,7 +116,6 @@ const filterQuickWalks = (selected, data) => {
   return filtered;
 };
 
-//sorting function
 const sortFunc = (sortVal, data) => {
   let compare;
   if (sortVal === 'Loves') {
@@ -141,6 +144,26 @@ const sortFunc = (sortVal, data) => {
   return sorted;
 };
 
+const addCategoryToYelp = (data) => {
+  let yelpWithCategories = [];
+  for (var key in data) {
+    if (key === 'database') {
+      continue;
+    } else {
+      data[key].businesses.forEach(business => {
+        if (business.distance > 1260) {
+          return;
+        } else {
+          business.category = key;
+          yelpWithCategories.push(business);
+        }
+      });
+    }
+  }
+  return yelpWithCategories;
+
+}
+
 
 
 module.exports = {
@@ -151,5 +174,6 @@ module.exports = {
   filterOnDistance,
   findSuggested,
   filterQuickWalks,
-  sortFunc
+  sortFunc,
+  addCategoryToYelp
 }
