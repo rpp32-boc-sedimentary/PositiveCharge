@@ -13,11 +13,11 @@ const BfCategories = (props) => {
       <FormLabel>Suggested</FormLabel>
       <FormGroup>
           {_.map(props.suggestedCategories, (val, key) =>
-            <FormControlLabel control={<Checkbox />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label={ key } labelPlacement="start" name={ key } checked={ val } onChange={props.handleSuggestedCategoriesBf} />
+            <FormControlLabel control={<Checkbox />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label={ key } labelPlacement="end" name={ key } checked={ val } onChange={props.handleSuggestedCategoriesBf} />
           )}
           { props.lessThanFive ?
                   <FormGroup>
-                    <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="Quick Walk (5 minutes or less)" labelPlacement="start" checked={ props.quickWalk } onChange={ props.handleQuickBf } name="quickWalk" />
+                    <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="Quick Walk (5 minutes or less)" labelPlacement="end" checked={ props.quickWalk } onChange={ props.handleQuickBf } name="quickWalk" />
                   </FormGroup>
           : null }
         </FormGroup>
