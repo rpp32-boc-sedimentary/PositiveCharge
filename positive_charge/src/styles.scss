@@ -239,8 +239,12 @@ MAP COMPONENT
 }
 
 /*
-FINDCHARGINGSTATIONS COMPONENT
+FIND CHARGING STATIONS COMPONENT
 */
+
+.findStationsDiv {
+  margin-top: 1rem;
+}
 
 .stationTableRow:hover {
   background-color: lightpink;
@@ -320,6 +324,7 @@ Add POI Component
   .returnCharger{
     float: left;
     height: 100%;
+    margin: 1rem;
   }
 
 
@@ -344,8 +349,8 @@ Add POI Component
     width: 95%;
     height: 100%;
     text-align: center;
-    text-decoration-line: underline;
-
+    // text-decoration-line: underline;
+    margin-bottom: 1rem;
   }
 
   .poiItems:hover{
@@ -401,6 +406,7 @@ Add POI Component
     text-align: center;
     float: left;
     width: 95%;
+    margin: 1rem
   }
 
   .moreDetails{
@@ -415,4 +421,5 @@ Add POI Component
 #logo{
   width: clamp(170px, 30%, 400px);
 }
+
 

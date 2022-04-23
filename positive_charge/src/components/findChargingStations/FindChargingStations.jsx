@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Map from '../map/map.jsx'
 import { Link } from 'react-router-dom';
-import { Table, TableHead, TableBody, TableRow, TableCell, InputLabel, Button, Input, Select, MenuItem } from '@mui/material';
+import { Table, TableHead, TableBody, TableRow, TableCell, TableContainer, InputLabel, Button, Input, Select, MenuItem } from '@mui/material';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 
 class FindChargingStations extends React.Component {
@@ -72,9 +72,19 @@ class FindChargingStations extends React.Component {
     }
   }
 
+  useSpoofedAddress() {
+    this.setState({
+      userLatitude: 38.656930,
+      userLongitude: -90.372700
+    })
+  }
+
   render() {
     return (
       <div className='findStationsDiv'>
+        { this.props.isLoggedIn ? <h3>Welcome back, {this.props.userName}!</h3> : null }
+        <h3 className="text center">Find a Charging Station</h3>
+        <Button onClick={() => this.useSpoofedAddress()}>Use Jeff's Address</Button>
         <InputLabel id='stationsYourLocationLabel'>
           What is your current location?
           <Button variant="contained" sx={{ ml: 5 }} id='stationsUseMyLocationButton' onClick={this.getUserLocation.bind(this)}><AddLocationAltIcon /></Button>
@@ -101,7 +111,7 @@ class FindChargingStations extends React.Component {
         </div>
         <InputLabel id='stationsDistanceLabel'>
           How far away to search?
-          <Input sx={{ ml: 5, width: '5%' }} type='number' id='stationsDistanceInput'  min='1' max='10' defaultValue={this.state.chosenDistance} onChange={this.updateChosenDistance.bind(this)}></Input>
+          <Input sx={{ ml: 5, width: '15%' }} type='number' id='stationsDistanceInput'  min='1' max='50' defaultValue={this.state.chosenDistance} onChange={this.updateChosenDistance.bind(this)}></Input>
           miles
         </InputLabel>
         <br></br>
@@ -114,138 +124,140 @@ class FindChargingStations extends React.Component {
         </div>
         <InputLabel id='stationsNearbyListLabel'>
           Nearby Stations:
-          <Table id='stationsNearbyTable'>
-            <TableHead style={{ backgroundColor: '#4eb5f1' }}>
-            <TableRow>
-              <TableCell className='stationName'>
-                Name
-              </TableCell>
-              <TableCell className='stationAddress'>
-                Address
-              </TableCell>
-              <TableCell className='stationConnectorTypes'>
-                Connector types
-              </TableCell>
-              <TableCell className='stationNetwork'>
-                Networked
-              </TableCell>
-              <TableCell className='stationDistance'>
-                Distance
-              </TableCell>
-            </TableRow>
-            </TableHead>
-            <TableBody>
-            {
-              this.state.stationsList.map((currentStation) => {
-                if (this.state.userHeading === 'North' && currentStation.latitude > this.state.userLatitude) {
-                  return (
-                    <TableRow className='stationTableRow' >
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationName'>
-                        {currentStation.station_name}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationAddress'>
-                        {currentStation.street_address}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationConnectorTypes'>
-                        {currentStation.ev_connector_types.map((connector, index) => {
-                          if (index + 1 < currentStation.ev_connector_types.length) {
-                            return connector + ', ';
-                          } else {
-                            return connector;
-                          }
-                        })}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationNetwork'>
-                        {currentStation.ev_network}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationDistance'>
-                        {(Math.round(currentStation.distance * 4) / 4).toFixed(2) + ' miles'}
-                      </TableCell></Link>
-                    </TableRow>
-                  )
-                } else if (this.state.userHeading === 'South' && currentStation.latitude < this.state.userLatitude) {
-                  return (
-                    <TableRow className='stationTableRow' >
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationName'>
-                        {currentStation.station_name}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationAddress'>
-                        {currentStation.street_address}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationConnectorTypes'>
-                        {currentStation.ev_connector_types.map((connector, index) => {
-                          if (index + 1 < currentStation.ev_connector_types.length) {
-                            return connector + ', ';
-                          } else {
-                            return connector;
-                          }
-                        })}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationNetwork'>
-                        {currentStation.ev_network}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationDistance'>
-                        {(Math.round(currentStation.distance * 4) / 4).toFixed(2) + ' miles'}
-                      </TableCell></Link>
-                    </TableRow>
-                  )
-                } else if (this.state.userHeading === 'East' && currentStation.longitude > this.state.userLongitude) {
-                  return (
-                    <TableRow className='stationTableRow' >
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationName'>
-                        {currentStation.station_name}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationAddress'>
-                        {currentStation.street_address}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationConnectorTypes'>
-                        {currentStation.ev_connector_types.map((connector, index) => {
-                          if (index + 1 < currentStation.ev_connector_types.length) {
-                            return connector + ', ';
-                          } else {
-                            return connector;
-                          }
-                        })}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationNetwork'>
-                        {currentStation.ev_network}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationDistance'>
-                        {(Math.round(currentStation.distance * 4) / 4).toFixed(2) + ' miles'}
-                      </TableCell></Link>
-                    </TableRow>
-                  )
-                } else if (this.state.userHeading === 'West' && currentStation.longitude < this.state.userLongitude) {
-                  return (
-                    <TableRow className='stationTableRow' >
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationName'>
-                        {currentStation.station_name}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationAddress'>
-                        {currentStation.street_address}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationConnectorTypes'>
-                        {currentStation.ev_connector_types.map((connector, index) => {
-                          if (index + 1 < currentStation.ev_connector_types.length) {
-                            return connector + ', ';
-                          } else {
-                            return connector;
-                          }
-                        })}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationNetwork'>
-                        {currentStation.ev_network}
-                      </TableCell></Link>
-                      <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationDistance'>
-                        {(Math.round(currentStation.distance * 4) / 4).toFixed(2) + ' miles'}
-                      </TableCell></Link>
-                    </TableRow>
-                  )
-                }
-              })
-            }
-            </TableBody>
-          </Table>
+          <TableContainer sx={{ maxHeight: '50vh'}}>
+            <Table id='stationsNearbyTable' stickyHeader>
+              <TableHead style={{ backgroundColor: '#4eb5f1' }}>
+              <TableRow>
+                <TableCell className='stationName'>
+                  Name
+                </TableCell>
+                <TableCell className='stationAddress'>
+                  Address
+                </TableCell>
+                <TableCell className='stationConnectorTypes'>
+                  Connector types
+                </TableCell>
+                <TableCell className='stationNetwork'>
+                  Networked
+                </TableCell>
+                <TableCell className='stationDistance'>
+                  Distance
+                </TableCell>
+              </TableRow>
+              </TableHead>
+              <TableBody>
+              {
+                this.state.stationsList.map((currentStation) => {
+                  if (this.state.userHeading === 'North' && currentStation.latitude > this.state.userLatitude) {
+                    return (
+                      <TableRow className='stationTableRow' >
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationName'>
+                          {currentStation.station_name}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationAddress'>
+                          {currentStation.street_address}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationConnectorTypes'>
+                          {currentStation.ev_connector_types.map((connector, index) => {
+                            if (index + 1 < currentStation.ev_connector_types.length) {
+                              return connector + ', ';
+                            } else {
+                              return connector;
+                            }
+                          })}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationNetwork'>
+                          {currentStation.ev_network}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationDistance'>
+                          {(Math.round(currentStation.distance * 4) / 4).toFixed(2) + ' miles'}
+                        </TableCell></Link>
+                      </TableRow>
+                    )
+                  } else if (this.state.userHeading === 'South' && currentStation.latitude < this.state.userLatitude) {
+                    return (
+                      <TableRow className='stationTableRow' >
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationName'>
+                          {currentStation.station_name}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationAddress'>
+                          {currentStation.street_address}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationConnectorTypes'>
+                          {currentStation.ev_connector_types.map((connector, index) => {
+                            if (index + 1 < currentStation.ev_connector_types.length) {
+                              return connector + ', ';
+                            } else {
+                              return connector;
+                            }
+                          })}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationNetwork'>
+                          {currentStation.ev_network}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationDistance'>
+                          {(Math.round(currentStation.distance * 4) / 4).toFixed(2) + ' miles'}
+                        </TableCell></Link>
+                      </TableRow>
+                    )
+                  } else if (this.state.userHeading === 'East' && currentStation.longitude > this.state.userLongitude) {
+                    return (
+                      <TableRow className='stationTableRow' >
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationName'>
+                          {currentStation.station_name}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationAddress'>
+                          {currentStation.street_address}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationConnectorTypes'>
+                          {currentStation.ev_connector_types.map((connector, index) => {
+                            if (index + 1 < currentStation.ev_connector_types.length) {
+                              return connector + ', ';
+                            } else {
+                              return connector;
+                            }
+                          })}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationNetwork'>
+                          {currentStation.ev_network}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationDistance'>
+                          {(Math.round(currentStation.distance * 4) / 4).toFixed(2) + ' miles'}
+                        </TableCell></Link>
+                      </TableRow>
+                    )
+                  } else if (this.state.userHeading === 'West' && currentStation.longitude < this.state.userLongitude) {
+                    return (
+                      <TableRow className='stationTableRow' >
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationName'>
+                          {currentStation.station_name}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationAddress'>
+                          {currentStation.street_address}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationConnectorTypes'>
+                          {currentStation.ev_connector_types.map((connector, index) => {
+                            if (index + 1 < currentStation.ev_connector_types.length) {
+                              return connector + ', ';
+                            } else {
+                              return connector;
+                            }
+                          })}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationNetwork'>
+                          {currentStation.ev_network}
+                        </TableCell></Link>
+                        <Link to='/seePOI' className='toSeePOILink' state={{ chargerCoords: {chargerLat: currentStation.latitude, chargerLong: currentStation.longitude} }}><TableCell className='stationDistance'>
+                          {(Math.round(currentStation.distance * 4) / 4).toFixed(2) + ' miles'}
+                        </TableCell></Link>
+                      </TableRow>
+                    )
+                  }
+                })
+              }
+              </TableBody>
+            </Table>
+          </TableContainer>
         </InputLabel>
       </div>
     )
