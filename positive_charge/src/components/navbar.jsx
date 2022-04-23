@@ -102,14 +102,6 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-          >
-            Positive Charge
-          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -121,6 +113,7 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
               color="inherit"
             >
               <MenuIcon />
+
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -147,14 +140,12 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
               ))}
             </Menu>
           </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+          <Box
+            component="img"
+            alt="logo"
+            src="/img/posChargeBlk.png"
           >
-            Positive Charge
-          </Typography>
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -173,6 +164,7 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
         </Toolbar>
       </Container>
     </AppBar>
+
   );
 };
 export default ResponsiveAppBar;

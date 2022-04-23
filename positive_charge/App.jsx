@@ -105,6 +105,7 @@ class App extends React.Component {
     let { isLoggedIn, userName } = this.state;
     return (
       <>
+
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <ResponsiveAppBar isLoggedIn={isLoggedIn} logOut={this.logOut}/>
@@ -115,9 +116,6 @@ class App extends React.Component {
                 <Link to="/">Home</Link>
               </li>
               {/* {this.greeting()} */}
-              <li>
-                <Link to="/seePOI">seePOI</Link>
-              </li>
               <li>
                 <Link to="/addPOI">Add POI</Link>
               </li>
