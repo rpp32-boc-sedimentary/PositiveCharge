@@ -113,9 +113,6 @@ class App extends React.Component {
               </li>
               {this.greeting()}
               <li>
-                <Link to="/seePOI">seePOI</Link>
-              </li>
-              <li>
                 <Link to="/addPOI">Add POI</Link>
               </li>
             </ul>
