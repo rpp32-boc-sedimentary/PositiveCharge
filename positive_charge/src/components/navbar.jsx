@@ -140,12 +140,16 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
               ))}
             </Menu>
           </Box>
-          <Box
+          <Container
+            sx={{
+
+              maxWidth:"sm"
+            }}
             component="img"
             alt="logo"
             src="/img/posChargeBlk.png"
           >
-          </Box>
+          </Container>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
