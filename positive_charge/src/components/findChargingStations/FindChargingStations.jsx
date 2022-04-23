@@ -72,11 +72,19 @@ class FindChargingStations extends React.Component {
     }
   }
 
+  useSpoofedAddress() {
+    this.setState({
+      userLatitude: 38.656930,
+      userLongitude: -90.372700
+    })
+  }
+
   render() {
     return (
       <div className='findStationsDiv'>
         { this.props.isLoggedIn ? <h3>Welcome back, {this.props.userName}!</h3> : null }
         <h3 className="text center">Find a Charging Station</h3>
+        <Button onClick={() => this.useSpoofedAddress()}>Use Jeff's Address</Button>
         <InputLabel id='stationsYourLocationLabel'>
           What is your current location?
           <Button variant="contained" sx={{ ml: 5 }} id='stationsUseMyLocationButton' onClick={this.getUserLocation.bind(this)}><AddLocationAltIcon /></Button>
