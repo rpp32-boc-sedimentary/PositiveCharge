@@ -12,8 +12,9 @@ findRouter.get('/findStations', (req, res) => {
       latitude: req.query.userLat,
       longitude: req.query.userLong,
       fuel_type: 'ELEC',
-      radius: Number(req.query.radius + '.0'),
-      access: 'public'
+      radius: Number(req.query.radius),
+      access: 'public',
+      limit: 'all'
     }
   })
     .then((stationsInfo) => {

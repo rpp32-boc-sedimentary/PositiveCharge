@@ -9,7 +9,7 @@ const Placeholder = (props) => {
 
     return (
       <>
-      <div>
+      <div className='placeholder'>
         <SeePOI props={data}/>
       </div>
       </>

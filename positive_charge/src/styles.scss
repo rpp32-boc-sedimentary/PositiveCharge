@@ -112,6 +112,12 @@ FINDCHARGINGSTATIONS COMPONENT
   background-color: lightpink;
 }
 
+.toSeePOILink {
+  display: table-cell;
+  color: #000;
+  text-decoration: none;
+}
+
 /*
 Add POI Component
 */
@@ -121,13 +127,77 @@ Add POI Component
   justify-content: center;
 }
 
+.add-poi-form-wrapper {
+  text-align: center;
+}
+
 .centered-button {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+
 .price-and-tooltip {
   display: flex;
   align-items: center;
 }
+
+.success {
+  color: green
+}
+
+.left {
+  text-align: left
+}
+
+.center {
+  text-align: center
+}
+/* seePOI component */
+
+.seePOI {
+  background-color: #ff9800;
+  height: 100%;
+  width: 100%;
+}
+
+  .map{
+    float: left
+  }
+
+  .returnCharger{
+    float: left;
+  }
+
+  .login{
+    float: right;
+  }
+
+  .signup{
+    float: right;
+  }
+
+  .seePOIListHeader{
+    background: #ff9800;
+    float:left;
+
+  }
+
+  .poiList{
+    float: left;
+
+  }
+
+  .filters{
+    float: left;
+  }
+
+  .addPOI{
+    float: left;
+  }
+
+
+
+
+

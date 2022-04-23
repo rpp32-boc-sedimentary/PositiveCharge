@@ -185,10 +185,17 @@ pool.deleteExperience = async (params) => {
 
 // ADD POI models
 pool.addPOI = async (params) => {
-  let query = `INSERT INTO pois
+  let query
+  if (params.length === 1) {
+    query = `INSERT INTO pois (yelp_id)
+      VALUES ($1)
+      RETURNING *`
+  } else {
+    query = `INSERT INTO pois
     (name, address, long, lat, price, category)
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *`;
+  }
   try {
     const result = await pool.query(query, params)
     console.log(result.rows)
@@ -328,8 +335,19 @@ pool.deleteSponsor = async (id) => {
 pool.seeDataPoi = async (params) => {
 
   try {
-    let query = 'SELECT *, earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) as distance FROM pois a WHERE earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) < 1260';
-   //let query = 'UPDATE pois SET lat_float = -104.71158, long_float = 39.60185 WHERE '
+    let query = 'SELECT *, earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) as distance FROM pois a WHERE earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) < 1260 AND a.sponsored = false';
+    let result = await pool.query(query, params);
+    return result;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+pool.seeSponserPoi = async (params) => {
+
+  try {
+    let query = 'SELECT *, earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) as distance FROM pois a WHERE earth_distance ( ll_to_earth(a.lat, a.long), ll_to_earth($1, $2) ) < 1260 AND a.sponsored = true';
     let result = await pool.query(query, params);
     return result;
   }
