@@ -20,10 +20,10 @@ const MoreDetails = (props) => {
   } else {
     return (
       <>
-      <div className='moreDetails'>
+      <div className='moreDetails text'>
         <span className='moreDetailsName'>{data.name} </span> <br></br>
         <span className='moreDetailsAddress'>{data.address}</span> <br></br>
-        <span className='moreDetailsPrice'>Price:{data.price}</span> <span className='moreDetailsRating'>loves:{data.loves}</span>
+        <span className='moreDetailsPrice'>Price: {data.price}</span> <span className='moreDetailsRating'>Loves: {data.loves}</span>
         <Modal props={data} userEmail={props.userEmail}/>
       </div>
       </>
