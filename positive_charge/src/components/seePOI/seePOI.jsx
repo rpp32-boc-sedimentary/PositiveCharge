@@ -8,9 +8,19 @@ import LittleFilter from '../filter/LittleFilter.jsx';
 import BigFilter from '../filter/BigFilter.jsx';
 import Map from '../map/map.jsx';
 import PoiList from './poiList.jsx'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 const axios = require('axios');
 
-
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#da8107',
+    },
+    secondary: {
+      main: '#11730a',
+    }
+  }
+})
 
 class SeePOI extends React.Component {
   constructor(props) {
@@ -67,12 +77,21 @@ class SeePOI extends React.Component {
   filterForMap () {
     let modifiedData = [];
     for(let i = 0; i < this.state.data.length; i++) {
+      if (this.state.data[i].coordinates !== undefined) {
       let mapRequiredData = {
         lat: this.state.data[i].coordinates.latitude,
         long: this.state.data[i].coordinates.longitude,
         destinationName: this.state.data[i].name
       }
       modifiedData.push(mapRequiredData);
+    } else {
+      let mapRequiredData = {
+        lat: this.state.data[i].lat,
+        long: this.state.data[i].long,
+        destinationName: this.state.data[i].name
+      }
+      modifiedData.push(mapRequiredData);
+    }
     }
     this.setState({mapData: modifiedData})
   }
@@ -157,17 +176,18 @@ class SeePOI extends React.Component {
 
 
   render() {
-
     return(
+
       <div className='seePOI'>
         <div className='returnCharger'><Link to='/'>Find a different charger</Link></div>
         <div className='login'><Link to='/login'>Log In</Link></div><div className='signup'><Link to='/signup'>Sign up</Link></div>
-        <h3 className='seePOIListHeader'>Experiences Near You</h3>
+        <h3 className='seePOIListHeader'>Experiences Near You</h3> <br></br>
         <div className='map'> {this.state.mapData !== undefined ? <Map props={this.state.mapData} userLocation={{userLat: this.state.lat, userLong: this.state.long}}></Map> : <div className='loading'> Loading...</div>}</div>
         <div className='poiList'>{this.state.data !== undefined ? <PoiList props={this.state.data} walkTime={this.walkTime}></PoiList> : <div className='loading'> Loading...</div>} </div>
-        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} userLocation={{lat: this.state.lat, long: this.state.long}} allData={{all: this.state.all, database:this.state.database, food: this.state.food, cafes:this.state.cafes, lAndH:this.state.lAndH, museums:this.state.museums, parks:this.state.parks}} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div>
+        <div className='filters'>{this.state.flag !== undefined ? <LittleFilter changeDisplay={this.changeDisplay} userLocation={{lat: this.state.lat, long: this.state.long}} allData={{all: this.state.all, database:this.state.database, food: this.state.food, cafes:this.state.cafes, lAndH:this.state.lAndH, museums:this.state.museums, parks:this.state.parks}} exampleInputForCDfunc={this.state.data}/> : <div className='loading'> Loading...</div>} </div><br></br>
         <div className='addPOI'><Link to='/addPOI'>Add a Point of Interest</Link></div>
       </div>
+
     )
 
   }
