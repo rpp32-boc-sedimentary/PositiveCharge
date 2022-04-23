@@ -147,13 +147,13 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
               ))}
             </Menu>
           </Box>
-          <Box
+          <Container id="logo"
             component="img"
             alt="logo"
             src="/img/posChargeWht_medium.png"
             onClick={() => handleClickHome()}
           >
-          </Box>
+          </Container>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
