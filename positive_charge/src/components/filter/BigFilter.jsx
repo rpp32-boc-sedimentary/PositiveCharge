@@ -3,6 +3,13 @@ import ReactDOM from 'react-dom';
 import AllCategories from './AllCategories.jsx';
 import BfCategories from './BfCategories.jsx';
 import Button from '@mui/material/Button';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 const modalRoot = document.getElementById('bigFilter-portal');
 
 
@@ -26,81 +33,50 @@ class BigFilter extends React.Component {
       <>
         <div className="bigModal">
           <div className="bigFilterSection">
-            <Button style={{ maxWidth: '90px', maxHeight: '30px' }} variant="contained" onClick={ this.props.manageModalState }>Cancel</Button>
+            <Button style={{ maxWidth: '90px', maxHeight: '30px' }} variant="text" onClick={ this.props.manageModalState }>Cancel</Button>
             <div className="categoryHeader">Filters</div>
-            <Button style={{ maxWidth: '180px', maxHeight: '30px' }} variant="contained" onClick={ this.props.clearFilters }>Reset Filters</Button>
+            <Button style={{ maxWidth: '180px', maxHeight: '30px' }} variant="text" onClick={ this.props.clearFilters }>Reset Filters</Button>
           </div>
 
           <div>
            {this.props.distance !== '' ? this.props.distance : null }
           </div>
           <hr/>
-          <div className="categoryHeader">Maximum Walking Duration</div>
-          <div className="bigFilterSection">
-            <div>
-              <label className="categories">
-                <input type="radio" value="5 min or less" checked={ this.props.distance === "5 min or less" } onChange={ this.props.handleDistance } />
-                <span>5 Minutes</span>
-              </label>
-            </div>
-            <div>
-              <label className="categories">
-                <input type="radio" value="10 min or less" checked={ this.props.distance === "10 min or less" } onChange={ this.props.handleDistance } />
-                <span>10 Minutes</span>
-              </label>
-            </div>
-            <div>
-              <label className="categories">
-                <input type="radio" value="15 min or less" checked={ this.props.distance === "15 min or less" } onChange={ this.props.handleDistance } />
-                <span>15 Minutes</span>
-              </label>
-            </div>
-            <div>
-              <label className="categories">
-                <input type="radio" value="All distances" checked={ this.props.distance === "All distances" } onChange={ this.props.handleDistance } />
-                <span>All</span>
-              </label>
-            </div>
-          </div>
-          <hr/>
-          <div className="categoryHeader">Popular</div>
-          <div className="bigFilterSection">
-            <div>
-              { Object.keys(this.props.suggestedCategories).length > 0 ? <BfCategories suggestedCategories={ this.props.suggestedCategories } handleSuggestedCategoriesBf={ this.props.handleSuggestedCategoriesBf } /> : null }
+          <FormControl>
+            <FormLabel id="demo-controlled-radio-buttons-group">Maximum Walking Duration</FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              onChange={ this.props.handleDistance }
+            >
+              <FormControlLabel value="5 min or less" control={<Radio />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="5 Minutes" checked={ this.props.distance === "5 min or less"} />
+              <FormControlLabel value="10 min or less" control={<Radio />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="10 Minutes" checked={ this.props.distance === "10 min or less"} />
+              <FormControlLabel value="15 min or less" control={<Radio />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="15 Minutes" checked={ this.props.distance === "15 min or less"} />
+              <FormControlLabel value="All distances" control={<Radio />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="All Distances" checked={ this.props.distance === "All distances"} />
+            </RadioGroup>
+          </FormControl>
 
-              { this.props.lessThanFive ? <label className="categories">Quick Walk (5 minutes or less)<input type="checkbox" name="quickWalk" checked={ this.props.quickWalk } onChange={ this.props.handleQuickBf } /></label> : null }
-            </div>
-          </div>
           <hr/>
-          <div className="categoryHeader">Price</div>
           <div className="bigFilterSection">
-            <div className="cksButton">
-              <label className="categories">
-                <input type="checkbox" name="free" checked={ this.props.price.free } onChange={ this.props.handlePrice } />
-                <span>Free</span>
-              </label>
-            </div>
-            <div className="cksButton">
-              <label className="categories">
-                <input type="checkbox" name="$" checked={ this.props.price.$ } onChange={ this.props.handlePrice } />
-                <span>$</span>
-              </label>
-            </div>
-            <div className="cksButton">
-              <label className="categories">
-                <input type="checkbox" name="$$" checked={ this.props.price.$$ } onChange={ this.props.handlePrice } />
-                <span>$$</span>
-              </label>
-            </div>
-            <div className="cksButton">
-              <label className="categories">
-                <input type="checkbox" name="$$$" checked={ this.props.price.$$$ } onChange={ this.props.handlePrice } />
-                <span>$$$</span>
-              </label>
+            <div>
+              { Object.keys(this.props.suggestedCategories).length > 0 ? <BfCategories suggestedCategories={ this.props.suggestedCategories } handleSuggestedCategoriesBf={ this.props.handleSuggestedCategoriesBf } lessThanFive={ this.props.lessThanFive } quickWalk={this.props.quickWalk} handleQuickBf={this.props.handleQuickBf } /> : null }
             </div>
           </div>
           <hr/>
-          <div className="categoryHeader">Categories</div>
+
+          <div className="bigFilterSection">
+          <FormControl component="fieldset" variant="standard">
+            <FormLabel>Price</FormLabel>
+            <FormGroup>
+              <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="Free" labelPlacement="start" name="free" checked={ this.props.price.free } onChange={this.props.handlePrice} />
+              <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="$" labelPlacement="start" name="$" checked={ this.props.price.$ } onChange={this.props.handlePrice} />
+              <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="$$" labelPlacement="start" name="$$" checked={ this.props.price.$$ } onChange={this.props.handlePrice} />
+              <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="$$$" labelPlacement="start" name="$$$" checked={ this.props.price.$$$ } onChange={this.props.handlePrice} />
+            </FormGroup>
+          </FormControl>
+          </div>
+          <hr/>
+
           <div className="bigFilterSection">
             { Object.keys(this.props.categoriesChecked).length > 0 ? <AllCategories categoriesChecked={ this.props.categoriesChecked } handleAllCategories={ this.props.handleAllCategories } /> : null }
           </div>
@@ -121,3 +97,27 @@ export default BigFilter;
 
 
 
+            // <div>
+            //   <label className="categories">
+            //     <input type="checkbox" name="free" checked={ this.props.price.free } onChange={ this.props.handlePrice } />
+            //     <span>Free</span>
+            //   </label>
+            // </div>
+            // <div>
+            //   <label className="categories">
+            //     <input type="checkbox" name="$" checked={ this.props.price.$ } onChange={ this.props.handlePrice } />
+            //     <span>$</span>
+            //   </label>
+            // </div>
+            // <div >
+            //   <label className="categories">
+            //     <input type="checkbox" name="$$" checked={ this.props.price.$$ } onChange={ this.props.handlePrice } />
+            //     <span>$$</span>
+            //   </label>
+            // </div>
+            // <div>
+            //   <label className="categories">
+            //     <input type="checkbox" name="$$$" checked={ this.props.price.$$$ } onChange={ this.props.handlePrice } />
+            //     <span>$$$</span>
+            //   </label>
+            // </div>

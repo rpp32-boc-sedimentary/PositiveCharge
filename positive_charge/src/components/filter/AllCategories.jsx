@@ -1,5 +1,11 @@
 import React from 'react';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import FormControl from '@mui/material/FormControl';
+import Checkbox from '@mui/material/Checkbox';
 const _ = require('underscore');
+
 
 const returnCategory = (category) => {
   if (category === 'food') {
@@ -23,18 +29,26 @@ const AllCategories = (props) => {
     )
   } else {
     return (
-      <div>
-        {_.map(props.categoriesChecked, (val, key) =>
-          <div className="cksButton cksButtonWidth" key={ key }>
-            <label>
-              <input type="checkbox" name={ key } checked={ val } onChange={ props.handleAllCategories } />
-              <span>{ key }</span>
-            </label>
-          </div>
-        )}
-      </div>
+      <FormControl component="fieldset" variant="standard">
+        <FormLabel>Categories Available</FormLabel>
+        <FormGroup>
+          {_.map(props.categoriesChecked, (val, key) =>
+            <FormControlLabel control={<Checkbox />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label={key} labelPlacement="start" name={key} checked={val} onChange={props.handleAllCategories} />
+          )}
+        </FormGroup>
+      </FormControl>
     )
   }
 }
 
 export default AllCategories;
+      // <div>
+      //   {_.map(props.categoriesChecked, (val, key) =>
+      //     <div key={ key }>
+      //       <label>
+      //         <input type="checkbox" name={ key } checked={ val } onChange={ props.handleAllCategories } />
+      //         <span>{ key }</span>
+      //       </label>
+      //     </div>
+      //   )}
+      // </div>
