@@ -79,12 +79,13 @@ router.get('/selectedFilters', (req, res) => {
 
 //this api call will work for yelp locations
 //will need to add a conditional for user added locations
-//to account coordinates formatted differently
+//to account for coordinates formatted differently
 router.post('/walkingTime', (req, res) => {
   let starting = req.body.data.starting;
   let startLat = starting.lat;
   let startLong = starting.long;
-  let places = req.body.data.places.slice(0, 25);
+  //let places = req.body.data.slice(0, 25);
+  let places = req.body.data.data;
   let allDurations = places.map(place => {
     let endLat = place.coordinates.latitude;
     let endLong = place.coordinates.longitude;
@@ -107,9 +108,21 @@ router.post('/walkingTime', (req, res) => {
     })
     .catch(err => {
       console.error('error adding walking times to locations', err);
-      res.status(404).send(err);
+      res.status(500).send(err);
     })
 })
+
+
+router.get('/getAll', async (req, res) => {
+  try {
+    const result = await router.getAllPoi();
+    console.log(result);
+  } catch (err) {
+    console.log('error getting all in routes', err)
+  }
+})
+
+
 
 
 module.exports = router;

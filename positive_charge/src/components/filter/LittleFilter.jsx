@@ -5,6 +5,11 @@ import LfCategories from './LfCategories.jsx';
 import axios from 'axios';
 import dummyData from '../../../../database/dummyData/pois.js';
 import helpers from './filterHelpers.js';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 class LittleFilter extends React.Component {
   constructor(props) {
@@ -24,20 +29,20 @@ class LittleFilter extends React.Component {
       distance: '',
       categoriesChecked: {},
       suggestedCategories: {},
-      //userLocation: {lat: 37.776447823372365, long: -122.43286289002232},
-      userLocation: {lat: 39.595244, long: -104.7049212},
-      sampleData: dummyData.poiData,
       modifiedData: [],
       filteredData: [],
       lessThanFive: false,
       quickWalk: false,
       dataFromDom: [],
+      userPois: [],
+      showMore: false,
 
     }
 
     this.handleBigModalState = this.handleBigModalState.bind(this);
     this.handlePriceModalState = this.handlePriceModalState.bind(this);
 
+    this.handleShowMore = this.handleShowMore.bind(this);
     this.handlePrice = this.handlePrice.bind(this);
     this.handleDistance = this.handleDistance.bind(this);
     this.handleAllCategories = this.handleAllCategories.bind(this);
@@ -51,6 +56,10 @@ class LittleFilter extends React.Component {
     this.handleBigFilterApply = this.handleBigFilterApply.bind(this);
     this.applyFilters = this.applyFilters.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
+
+
+
+    this.getUserPois = this.getUserPois.bind(this);
     //this.getYelpDataTest = this.getYelpDataTest.bind(this);
   }
 
@@ -66,6 +75,22 @@ class LittleFilter extends React.Component {
       priceModalState: !this.state.priceModalState
     })
   };
+
+
+  handleShowMore = () => {
+    let showMoreStatus = this.state.showMore;
+    let showThisMany;
+    this.setState({
+      showMore: !showMoreStatus
+    }, () => {
+      if (!this.state.showMore) {
+        showThisMany = this.state.filteredData.slice(0, 5);
+      } else {
+        showThisMany = this.state.filteredData.slice(0, 20);
+      }
+      this.props.changeDisplay(showThisMany);
+    });
+  }
 
   //add function to change the color of the button when clicked
   handleSort = (e) => {
@@ -157,7 +182,7 @@ class LittleFilter extends React.Component {
 
   handlePriceApply = (e) => {
     e.preventDefault();
-    let filtered = helpers.filterOnPrice(this.state.price, this.state.sampleData);
+    let filtered = helpers.filterOnPrice(this.state.price, this.state.filteredData);
     this.setState({
       filteredData: filtered
     }, () => {
@@ -179,7 +204,13 @@ class LittleFilter extends React.Component {
     filteredData = filterOnDistance(this.state.distance, filteredData);
     filteredData = filterQuickWalks(this.state.quickWalk, filteredData);
     filteredData = helpers.sortFunc(this.state.sortVal, filteredData);
-    this.props.changeDisplay(filteredData);
+    let showFive = filteredData.slice(0, 5);
+    let showTwenty = filteredData.slice(0, 20);
+    if (this.state.showMore) {
+      this.props.changeDisplay(showTwenty);
+    } else {
+      this.props.changeDisplay(showFive);
+    }
     this.setState({
       filteredData
     }, () => {
@@ -190,9 +221,12 @@ class LittleFilter extends React.Component {
   clearFilters = () => {
     let categoriesChecked = this.state.categoriesChecked;
     for (let key in categoriesChecked) {
-      categoriesChecked[key] = '';
+      categoriesChecked[key] = false;
     }
-    //include all of the other filters
+    let suggestedCategories = this.state.suggestedCategories;
+    for (let key in suggestedCategories) {
+      suggestedCategories[key] = false;
+    }
     this.setState({
       distance: '',
       price: {
@@ -201,45 +235,40 @@ class LittleFilter extends React.Component {
         $$: '',
         $$$: ''
       },
-      categoriesChecked
+      categoriesChecked,
+      suggestedCategories,
+      quickWalk: false,
     });
   };
 
-  // DELETE Later, for testing purposes
-  // getYelpDataTest = () => {
-  //   axios.get('/filter/graphql', {
-  //     params: {
-  //       lat: this.state.userLocation.lat,
-  //       long: this.state.userLocation.long
-  //     }
-  //   })
-  //     .then(data => {
-  //       console.log('data', data);
-  //     })
-  //     .catch(err => {
-  //       console.log('error', err);
-  //     })
-  // };
-
-
   componentDidMount = () => {
     console.log('props from DOM', this.props)
-    this.findTimeToTravel();
+    let data = this.props.allData;
+    let userPois = data.database;
+    this.setState({
+      userPois
+    }, () => {
+    })
+    console.log('data in database?', data.database);
+    delete data.all;
+    let addedCategories = helpers.addCategoryToYelp(data);
+    this.findTimeToTravel(addedCategories);
 
 
   }
 
-  findTimeToTravel = () => {
-    let places = this.props.allData.businesses;
+  findTimeToTravel = (allData) => {
+    let starting = this.props.userLocation;
     axios.post('/filter/walkingTime', {
       data: {
-        starting: this.state.userLocation,
-        places
+        starting,
+        data: allData
       }
     })
       .then(data => {
         this.setState({
           modifiedData: data.data.all,
+          filteredData: data.data.all,
           lessThanFive: data.data.lessThanFive
         }, () => {
           let categoriesChecked = helpers.findCategories(this.state.modifiedData);
@@ -255,6 +284,17 @@ class LittleFilter extends React.Component {
       })
   }
 
+
+  getUserPois = () => {
+    axios.get('/filter/getAll')
+      .then(data => {
+        console.log('data is here from db', data)
+      })
+      .catch(err => {
+        console.log('error getting data', err)
+      })
+  }
+
 //when cancel is clicked all filters should clear???
 
   render() {
@@ -262,23 +302,29 @@ class LittleFilter extends React.Component {
     return (
       <div className="smallFilter">
 
-        <select className="sfChild" name="category" onChange={ this.handleSort }>
-          <option>Loves</option>
-          <option>Distance</option>
-        </select>
+        <div className="sfWrapper">
 
-        <button className="sfChild" onClick={ this.handleBigModalState }>More Filters</button>
+          <button className="sfButton" onClick={ this.getUserPois }>test</button>
 
-        { this.state.modalState ? <BigFilter manageModalState={ this.handleBigModalState } distance = { this.state.distance } handleDistance={ this.handleDistance } price={ this.state.price } handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } categoriesChecked={ this.state.categoriesChecked } handleAllCategories={ this.handleAllCategories } suggestedCategories=
-        { this.state.suggestedCategories } handleSuggestedCategoriesBf={ this.handleSuggestedCategoriesBf } lessThanFive={ this.state.lessThanFive } quickWalk={ this.state.quickWalk } handleQuickBf={ this.handleQuickBf } /> : null }
+          <select className="sfButton item2 clickableElement" name="category" onChange={ this.handleSort }>
+            <option>Loves</option>
+            <option>Distance</option>
+          </select>
 
-        <button className="sfChild" onClick={ this.handlePriceModalState }>Price</button>
 
-        { this.state.priceModalState ?  <PriceFilter priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
+          { this.state.filteredData.length > 5 ? <button className="clickableElement sfButton" onClick={this.handleShowMore}>{ this.state.showMore ? "Show Less" : "Show More"}</button> : null }
 
-        { Object.keys(this.state.suggestedCategories).length > 0 ? <LfCategories suggestedCategories={ this.state.suggestedCategories } handleSuggestedCategoriesLF={ this.handleSuggestedCategoriesLF } /> : null}
+          <button className="sfButton item1 clickableElement" onClick={ this.handleBigModalState }>More Filters</button>
+          { this.state.modalState ? <BigFilter manageModalState={ this.handleBigModalState } distance = { this.state.distance } handleDistance={ this.handleDistance } price={ this.state.price } handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } categoriesChecked={ this.state.categoriesChecked } handleAllCategories={ this.handleAllCategories } suggestedCategories=
+          { this.state.suggestedCategories } handleSuggestedCategoriesBf={ this.handleSuggestedCategoriesBf } lessThanFive={ this.state.lessThanFive } quickWalk={ this.state.quickWalk } handleQuickBf={ this.handleQuickBf } /> : null }
 
-        { this.state.lessThanFive ? <label>Quick Walk<input type="checkbox" checked={ this.state.quickWalk } name="quickWalk" onChange={ this.handleQuickLf } /></label> : null }
+          <button className="sfButton item3" onClick={ this.handlePriceModalState }>Price</button>
+          { this.state.priceModalState ?  <PriceFilter className="clickableElement" priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
+
+          { Object.keys(this.state.suggestedCategories).length > 0 ? <LfCategories suggestedCategories={ this.state.suggestedCategories } handleSuggestedCategoriesLF={ this.handleSuggestedCategoriesLF } /> : null}
+
+          { this.state.lessThanFive ? <div className="chButton item4 clickableElement"><label><input type="checkbox" checked={ this.state.quickWalk } name="quickWalk" onChange={ this.handleQuickLf } /><span>Quick Walk</span></label></div> : null }
+        </div>
       </div>
     )
   }
