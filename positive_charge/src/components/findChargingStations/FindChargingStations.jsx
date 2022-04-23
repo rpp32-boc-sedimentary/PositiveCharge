@@ -114,10 +114,8 @@ class FindChargingStations extends React.Component {
         </div>
         <InputLabel id='stationsNearbyListLabel'>
           Nearby Stations:
-          <TableContainer>
-
-            <Table id='stationsNearbyTable'
-            sx={{ 'overflow-x': 'auto'}}>
+          <TableContainer sx={{ maxHeight: '50vh'}}>
+            <Table id='stationsNearbyTable' stickyHeader>
               <TableHead style={{ backgroundColor: '#4eb5f1' }}>
               <TableRow>
                 <TableCell className='stationName'>
