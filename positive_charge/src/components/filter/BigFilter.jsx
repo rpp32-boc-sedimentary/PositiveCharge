@@ -33,11 +33,6 @@ const modalRoot = document.getElementById('bigFilter-portal');
     p: 4,
   };
 
-  //bgcolor: 'background.paper',
-
-
-  // aria-labelledby="modal-modal-title"
-  // aria-describedby="modal-modal-description"
     return (
       <div>
         <Modal
@@ -47,7 +42,7 @@ const modalRoot = document.getElementById('bigFilter-portal');
         >
 
           <Box sx={{ style }}>
-            <Grid container spacing={2} alignItems="center" justifyContent="center">
+            <Grid container spacing={2} justify="center">
               <Grid item xs={4} align="center">
                 <div>
                   <Button style={{ maxWidth: '90px', maxHeight: '30px' }} variant="text" onClick={ props.manageModalState }>Cancel</Button>
@@ -55,7 +50,7 @@ const modalRoot = document.getElementById('bigFilter-portal');
               </Grid>
               <Grid item xs={4} align="center">
                 <div>
-                  <div>Filters</div>
+                  <div className="text">Filters</div>
                 </div>
               </Grid>
               <Grid item xs={4} align="center">
@@ -80,10 +75,10 @@ const modalRoot = document.getElementById('bigFilter-portal');
                       name="controlled-radio-buttons-group"
                       onChange={ props.handleDistance }
                       >
-                      <FormControlLabel value="5 min or less" control={<Radio />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="5 Minutes" labelPlacement="start" checked={ props.distance === "5 min or less"} />
-                      <FormControlLabel value="10 min or less" control={<Radio />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="10 Minutes" labelPlacement="start" checked={ props.distance === "10 min or less"} />
-                      <FormControlLabel value="15 min or less" control={<Radio />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="15 Minutes" labelPlacement="start" checked={ props.distance === "15 min or less"} />
-                      <FormControlLabel value="All distances" control={<Radio />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="All Distances" labelPlacement="start" checked={ props.distance === "All distances"} />
+                      <FormControlLabel value="5 min or less" control={<Radio />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="5 Minutes" labelPlacement="end" checked={ props.distance === "5 min or less"} />
+                      <FormControlLabel value="10 min or less" control={<Radio />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="10 Minutes" labelPlacement="end" checked={ props.distance === "10 min or less"} />
+                      <FormControlLabel value="15 min or less" control={<Radio />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="15 Minutes" labelPlacement="end" checked={ props.distance === "15 min or less"} />
+                      <FormControlLabel value="All distances" control={<Radio />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="All Distances" labelPlacement="end" checked={ props.distance === "All distances"} />
                     </RadioGroup>
                   </FormControl>
                 </div>
@@ -94,10 +89,10 @@ const modalRoot = document.getElementById('bigFilter-portal');
                   <FormControl component="fieldset" variant="standard">
                     <FormLabel>Price</FormLabel>
                     <FormGroup row>
-                      <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="Free" labelPlacement="start" name="free" checked={ props.price.free } onChange={ props.handlePrice} />
-                      <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="$" labelPlacement="start" name="$" checked={ props.price.$ } onChange={ props.handlePrice} />
-                      <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="$$" labelPlacement="start" name="$$" checked={ props.price.$$ } onChange={ props.handlePrice} />
-                      <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="$$$" labelPlacement="start" name="$$$" checked={ props.price.$$$ } onChange={ props.handlePrice} />
+                      <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="Free" labelPlacement="end" name="free" checked={ props.price.free } onChange={ props.handlePrice} />
+                      <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="$" labelPlacement="end" name="$" checked={ props.price.$ } onChange={ props.handlePrice} />
+                      <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="$$" labelPlacement="end" name="$$" checked={ props.price.$$ } onChange={ props.handlePrice} />
+                      <FormControlLabel control={ <Checkbox /> } sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label="$$$" labelPlacement="end" name="$$$" checked={ props.price.$$$ } onChange={ props.handlePrice} />
                     </FormGroup>
                   </FormControl>
                 </div>
@@ -111,7 +106,7 @@ const modalRoot = document.getElementById('bigFilter-portal');
               <Grid item xs={12} align="center">
                 <div>
 
-                  <Button style={{ maxWidth: '180px', maxHeight: '30px' }} variant="contained" onClick={ props.handleBigFilterApply }>Apply Filters</Button>
+                  <Button style={{ maxWidth: '180px', maxHeight: '30px' }} variant="contained" color="secondary" onClick={ props.handleBigFilterApply }>Apply Filters</Button>
 
                 </div>
               </Grid>

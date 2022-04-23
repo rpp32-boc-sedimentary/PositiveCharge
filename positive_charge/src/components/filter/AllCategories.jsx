@@ -33,7 +33,7 @@ const AllCategories = (props) => {
         <FormLabel>Categories Available</FormLabel>
         <FormGroup>
           {_.map(props.categoriesChecked, (val, key) =>
-            <FormControlLabel control={<Checkbox />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label={key} labelPlacement="start" name={key} checked={val} onChange={props.handleAllCategories} />
+            <FormControlLabel control={<Checkbox />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label={key} labelPlacement="end" name={key} checked={val} onChange={props.handleAllCategories} />
           )}
         </FormGroup>
       </FormControl>

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Button from '@mui/material/Button';
 const modalRoot = document.getElementById('priceFilter-portal');
 
 class PriceFilter extends React.Component {

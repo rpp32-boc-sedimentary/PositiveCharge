@@ -3,12 +3,13 @@ FILTER COMPONENT
 */
 
 .cksButton {
-  background-color:#4eb5f1;
+  background-color:#edc47e;
   border: 1px solid rgb(52, 49, 49);
   border-radius: 4px;
   height: auto;
   float: left;
   text-align: center;
+  font-family:'Roboto',sans-serif;
   font-size: 12px;
   width: 4.0em;
 }
@@ -33,7 +34,7 @@ FILTER COMPONENT
 }
 
 .cksButton input:checked + span {
-  background-color: orange;
+  background-color: #cd6501;
   color: black;
 }
 
@@ -51,7 +52,7 @@ FILTER COMPONENT
   font-family:'Roboto',sans-serif;
   font-weight:300;
   color:#FFFFFF;
-  background-color:#4eb5f1;
+  background-color:#edc47e;
   text-align:center;
   height: auto;
   float: left;
@@ -84,12 +85,12 @@ FILTER COMPONENT
 }
 
 .chButton input:checked + span {
-  background-color: orange;
+  background-color: #da8107;
   color: black;
 }
 
 .chButton input:checked:hover + span {
-  background-color: rgb(205, 138, 5);
+  background-color: rgb(230, 230, 230);
   color: black;
 }
 
@@ -99,15 +100,20 @@ FILTER COMPONENT
   //justify-content: space-around;
   display: flex;
   flex-direction: row;
+  padding: 0;
+  margin: 0;
   //flex-wrap: wrap;
-  width: 375px;
+  width: 100%;
   height: auto;
   //margin: 10px;
   //-webkit-overflow-scrolling: touch;
-  background-color: rgb(229, 229, 229);
+
   justify-content: space-evenly;
   //white-space: nowrap;
 
+  .sort {
+    font-size: 10px;
+  }
 
   // .clickableElement {
   //   display: inline-block;
@@ -121,18 +127,19 @@ FILTER COMPONENT
     display:inline-block;
     padding:0.3em 1.2em;
     margin:0 0.3em 0.3em 0;
+    border: none;
     border-radius:2em;
-    box-sizing: border-box;
+    //box-sizing: border-box;
     text-decoration:none;
     font-family:'Roboto',sans-serif;
     font-weight:300;
     color:#FFFFFF;
-    background-color:#4eb5f1;
+    background-color:#edc47e;
     text-align:center;
     transition: all 0.2s;
   }
   .sfButton :hover {
-    background-color:#4095c6;
+    background-color:#11730a;
   }
 
 
@@ -175,8 +182,9 @@ FILTER COMPONENT
   z-index: 1000;
   box-shadow: 0 5px 10px 2px rgba(195, 192, 192, .5);
   border-radius: 10px;
-  width: 100px;
+  width: 50px;
   height: 100px;
+  left: calc(100% - 50px);
 }
 
 .bigModal {

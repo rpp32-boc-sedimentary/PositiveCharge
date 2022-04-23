@@ -275,6 +275,11 @@ class LittleFilter extends React.Component {
     delete data.long;
     let addedCategories = helpers.addCategoryToYelp(data);
     let addedDurations = helpers.walkTime(addedCategories);
+    if (addedDurations.lessThanFive) {
+      this.setState({
+        lessThanFive: true
+      })
+    }
     let userPoisWithDuration;
     let sponsoredPoisWithDuration;
     if (userPois) {
@@ -282,6 +287,7 @@ class LittleFilter extends React.Component {
     } else {
       userPoisWithDuration = [];
     }
+
     if (sponsoredPois) {
       sponsoredPoisWithDuration = helpers.walkTime(sponsoredPois);
     } else {
@@ -293,6 +299,12 @@ class LittleFilter extends React.Component {
 
   setInitialState = (sponsored, userAdded, yelpData) => {
     let allData = sponsored.concat(userAdded, yelpData);
+    let lessThanFive = false;
+    allData.forEach(item => {
+      if (item.duration <= 5) {
+        lessThanFive = true;
+      }
+    });
     let categoriesChecked = helpers.findCategories(allData);
     let suggestedCategories = helpers.findSuggested(categoriesChecked);
     this.setState({
@@ -303,7 +315,8 @@ class LittleFilter extends React.Component {
       filteredData: yelpData,
       modifiedData: yelpData,
       categoriesChecked,
-      suggestedCategories
+      suggestedCategories,
+      lessThanFive
     });
   };
 
@@ -357,7 +370,6 @@ class LittleFilter extends React.Component {
             <option>Loves</option>
             <option>Distance</option>
           </select>
-
 
           { this.state.filteredData.length > 5 ? <button className="clickableElement sfButton" onClick={this.handleShowMore}>{ this.state.showMore ? "Show Less" : "Show More"}</button> : null }
 
