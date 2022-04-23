@@ -109,7 +109,7 @@ class App extends React.Component {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <ResponsiveAppBar isLoggedIn={isLoggedIn} logOut={this.logOut}/>
-          { isLoggedIn ? <h3>Welcome back, {userName} !</h3> : null }
+          { isLoggedIn ? <h3>Welcome back, {userName}!</h3> : null }
           <Routes>
             <Route path="/" element={<FindChargingStations />}/>
             <Route path="/login" element={<Login logIn={this.logIn}/>} />

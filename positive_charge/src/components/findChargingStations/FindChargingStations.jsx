@@ -101,7 +101,7 @@ class FindChargingStations extends React.Component {
         </div>
         <InputLabel id='stationsDistanceLabel'>
           How far away to search?
-          <Input sx={{ ml: 5, width: '5%' }} type='number' id='stationsDistanceInput'  min='1' max='10' defaultValue={this.state.chosenDistance} onChange={this.updateChosenDistance.bind(this)}></Input>
+          <Input sx={{ ml: 5, width: '10%' }} type='number' id='stationsDistanceInput'  min='1' max='50' defaultValue={this.state.chosenDistance} onChange={this.updateChosenDistance.bind(this)}></Input>
           miles
         </InputLabel>
         <br></br>
