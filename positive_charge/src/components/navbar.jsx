@@ -11,6 +11,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import MuiLink from '@mui/material/Link';
+import { Link } from 'react-router-dom';
 
 const pages = ['Home', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -81,6 +83,12 @@ const ResponsiveAppBar = () => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem>
+                <MuiLink component={Link} to="/login" sx={{  }}>Login</MuiLink>
+              </MenuItem>
+              <MenuItem>
+                <MuiLink component={Link} to="/signup" sx={{  }}>Sign Up</MuiLink>
+              </MenuItem>
             </Menu>
           </Box>
           <Typography
