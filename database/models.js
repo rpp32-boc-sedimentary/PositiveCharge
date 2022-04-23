@@ -357,3 +357,21 @@ pool.seeSponserPoi = async (params) => {
 }
 
 module.exports = { pool };
+
+
+
+
+// testing for filtering
+
+pool.getAllPoi = async () => {
+
+  let query = 'SELECT * FROM pois order by id desc limit 20'
+
+  try {
+    const result = await pool.query(query);
+    console.log('result test', result.rows);
+  } catch (err) {
+    console.log('error result test', err)
+  }
+
+}
