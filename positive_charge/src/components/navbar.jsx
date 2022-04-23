@@ -144,11 +144,7 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
               ))}
             </Menu>
           </Box>
-          <Container
-            sx={{
-
-              maxWidth:"sm"
-            }}
+          <Container id="logo"
             component="img"
             alt="logo"
             src="/img/posChargeBlk.png"
