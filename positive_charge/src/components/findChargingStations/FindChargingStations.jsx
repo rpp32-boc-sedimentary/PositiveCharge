@@ -76,6 +76,7 @@ class FindChargingStations extends React.Component {
     return (
       <div className='findStationsDiv'>
         { this.props.isLoggedIn ? <h3>Welcome back, {this.props.userName}!</h3> : null }
+        <h3 className="text center">Find a Charging Station</h3>
         <InputLabel id='stationsYourLocationLabel'>
           What is your current location?
           <Button variant="contained" sx={{ ml: 5 }} id='stationsUseMyLocationButton' onClick={this.getUserLocation.bind(this)}><AddLocationAltIcon /></Button>
@@ -102,7 +103,7 @@ class FindChargingStations extends React.Component {
         </div>
         <InputLabel id='stationsDistanceLabel'>
           How far away to search?
-          <Input sx={{ ml: 5, width: '10%' }} type='number' id='stationsDistanceInput'  min='1' max='50' defaultValue={this.state.chosenDistance} onChange={this.updateChosenDistance.bind(this)}></Input>
+          <Input sx={{ ml: 5, width: '15%' }} type='number' id='stationsDistanceInput'  min='1' max='50' defaultValue={this.state.chosenDistance} onChange={this.updateChosenDistance.bind(this)}></Input>
           miles
         </InputLabel>
         <br></br>
