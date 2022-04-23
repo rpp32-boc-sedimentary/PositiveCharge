@@ -227,7 +227,10 @@ MAP COMPONENT
 */
 #map {
   height: 50vw;
-  width: 75vw;
+  width: 90vw;
+  border-style: inset;
+  border-width: medium;
+  border-color:#11730a;
 }
 
 .text {
@@ -415,6 +418,7 @@ Add POI Component
     border-style: inset;
     border-width: medium;
     border-color:#11730a;
+    margin: 1rem 0;
   }
 
 
