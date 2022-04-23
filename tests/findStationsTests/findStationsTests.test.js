@@ -102,7 +102,7 @@ test('GET request to /findStations should respond with a stations list', async (
   });
 
   expect(Array.isArray(response.stations.data)).toBeTruthy();
-})
+});
 
 
 
