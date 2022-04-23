@@ -27,7 +27,7 @@ import LightbulbIcon from '@mui/icons-material/Lightbulb';
 
 import AddExperience from './AddExperience.jsx'
 
-export default function PoiModal({open, onClose, detail, name}) {
+export default function PoiModal({ open, onClose, detail, name }) {
 
   const [isOpen, setIsOpen] = useState(false);
   const [showMore, showMoreExp] = useState(false);
@@ -69,7 +69,8 @@ export default function PoiModal({open, onClose, detail, name}) {
     let exp = showMore ? minExp = sortedDetails.length : minExp;
 
     return sortedDetails.slice(0, exp).map((exp, index) => {
-      return <Grid>
+      return <Box px={1} pb={1}>
+        <Grid>
           <Card
             key={index}
             variant="outlined"
@@ -78,15 +79,16 @@ export default function PoiModal({open, onClose, detail, name}) {
               gridTemplateColumns: 'repeat(10, 1fr)',
               gap: 1,
               gridTemplateRows: 'auto',
+              bgcolor: 'primary.main',
               gridTemplateAreas: `"ex ex ex ex ex ex ex ex ex ex ex"
                                   "ex ex ex ex ex ex ex ex ex ex ex"
                                   "ex ex ex ex ex ex ex ex ex ex ex"
-                                  "love . . . . . . . . . flag"`,
+                                  "love . . . . . . . . . flag"`
             }}
           >
             <CardContent
               sx={{
-                gridArea: 'ex' ,
+                gridArea: 'ex',
                 bgcolor: 'primary.main',
 
               }}>
@@ -97,40 +99,41 @@ export default function PoiModal({open, onClose, detail, name}) {
               </Typography>
             </CardContent>
             <CardActions
-              sx={{ gridArea: 'love' , fontSize:'small'}}>
+              sx={{ gridArea: 'love', fontSize: 'small' }}>
               <IconButton
                 onClick={() => {
                   love('experience', exp.experience)
                   setSnackbarLoveOpen(true)
-                  }}>
-                <FavoriteIcon/>{exp.exp_loves}
+                }}>
+                <FavoriteIcon />{exp.exp_loves}
               </IconButton>
-            <Snackbar
-              open={snackbarLoveOpen}
-              autoHideDuration={3000}
-              onClose={() => {setSnackbarLoveOpen(false)}}
-              message="Thanks for the love!"
+              <Snackbar
+                open={snackbarLoveOpen}
+                autoHideDuration={3000}
+                onClose={() => { setSnackbarLoveOpen(false) }}
+                message="Thanks for the love!"
               />
             </CardActions>
             <CardActions
-            sx={{ gridArea: 'flag', fontSize:'small' }}>
+              sx={{ gridArea: 'flag', fontSize: 'small' }}>
               <IconButton
                 onClick={() => {
                   flag('experience', exp.experience)
                   setSnackbarFlagOpen(true)
-                  }}>
-                <FlagIcon/>
+                }}>
+                <FlagIcon />
               </IconButton>
               <Snackbar
                 open={snackbarFlagOpen}
                 autoHideDuration={3000}
-                onClose={() => {setSnackbarFlagOpen(false)}}
+                onClose={() => { setSnackbarFlagOpen(false) }}
                 message="Thanks for informing us! We'll review your flag."
               />
             </CardActions>
           </Card>
-       </Grid>
-     })
+        </Grid>
+      </Box>
+    })
 
   }
 
@@ -141,24 +144,26 @@ export default function PoiModal({open, onClose, detail, name}) {
       open={open}
       fullWidth={true}
     >
-        <List>
-          {detail[0]?.experience ? displayExperiences() : 'Be the first to add your experience!'}
-        </List>
+      <List>
+        {detail[0]?.experience ? displayExperiences() : 'Be the first to add your experience!'}
+      </List>
+
 
       {detail.length > 5 ?
-        <IconButton variant='outlined' onClick={() => showMoreExp(!showMore)}>{showMore ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconButton>
+        <IconButton onClick={() => showMoreExp(!showMore)}>{showMore ? <ExpandLessIcon /> : <ExpandMoreIcon />}</IconButton>
         : null}
+
 
       <Divider />
 
       <Box component="footer">
         <DialogActions>
           <Snackbar
-              open={snackbarLoveOpen}
-              autoHideDuration={3000}
-              onClose={() => {setSnackbarLoveOpen(false)}}
-              message="Thanks for the love!"
-            />
+            open={snackbarLoveOpen}
+            autoHideDuration={3000}
+            onClose={() => { setSnackbarLoveOpen(false) }}
+            message="Thanks for the love!"
+          />
         </DialogActions>
 
         <BottomNavigation>
@@ -169,7 +174,7 @@ export default function PoiModal({open, onClose, detail, name}) {
             onClick={() => {
               love('poi')
               setSnackbarLoveOpen(true)
-              }}
+            }}
           />
 
           <BottomNavigationAction
@@ -186,7 +191,7 @@ export default function PoiModal({open, onClose, detail, name}) {
             onClick={() => {
               flag('poi')
               setSnackbarFlagOpen(true)
-              }}
+            }}
           />
 
           <BottomNavigationAction
@@ -203,11 +208,11 @@ export default function PoiModal({open, onClose, detail, name}) {
         </DialogActions>
 
         <Snackbar
-            open={snackbarFlagOpen}
-            autoHideDuration={3000}
-            onClose={() => {setSnackbarFlagOpen(false)}}
-            message="Thanks for informing us! We'll review your flag."
-          />
+          open={snackbarFlagOpen}
+          autoHideDuration={3000}
+          onClose={() => { setSnackbarFlagOpen(false) }}
+          message="Thanks for informing us! We'll review your flag."
+        />
       </Box>
 
     </Dialog>
