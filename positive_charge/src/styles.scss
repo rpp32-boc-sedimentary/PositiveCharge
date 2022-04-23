@@ -282,45 +282,80 @@ Add POI Component
 }
 /* seePOI component */
 
+
 .seePOI {
-  background-color: #ff9800;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   height: 100%;
   width: 100%;
+  color: darkorange;
+
+  #map {
+    width:90vw;
+    border-style: solid;
+    border-width: medium;
+    border-color:black;
+  }
 }
 
   .map{
-    float: left
+
+    float: left;
+    justify-content: center;
+    width: 95%;
+    height: 100%;
+
   }
 
   .returnCharger{
     float: left;
+    height: 100%;
   }
 
   .login{
+
     float: right;
+    height: auto;
+    margin-right: 10%;
   }
 
   .signup{
+
     float: right;
+    height: 100%;
+    margin-right: 5%;
   }
 
   .seePOIListHeader{
-    background: #ff9800;
+
     float:left;
+    width: 95%;
+    height: 100%;
+    text-align: center;
+    text-decoration-line: underline;
 
   }
 
+
   .poiList{
+
     float: left;
+    width: 100%;
+    border-style: inset;
+    border-width: medium;
+    border-color:black;
 
   }
 
   .filters{
+
     float: left;
+    width: 95%;
   }
 
   .addPOI{
+
     float: left;
+    width: 95%;
   }
 
 
