@@ -92,8 +92,10 @@ const filterOnDistance = (selectedTime, data) => {
 }
 
 const findSuggested = (data) => {
+  console.log('data in heper', data)
   // this generates dynamic button categories in an object format.
   let points = Object.keys(data);
+  console.log('points', points)
   let generated = {};
   if (points.indexOf('food') >= 0 && points.indexOf('cafe') >= 0) {
     generated['food and cafes'] = false;
@@ -150,7 +152,6 @@ const addCategoryToYelp = (data) => {
     if (key === 'database'|| key === 'sponser') {
       continue;
     } else {
-      console.log('key', key)
       data[key].businesses.forEach(business => {
         if (business.distance > 1260) {
           return;
@@ -162,9 +163,30 @@ const addCategoryToYelp = (data) => {
     }
   }
   return yelpWithCategories;
+};
 
+
+
+const walkTime = (data) => {
+  data.forEach(item => {
+    if (item.distance) {
+      item.duration = Math.round((item.distance/84));
+    }
+  })
+  return data;
+};
+
+
+const applyAllFilters = (filters, pois) => {
+  let filtered;
+  filtered = filterOnPrice(filters.price, pois);
+  filtered = filterOnPrice(filters.categoriesChecked, filtered);
+  filtered = filterOnPrice(filters.suggestedCategories, filtered);
+  filtered = filterOnPrice(filters.distance, filtered);
+  filtered = filterOnPrice(filters.quickWalk, filtered);
+  filtered = filterOnPrice(filters.sortVal, filtered);
+  return filtered;
 }
-
 
 
 module.exports = {
@@ -176,5 +198,7 @@ module.exports = {
   findSuggested,
   filterQuickWalks,
   sortFunc,
-  addCategoryToYelp
+  addCategoryToYelp,
+  walkTime,
+  applyAllFilters
 }
