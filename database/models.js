@@ -35,14 +35,20 @@ pool.grabview = async (params) => {
 }
 
 pool.lovePoi = async (params) => {
-  const lovePoiQuery = `UPDATE pois SET loves = loves + 1 WHERE yelp_id = $1`;
+  if (typeof params[0] === 'string') {
+    params[0] = Number(params[0])
+  }
+  const lovePoiQuery = params[0].length > 5 ?
+  `UPDATE pois SET loves = loves + 1 WHERE yelp_id = $1` : `UPDATE pois SET loves = loves + 1 WHERE id = $1`
+  const minusLovePoiQuery = params[0].length > 5 ? `UPDATE pois SET loves = loves - 1 WHERE yelp_id = $1` : `UPDATE pois SET loves = loves - 1 WHERE id = $1`
   const changeLove = `UPDATE users_details SET love_poi = NOT love_poi WHERE poi_id = $1 AND user_email = $2`;
+
   try {
     let checkPoi = await pool.query(`select exists(select 1 from pois where yelp_id = $1)`, [params[0]]);
     if (checkPoi.rows[0].exists) {
       const checkUserExists = await pool.query(`select exists(select 1 from users_details where poi_id = $1 AND user_email = $2)`, params)
       if (checkUserExists.rows[0].exists === false) {
-        const createUserInteractionRow = await pool.query(`INSERT INTO users_details (user_email, poi_id, loves_exp, love_poi, flag_poi) VALUES ($2, $1, null, false, false, false, false)`, params)
+        const createUserInteractionRow = await pool.query(`INSERT INTO users_details (user_email, poi_id, loves_exp, love_poi, flag_poi) VALUES ($2, $1, null, false, false)`, params)
       }
       const check = await pool.query(`SELECT love_poi FROM users_details WHERE poi_id = $1 AND user_email = $2`, params);
       if (check.rows[0].love_poi === false) {
@@ -51,7 +57,7 @@ pool.lovePoi = async (params) => {
         return params;
       } else {
         const setLoveToFalse = await pool.query(changeLove, params);
-        const unlovePoi = await pool.query(`UPDATE pois SET loves = loves - 1 WHERE yelp_id = $1`, [params[0]]);
+        const unlovePoi = await pool.query(minusLovePoiQuery, [params[0]]);
         return params;
       }
     } else {

@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, Link, Navigate, useLocation } from 'react
 const MoreDetails = (props) => {
   const location = useLocation();
   const data = location.state.data;
-  console.log('more Details', data);
+
   if (data.location !== undefined) {
     return (
       <>

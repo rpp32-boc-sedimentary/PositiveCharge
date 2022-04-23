@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 export default function Modal(data) {
 
   const getDetails = (data) => {
+    console.log(data)
     axios.get(`/details/view`, {
       params: {
         id: data.props.id,
