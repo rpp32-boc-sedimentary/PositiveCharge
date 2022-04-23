@@ -28,7 +28,7 @@ const PoiList = (props) => {
     })
 
     return (
-      <Table id='poiTable'>
+      <Table id='poiTable' stickyHeader>
             <TableHead style={{ backgroundColor: '#4eb5f1' }}>
             <TableRow>
               <TableCell className='poiName'>
