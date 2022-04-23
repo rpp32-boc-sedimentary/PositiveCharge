@@ -81,7 +81,7 @@ export default function PoiModal({ open, onClose, detail, name }) {
               gap: 1,
               gridTemplateRows: 'auto',
               bgcolor: 'primary.main',
-              gridTemplateAreas: `"pic ban . . . . . . . . ."
+              gridTemplateAreas: `"pic . . . . . . . . . ."
                                   "ex ex ex ex ex ex ex ex ex ex ex"
                                   "ex ex ex ex ex ex ex ex ex ex ex"
                                   "ex ex ex ex ex ex ex ex ex ex ex"
