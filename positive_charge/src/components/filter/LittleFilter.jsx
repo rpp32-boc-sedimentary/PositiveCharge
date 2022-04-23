@@ -251,6 +251,10 @@ class LittleFilter extends React.Component {
     })
     console.log('data in database?', data.database);
     delete data.all;
+    delete data.dist;
+    delete data.flag;
+    delete data.lat;
+    delete data.long;
     let addedCategories = helpers.addCategoryToYelp(data);
     this.findTimeToTravel(addedCategories);
 
