@@ -54,7 +54,7 @@ class LittleFilter extends React.Component {
     this.handleQuickLf = this.handleQuickLf.bind(this);
     this.handleQuickBf = this.handleQuickBf.bind(this);
     this.handleSort = this.handleSort.bind(this);
-    //this.findTimeToTravel = this.findTimeToTravel.bind(this);
+
     this.handleBigFilterApply = this.handleBigFilterApply.bind(this);
     this.applyFilters = this.applyFilters.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
@@ -223,12 +223,6 @@ class LittleFilter extends React.Component {
     let combinedData = filteredSponsored.concat(filteredUserPois, filteredData);
     console.log('combined', combinedData)
 
-    // let filteredData = filterOnPrice(this.state.price, this.state.modifiedData);
-    // filteredData = filterOnCategories(this.state.categoriesChecked, filteredData);
-    // filteredData = filterLfCategories(this.state.suggestedCategories, filteredData);
-    // filteredData = filterOnDistance(this.state.distance, filteredData);
-    // filteredData = filterQuickWalks(this.state.quickWalk, filteredData);
-    // filteredData = sortFunc(this.state.sortVal, filteredData);
     let showFive = combinedData.slice(0, 5);
     let showTwenty = combinedData.slice(0, 20);
     if (this.state.showMore) {
@@ -296,21 +290,6 @@ class LittleFilter extends React.Component {
     //this.findTimeToTravel(addedCategories);
     this.setInitialState(sponsoredPoisWithDuration, userPoisWithDuration, addedDurations);
   }
-
-
-/*
-  user added poi and sponsored data
-  go through the user added poi and add duration to them,
-  also need to find the categories
-  now they are ready to be filtered
-
-  when filtering/sorting occurs
-  combine sponsored then database then modified and set on top
-  then when someone filters, filter each separately and then splice together
-  filter on database and on modified.
-
-  sort on distance - sponsored data appears on top no matter what?
-*/
 
   setInitialState = (sponsored, userAdded, yelpData) => {
     let allData = sponsored.concat(userAdded, yelpData);
