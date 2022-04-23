@@ -12,14 +12,17 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import MuiLink from '@mui/material/Link';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const pages = ['Home', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
+  // const location = useLocation();
+  // const { data } = location.state;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -35,6 +38,65 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogin = () => {
+    navigate('/login');
+  }
+
+  const handleSignup = () => {
+    navigate('/signup');
+  }
+
+  const logDisplay = () => {
+    // console.log(data);
+    if (!isLoggedIn) {
+      return (
+        <>
+          <Button onClick={handleLogin} sx={{ my: 2, color: 'white', display: 'block' }}>Login</Button>
+          <Typography>/</Typography>
+          <Button onClick={handleSignup} sx={{ my: 2, color: 'white', display: 'block' }}>Sign Up</Button>
+        </>
+      )
+    } else {
+      return (
+        // <Button onClick={logOut} sx={{ my: 2, color: 'white', display: 'block' }}>Log Out</Button>
+        <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar
+                  // alt="Remy Sharp"
+                  src="/static/images/avatar/2.jpg"
+                  sx={{ bgcolor: '#11730a' }}
+                />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={setting === 'Logout' ? (handleCloseUserMenu, logOut) : handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+      )
+    }
+    return null;
+  }
 
   return (
     <AppBar position="static">
@@ -83,12 +145,6 @@ const ResponsiveAppBar = () => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
-              <MenuItem>
-                <MuiLink component={Link} to="/login" sx={{  }}>Login</MuiLink>
-              </MenuItem>
-              <MenuItem>
-                <MuiLink component={Link} to="/signup" sx={{  }}>Sign Up</MuiLink>
-              </MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -111,35 +167,9 @@ const ResponsiveAppBar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {logDisplay()}
+
+
         </Toolbar>
       </Container>
     </AppBar>
