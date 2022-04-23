@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 
@@ -47,6 +46,7 @@ function Sponsor() {
         // if poi doesn't exist, add the poi
         axios.post('/addPOI', [yelpId])
         .then((poi) => {
+          console.log('addPOI result: ', poi);
           poi_id = poi[0].id;
           return {user: user_id, poi: poi_id};
         })
