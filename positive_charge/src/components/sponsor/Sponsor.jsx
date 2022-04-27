@@ -128,10 +128,10 @@ function Sponsor() {
           alignItems: 'center',
         }}
       >
-        <Typography component="h1" variant="h4" sx={{ mb: 1 }}>
+        <Typography component="h1" variant="h4" className="center" sx={{ mb: 1 }}>
           Sponsor this point of interest:
         </Typography>
-        <Typography component="h1" variant="h3" sx={{ mb: 3, color: '#11730a' }}>
+        <Typography component="h1" variant="h3"  className="center" sx={{ mb: 3, color: '#11730a' }}>
           {data.props.name}
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
@@ -146,7 +146,7 @@ function Sponsor() {
                 label="Starting on"
                 onChange={e => setStart(e.target.value)}
                 required
-                sx={{ width: 220 }}
+                sx={{ width: 220, mb: 2 }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -288,9 +288,9 @@ function Sponsor() {
             </Grid>
             <Grid item xs={12}>
               <Typography component="h3" variant="h6" color="text.primary" sx={{ mb: 2 }}>Enter Payment Information</Typography>
-              <Button variant="outlined" color="secondary" sx={{ mr: 2}}>Paypal</Button>
-              <Button variant="outlined" color="secondary" sx={{ mr: 2}}>Google Pay</Button>
-              <Button variant="outlined" color="secondary" sx={{ mr: 2}}>Apple Pay</Button>
+              <Button variant="outlined" color="secondary" sx={{ mr: 2, mb: 2}}>Paypal</Button><br />
+              <Button variant="outlined" color="secondary" sx={{ mr: 2, mb: 2}}>Google Pay</Button><br />
+              <Button variant="outlined" color="secondary" sx={{ mr: 2, mb: 2}}>Apple Pay</Button><br />
             </Grid>
           </Grid>
           <Button
