@@ -4,7 +4,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import Checkbox from '@mui/material/Checkbox';
-import Grid from '@mui/material/Grid';
 const _ = require('underscore');
 
 
@@ -31,16 +30,12 @@ const AllCategories = (props) => {
   } else {
     return (
       <FormControl component="fieldset" variant="standard">
-        <Grid container item xs={12} justifyContent="center">
-          <FormLabel>Categories Available</FormLabel>
-        </Grid>
-        <Grid container item xs={12} justifyContent="flex-start">
-          <FormGroup>
-            {_.map(props.categoriesChecked, (val, key) =>
-              <FormControlLabel control={<Checkbox />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label={key} labelPlacement="end" name={key} checked={val} onChange={props.handleAllCategories} />
-            )}
-          </FormGroup>
-        </Grid>
+        <FormLabel>Categories Available</FormLabel>
+        <FormGroup>
+          {_.map(props.categoriesChecked, (val, key) =>
+            <FormControlLabel control={<Checkbox />} sx={{ '& .MuiSvgIcon-root': { fontSize: 32 }}} label={returnCategory(key)} labelPlacement="end" name={key} checked={val} onChange={props.handleAllCategories} />
+          )}
+        </FormGroup>
       </FormControl>
     )
   }

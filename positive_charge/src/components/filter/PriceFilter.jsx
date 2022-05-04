@@ -22,8 +22,6 @@ class PriceFilter extends React.Component {
 
     return ReactDOM.createPortal(
       <>
-
-
         <form className='priceFilterModal' onSubmit={ this.props.handlePriceApply }>
           <div className='cksButton'>
             <label>
@@ -56,11 +54,8 @@ class PriceFilter extends React.Component {
         </form>
       </>,
       this.modal
-
-
     )
   }
-
 }
 
 export default PriceFilter;

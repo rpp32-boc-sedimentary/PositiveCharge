@@ -1,4 +1,3 @@
-const _ = require('underscore');
 
 const findCategories = (data) => {
   let categories = {};
@@ -54,17 +53,16 @@ const filterLfCategories = (selectedFilter, data) => {
   }
   let filtered = [];
   data.forEach(item => {
-    if (selectedFilter.food) {
+    if (selectedFilter.Food) {
       if (item.category === 'food') {
         filtered.push(item);
       }
-    } else if (selectedFilter['food and cafes']) {
+    } else if (selectedFilter['Food and Cafes']) {
       if (item.category === 'food' || item.category === 'cafe') {
         filtered.push(item);
       }
     }
-    if (selectedFilter.cultural) {
-      //change 'landmarks & historical' later to 'landmarks & historical' with real data
+    if (selectedFilter.Cultural) {
       if (item.category === 'museum' || item.category === 'landmarks & historical') {
         filtered.push(item);
       }
@@ -89,16 +87,15 @@ const filterOnDistance = (selectedTime, data) => {
 }
 
 const findSuggested = (data) => {
-  // this generates dynamic button categories in an object format.
   let points = Object.keys(data);
   let generated = {};
   if (points.indexOf('food') >= 0 && points.indexOf('cafe') >= 0) {
-    generated['food and cafes'] = false;
+    generated['Food and Cafes'] = false;
   } else if (points.indexOf('food') >= 0) {
-    generated['food'] = false;
+    generated['Food'] = false;
   }
   if (points.indexOf('museum') >= 0 && points.indexOf('landmarks & historical') >= 0) {
-    generated['cultural'] = false;
+    generated['Cultural'] = false;
   }
   return generated;
 }
@@ -160,8 +157,6 @@ const addCategoryToYelp = (data) => {
   return yelpWithCategories;
 };
 
-
-
 const walkTime = (data) => {
   data.forEach(item => {
     if (item.distance) {
@@ -170,8 +165,6 @@ const walkTime = (data) => {
   })
   return data;
 };
-
-
 
 const applyAllFilters = (filters, pois) => {
   let filtered;
