@@ -72,11 +72,6 @@ router.get('/graphql', (req, res) => {
 });
 
 
-router.get('/selectedFilters', (req, res) => {
-  let test = req.query;
-  console.log('test', test);
-})
-
 //this api call will work for yelp locations
 //will need to add a conditional for user added locations
 //to account for coordinates formatted differently
