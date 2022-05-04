@@ -84,7 +84,6 @@ class LittleFilter extends React.Component {
     return false;
   }
 
-  //add function to change the color of the button when clicked
   handleSort = (e) => {
     let chosen = e.target.value;
     this.setState({
@@ -310,7 +309,7 @@ class LittleFilter extends React.Component {
       categoriesChecked,
       suggestedCategories,
       lessThanFive,
-      combinedData: allData
+      combinedFiltered: allData
     });
   };
 
