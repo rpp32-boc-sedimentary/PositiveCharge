@@ -22,7 +22,7 @@ Technologies used...
       
 <div>
   Dominic Carullo - UI Owner 
-    <a href="linkedin.com/in/dominic-carullo/">
+    <a href="https://www.linkedin.com/in/dominic-carullo/">
       <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
     <a/>
 <div/>
