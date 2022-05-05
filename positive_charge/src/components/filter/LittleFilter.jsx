@@ -331,7 +331,7 @@ class LittleFilter extends React.Component {
         { this.state.suggestedCategories } handleSuggestedCategoriesBf={ this.handleSuggestedCategoriesBf } lessThanFive={ this.state.lessThanFive } quickWalk={ this.state.quickWalk } handleQuickBf={ this.handleQuickBf } /> : null }
 
         <button className="priceBtn" onClick={ this.handlePriceModalState }>Price</button>
-        { this.state.priceModalState ?  <PriceFilter priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
+        { this.state.priceModalState ?  <PriceFilter priceModalState={ this.state.priceModalState } handlePriceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
 
         { Object.keys(this.state.suggestedCategories).length ? <LfCategories suggestedCategories={ this.state.suggestedCategories } handleSuggestedCategoriesLF={ this.handleSuggestedCategoriesLF } /> : null}
 
@@ -343,29 +343,3 @@ class LittleFilter extends React.Component {
 
 export default LittleFilter;
 
-// findTimeToTravel = (allData) => {
-//   let starting = this.props.userLocation;
-//   axios.post('/filter/walkingTime', {
-//     data: {
-//       starting,
-//       data: allData
-//     }
-//   })
-//     .then(data => {
-//       this.setState({
-//         modifiedData: data.data.all,
-//         filteredData: data.data.all,
-//         lessThanFive: data.data.lessThanFive
-//       }, () => {
-//         let categoriesChecked = helpers.findCategories(this.state.modifiedData);
-//         let suggestedCategories = helpers.findSuggested(categoriesChecked);
-//         this.setState({
-//           categoriesChecked,
-//           suggestedCategories
-//         });
-//       });
-//     })
-//     .catch(err => {
-//       console.log('error sending', err)
-//     })
-// }

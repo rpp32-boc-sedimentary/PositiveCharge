@@ -35,7 +35,7 @@ import DialogTitle from '@mui/material/DialogTitle';
               <DialogTitle>Filters</DialogTitle>
             </div>
           </Grid>
-          <Grid container item xs={4} direction="row" justifyContent="flex-end" alignItems="flex-start">
+          <Grid container item xs={4} direction="row" alignItems="flex-start" justifyContent="flex-end" >
             <div>
               <Button style={{ maxWidth: '90px', maxHeight: '30px' }} variant="text" onClick={ props.clearFilters }>Reset</Button>
             </div>

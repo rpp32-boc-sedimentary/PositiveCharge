@@ -11,8 +11,8 @@ FILTER COMPONENT
   text-align: center;
   font-family:'Roboto',sans-serif;
   font-size: 14px;
-  min-width: 90px;
-  max-width: 90px;
+  min-width: 70px;
+  max-width: 70px;
   max-height: 26px;
   min-height: 26px;
 }
@@ -20,10 +20,10 @@ FILTER COMPONENT
 .cksButton label {
   float: left;
   border-radius: 4px;
-  min-width: 90px;
-  max-width: 90px;
-  max-height: 26px;
-  min-height: 26px;
+  min-width: 70px;
+  max-width: 70px;
+  max-height: 20px;
+  min-height: 20px;
 }
 
 .cksButton label span {
@@ -31,10 +31,10 @@ FILTER COMPONENT
   padding: 3px 0px;
   display: block;
   border-radius: 4px;
-  min-width: 90px;
-  max-width: 90px;
-  max-height: 26px;
-  min-height: 26px;
+  min-width: 70px;
+  max-width: 70px;
+  max-height: 20px;
+  min-height: 20px;
 
 }
 .cksButton label input {
@@ -42,20 +42,10 @@ FILTER COMPONENT
   top: -20px;
 }
 
-// .cksButton input:hover + span {
-//   background-color: rgb(243, 226, 183);
-// }
-
 .cksButton input:checked + span {
   background-color: #cd6501;
   color: black;
 }
-
-// .cksButton input:checked:hover + span {
-//   background-color: rgb(205, 138, 5);
-//   color: black;
-// }
-
 
 .chButton {
   margin:0 0.3em 0.3em 0;
@@ -94,8 +84,8 @@ FILTER COMPONENT
 
   min-width: 120px;
   max-width: 120px;
-  max-height: 26px;
-  min-height: 26px;
+  max-height: 20px;
+  min-height: 20px;
 }
 
 .chButton label input {
@@ -103,19 +93,10 @@ FILTER COMPONENT
   top: -20px;
 }
 
-// .chButton input:hover + span {
-//   background-color: rgb(243, 226, 183);
-// }
-
 .chButton input:checked + span {
   background-color: #da8107;
   color: black;
 }
-
-// .chButton input:checked:hover + span {
-//   background-color: rgb(230, 230, 230);
-//   color: black;
-// }
 
 @mixin lfButtonBase {
   display: flex;
@@ -178,19 +159,6 @@ FILTER COMPONENT
     background-color:#11730a;
   }
 
-}
-
-.priceFilterModal {
-  background: white;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  z-index: 1000;
-  box-shadow: 0 5px 10px 2px rgba(195, 192, 192, .5);
-  border-radius: 10px;
-  width: auto;
-  height: auto;
-  left: calc(100% - 80px);
 }
 
 
