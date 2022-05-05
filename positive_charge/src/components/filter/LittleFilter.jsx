@@ -259,8 +259,8 @@ class LittleFilter extends React.Component {
 
   componentDidMount = () => {
     let data = this.props.allData;
-    let userPois = data.database;
-    let sponsoredPois = data.sponser;
+    let userPois = helpers.sortFunc('Loves', data.database);
+    let sponsoredPois = helpers.sortFunc('Loves', data.sponser);
     delete data.all;
     delete data.dist;
     delete data.flag;
@@ -320,8 +320,9 @@ class LittleFilter extends React.Component {
       <div className="smallFilter">
 
         <select className="sortBtn" name="category" onChange={ this.handleSort }>
-          <option>Loves</option>
-          <option>Distance</option>
+          <option value="" selected disabled hidden>Sort By</option>
+          <option value="Loves">Loves</option>
+          <option value="Distance">Distance</option>
         </select>
 
         { this.state.filteredData.length > 5 ? <button className="showBtn" onClick={this.handleShowMore}>{ this.state.showMore ? "Show Less" : "Show More"}</button> : null }

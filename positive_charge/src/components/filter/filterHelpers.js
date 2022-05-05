@@ -9,6 +9,7 @@ const findCategories = (data) => {
   catKeys.forEach(key => {
     categoriesChecked[key] = '';
   });
+  console.log('categoried checked', categoriesChecked)
   return categoriesChecked;
 }
 
@@ -29,7 +30,8 @@ const filterOnPrice = (selectedFilter, data) => {
 };
 
 const filterOnCategories = (selectedFilter, data) => {
-  if (!selectedFilter.food && !selectedFilter.museum && !selectedFilter.cafe && !selectedFilter.park && !selectedFilter.landmark) {
+  console.log('selected filter', selectedFilter)
+  if (!selectedFilter.food && !selectedFilter.museum && !selectedFilter.cafe && !selectedFilter.park && !selectedFilter.landmark && !selectedFilter.other) {
     return data;
   }
   let categoryFiltered = [];
@@ -114,10 +116,10 @@ const sortFunc = (sortVal, data) => {
   let compare;
   if (sortVal === 'Loves') {
     compare = (a, b) => {
-      if (a.rating > b.rating) {
+      if (a.loves > b.loves || a.rating > b.rating) {
         return -1;
       }
-      if (a.rating < b.rating) {
+      if (a.loves < b.loves || a.rating < b.rating) {
         return 1;
       }
       return 0;
