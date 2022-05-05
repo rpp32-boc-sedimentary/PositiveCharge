@@ -12,8 +12,17 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import MuiLink from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
+const theme = createTheme({
+  palette: {
+    signup: {
+      main: '#FFFFFF'
+    }
+  }
+})
 const pages = ['Find a Charger'];
 const settings = ['Activity', 'Account', 'Logout'];
 
@@ -59,9 +68,16 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
     if (!isLoggedIn) {
       return (
         <>
-          <Button onClick={handleLogin} sx={{ my: 2, color: 'white', display: 'block' }}>Login</Button>
-          <Typography>/</Typography>
-          <Button onClick={handleSignup} sx={{ my: 2, color: 'white', display: 'block' }}>Sign Up</Button>
+          <Grid container display="flex" direction="column" justifyContent="flex-end">
+            <Grid container item direction="row" xs={6} justifyContent="center">
+              <Button onClick={handleLogin} sx={{ color: 'white', fontSize: '10px', fontWeight: '600' }}>Login</Button>
+            </Grid>
+            <Grid container item xs={6} justifyContent="center">
+              <ThemeProvider theme={theme}>
+                <Button variant="outlined" color='signup' onClick={handleSignup} sx={{ color: 'white', fontSize: '10px', fontWeight: '600' }}>Sign Up</Button>
+              </ThemeProvider>
+            </Grid>
+          </Grid>
         </>
       )
     } else {
@@ -109,64 +125,73 @@ const ResponsiveAppBar = ({ isLoggedIn, logOut }) => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters className="toolbar">
+          <Grid container display="flex" direction="row">
+            <Grid container item xs={ 3 }>
+              <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
+                >
+                  <MenuIcon />
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={page === 'Find a Charger' ? handleClickHome : handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <Container id="logo"
-            component="img"
-            alt="logo"
-            src="/img/posChargeWht_medium.png"
-            onClick={() => handleClickHome()}
-          >
-          </Container>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{
+                    display: { xs: 'block', md: 'none' },
+                  }}
+                >
+                  {pages.map((page) => (
+                    <MenuItem key={page} onClick={page === 'Find a Charger' ? handleClickHome : handleCloseNavMenu}>
+                      <Typography textAlign="center">{page}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            </Grid>
+            <Grid container item xs={ 6 } justifyContent="center">
+              <Container id="logo"
+                component="img"
+                alt="logo"
+                src="/img/posChargeWht_medium.png"
+                onClick={() => handleClickHome()}
               >
-                {page}
-              </Button>
-            ))}
-          </Box>
+              </Container>
+            </Grid>
 
-          {logDisplay()}
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              {pages.map((page) => (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              ))}
+            </Box>
+
+            <Grid container={ true } item xs={ 3 } justifyContent="flex-end" alignContent="center">
+              {logDisplay()}
+            </Grid>
+
+          </Grid>
 
 
         </Toolbar>
