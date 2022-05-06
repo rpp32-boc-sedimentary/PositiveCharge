@@ -2,14 +2,7 @@ import React from 'react';
 import BigFilter from './BigFilter.jsx';
 import PriceFilter from './PriceFilter.jsx';
 import LfCategories from './LfCategories.jsx';
-import axios from 'axios';
-import dummyData from '../../../../database/dummyData/pois.js';
 import helpers from './filterHelpers.js';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 
 class LittleFilter extends React.Component {
   constructor(props) {
@@ -59,8 +52,6 @@ class LittleFilter extends React.Component {
     this.applyFilters = this.applyFilters.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
     this.setInitialState = this.setInitialState.bind(this);
-    //this.getUserPois = this.getUserPois.bind(this);
-    //this.getYelpDataTest = this.getYelpDataTest.bind(this);
   }
 
 
@@ -90,9 +81,9 @@ class LittleFilter extends React.Component {
       }
       this.props.changeDisplay(showThisMany);
     });
+    return false;
   }
 
-  //add function to change the color of the button when clicked
   handleSort = (e) => {
     let chosen = e.target.value;
     this.setState({
@@ -100,6 +91,7 @@ class LittleFilter extends React.Component {
     }, () => {
       this.applyFilters();
     })
+    return false;
   }
 
   handlePrice = (e) => {
@@ -111,6 +103,7 @@ class LittleFilter extends React.Component {
     this.setState({
       price
     });
+    return false;
   };
 
 
@@ -136,6 +129,7 @@ class LittleFilter extends React.Component {
     }, () => {
       this.applyFilters();
     });
+    return false;
   };
 
   handleSuggestedCategoriesBf = (e) => {
@@ -158,6 +152,7 @@ class LittleFilter extends React.Component {
     }, () => {
       this.applyFilters();
     });
+    return false;
   };
 
   handleQuickBf = (e) => {
@@ -221,7 +216,6 @@ class LittleFilter extends React.Component {
     }
     let filteredData = helpers.applyAllFilters(filtersChosen, this.state.modifiedData);
     let combinedData = filteredSponsored.concat(filteredUserPois, filteredData);
-    console.log('combined', combinedData)
 
     let showFive = combinedData.slice(0, 5);
     let showTwenty = combinedData.slice(0, 20);
@@ -264,10 +258,9 @@ class LittleFilter extends React.Component {
   };
 
   componentDidMount = () => {
-    console.log('props from DOM', this.props)
     let data = this.props.allData;
-    let userPois = data.database;
-    let sponsoredPois = data.sponser;
+    let userPois = helpers.sortFunc('Loves', data.database);
+    let sponsoredPois = helpers.sortFunc('Loves', data.sponser);
     delete data.all;
     delete data.dist;
     delete data.flag;
@@ -293,7 +286,6 @@ class LittleFilter extends React.Component {
     } else {
       sponsoredPoisWithDuration = [];
     }
-    //this.findTimeToTravel(addedCategories);
     this.setInitialState(sponsoredPoisWithDuration, userPoisWithDuration, addedDurations);
   }
 
@@ -316,47 +308,10 @@ class LittleFilter extends React.Component {
       modifiedData: yelpData,
       categoriesChecked,
       suggestedCategories,
-      lessThanFive
+      lessThanFive,
+      combinedFiltered: allData
     });
   };
-
-  // findTimeToTravel = (allData) => {
-  //   let starting = this.props.userLocation;
-  //   axios.post('/filter/walkingTime', {
-  //     data: {
-  //       starting,
-  //       data: allData
-  //     }
-  //   })
-  //     .then(data => {
-  //       this.setState({
-  //         modifiedData: data.data.all,
-  //         filteredData: data.data.all,
-  //         lessThanFive: data.data.lessThanFive
-  //       }, () => {
-  //         let categoriesChecked = helpers.findCategories(this.state.modifiedData);
-  //         let suggestedCategories = helpers.findSuggested(categoriesChecked);
-  //         this.setState({
-  //           categoriesChecked,
-  //           suggestedCategories
-  //         });
-  //       });
-  //     })
-  //     .catch(err => {
-  //       console.log('error sending', err)
-  //     })
-  // }
-
-
-  // getUserPois = () => {
-  //   axios.get('/filter/getAll')
-  //     .then(data => {
-  //       console.log('data is here from db', data)
-  //     })
-  //     .catch(err => {
-  //       console.log('error getting data', err)
-  //     })
-  // }
 
 
   render() {
@@ -364,29 +319,28 @@ class LittleFilter extends React.Component {
     return (
       <div className="smallFilter">
 
-        <div className="sfWrapper">
+        <select className="sortBtn" name="category" onChange={ this.handleSort }>
+          <option value="" selected disabled hidden>Sort By</option>
+          <option value="Loves">Loves</option>
+          <option value="Distance">Distance</option>
+        </select>
 
-          <select className="sfButton item2 clickableElement" name="category" onChange={ this.handleSort }>
-            <option>Loves</option>
-            <option>Distance</option>
-          </select>
+        { this.state.filteredData.length > 5 ? <button className="showBtn" onClick={this.handleShowMore}>{ this.state.showMore ? "Show Less" : "Show More"}</button> : null }
 
-          { this.state.filteredData.length > 5 ? <button className="clickableElement sfButton" onClick={this.handleShowMore}>{ this.state.showMore ? "Show Less" : "Show More"}</button> : null }
+        <button className="sfBtn" onClick={ this.handleBigModalState }>More Filters</button>
+        { this.state.modalState ? <BigFilter modalState={this.state.modalState} manageModalState={ this.handleBigModalState } distance = { this.state.distance } handleDistance={ this.handleDistance } price={ this.state.price } handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } categoriesChecked={ this.state.categoriesChecked } handleAllCategories={ this.handleAllCategories } suggestedCategories=
+        { this.state.suggestedCategories } handleSuggestedCategoriesBf={ this.handleSuggestedCategoriesBf } lessThanFive={ this.state.lessThanFive } quickWalk={ this.state.quickWalk } handleQuickBf={ this.handleQuickBf } /> : null }
 
-          <button className="sfButton item1 clickableElement" onClick={ this.handleBigModalState }>More Filters</button>
-          { this.state.modalState ? <BigFilter modalState={this.state.modalState} manageModalState={ this.handleBigModalState } distance = { this.state.distance } handleDistance={ this.handleDistance } price={ this.state.price } handlePrice={ this.handlePrice } handleBigFilterApply={ this.handleBigFilterApply } clearFilters={ this.clearFilters } categoriesChecked={ this.state.categoriesChecked } handleAllCategories={ this.handleAllCategories } suggestedCategories=
-          { this.state.suggestedCategories } handleSuggestedCategoriesBf={ this.handleSuggestedCategoriesBf } lessThanFive={ this.state.lessThanFive } quickWalk={ this.state.quickWalk } handleQuickBf={ this.handleQuickBf } /> : null }
+        <button className="priceBtn" onClick={ this.handlePriceModalState }>Price</button>
+        { this.state.priceModalState ?  <PriceFilter priceModalState={ this.state.priceModalState } handlePriceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
 
-          <button className="sfButton item3" onClick={ this.handlePriceModalState }>Price</button>
-          { this.state.priceModalState ?  <PriceFilter className="clickableElement" priceModalState={ this.handlePriceModalState } handlePrice={ this.handlePrice } handlePriceApply={ this.handlePriceApply } price={this.state.price}/> : null }
+        { Object.keys(this.state.suggestedCategories).length ? <LfCategories suggestedCategories={ this.state.suggestedCategories } handleSuggestedCategoriesLF={ this.handleSuggestedCategoriesLF } /> : null}
 
-          { Object.keys(this.state.suggestedCategories).length > 0 ? <LfCategories suggestedCategories={ this.state.suggestedCategories } handleSuggestedCategoriesLF={ this.handleSuggestedCategoriesLF } /> : null}
-
-          { this.state.lessThanFive ? <div className="chButton item4 clickableElement"><label><input type="checkbox" checked={ this.state.quickWalk } name="quickWalk" onChange={ this.handleQuickLf } /><span>Quick Walk</span></label></div> : null }
-        </div>
+        { this.state.lessThanFive ? <div className="chButton"><label><input type="checkbox" checked={ this.state.quickWalk } name="quickWalk" onChange={ this.handleQuickLf } /><span>Quick Walk</span></label></div> : null }
       </div>
     )
   }
 }
 
 export default LittleFilter;
+

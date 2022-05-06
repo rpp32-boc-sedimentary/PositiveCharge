@@ -10,27 +10,36 @@ FILTER COMPONENT
   float: left;
   text-align: center;
   font-family:'Roboto',sans-serif;
-  font-size: 12px;
-  width: 4.0em;
+  font-size: 14px;
+  min-width: 70px;
+  max-width: 70px;
+  max-height: 26px;
+  min-height: 26px;
 }
 
 .cksButton label {
   float: left;
-  width: 4.0em;
+  border-radius: 4px;
+  min-width: 70px;
+  max-width: 70px;
+  max-height: 20px;
+  min-height: 20px;
 }
 
 .cksButton label span {
   text-align: center;
   padding: 3px 0px;
   display: block;
+  border-radius: 4px;
+  min-width: 70px;
+  max-width: 70px;
+  max-height: 20px;
+  min-height: 20px;
+
 }
 .cksButton label input {
   position: absolute;
   top: -20px;
-}
-
-.cksButton input:hover + span {
-  background-color: rgb(243, 226, 183);
 }
 
 .cksButton input:checked + span {
@@ -38,50 +47,50 @@ FILTER COMPONENT
   color: black;
 }
 
-.cksButton input:checked:hover + span {
-  background-color: rgb(205, 138, 5);
-  color: black;
-}
-
-
 .chButton {
-  //display:inline-block;
-  border-radius:2em;
-  box-sizing: border-box;
-  text-decoration:none;
-  font-family:'Roboto',sans-serif;
-  font-weight:300;
-  color:#FFFFFF;
+  margin:0 0.3em 0.3em 0;
   background-color:#edc47e;
-  text-align:center;
-  height: auto;
+  border-radius: 2em;
+  overflow: auto;
   float: left;
-  text-align: center;
-  width: 8.0em;
-  height: 2em;
-  font-size: 12px;
+  ////
+  font-family: 'Roboto',sans-serif;
+  font-weight: 400;
+  color: #FFFFFF;
+  min-width: 120px;
+  max-width: 120px;
+  max-height: 26px;
+  min-height: 26px;
+  font-size: 14px;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .chButton label {
+  margin-right: 100px;
   float: left;
-  border-radius: 2em;
-  width: 8.0em;
-  height: 2em;
+  min-width: 120px;
+  max-width: 120px;
+  max-height: 26px;
+  min-height: 26px;
+  //////
 }
 
 .chButton label span {
-  border-radius: 2em;
   text-align: center;
   padding: 3px 0px;
   display: block;
+  border-radius: 2em;
+
+  min-width: 120px;
+  max-width: 120px;
+  max-height: 20px;
+  min-height: 20px;
 }
+
 .chButton label input {
   position: absolute;
   top: -20px;
-}
-
-.chButton input:hover + span {
-  background-color: rgb(243, 226, 183);
 }
 
 .chButton input:checked + span {
@@ -89,138 +98,69 @@ FILTER COMPONENT
   color: black;
 }
 
-.chButton input:checked:hover + span {
-  background-color: rgb(230, 230, 230);
-  color: black;
+@mixin lfButtonBase {
+  display: flex;
+  padding: 0.3em 1.2em;
+  margin: 0 0.3em 0.3em 0;
+  border: none;
+  border-radius: 2em;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #FFFFFF;
+  background-color: #edc47e;
+  text-align: center;
+  transition: all 0.2s;
+  height: 26px;
+  max-height: 26px;
+  justify-content: center;
 }
 
+
+
 .smallFilter {
-  font-size: 30px;
-  //flex-direction: row;
-  //justify-content: space-around;
   display: flex;
   flex-direction: row;
   padding: 0;
   margin: 0;
-  //flex-wrap: wrap;
   width: 100%;
-  height: auto;
-  //margin: 10px;
-  //-webkit-overflow-scrolling: touch;
+  min-height: 48px;
+  -webkit-overflow-scrolling: touch;
+  justify-content: flex-start;
+  align-items: center;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  gap: 10px;
 
-  justify-content: space-evenly;
-  //white-space: nowrap;
-
-  .sort {
-    font-size: 10px;
+  .sfBtn {
+    @include lfButtonBase;
+    min-width: 110px;
   }
 
-  // .clickableElement {
-  //   display: inline-block;
-  //   //height: 75%;
-  //   //width: 30%;
-  //  // text-align: center;
-  //  // padding: 10px;
-  // }
-
-  .sfButton {
-    display:inline-block;
-    padding:0.3em 1.2em;
-    margin:0 0.3em 0.3em 0;
-    border: none;
-    border-radius:2em;
-    //box-sizing: border-box;
-    text-decoration:none;
-    font-family:'Roboto',sans-serif;
-    font-weight:300;
-    color:#FFFFFF;
-    background-color:#edc47e;
-    text-align:center;
-    transition: all 0.2s;
+  .showBtn {
+    @include lfButtonBase;
+    min-width: 100px;
   }
-  .sfButton :hover {
+
+  .priceBtn {
+    @include lfButtonBase;
+    min-width: 60px;
+  }
+
+  .sortBtn {
+    @include lfButtonBase;
+    min-width: 100px;
+    width: auto;
+  }
+
+  .sfBtn :hover {
     background-color:#11730a;
   }
 
-
-  .sfChild {
-    color: black;
-    background-color: #f1d866;
-    border-radius: 4px;
-  }
-
-  .item1 {
-    order: 1;
-  }
-  .item2 {
-    order: 2;
-  }
-  .item3 {
-    order: 3;
-  }
-  .item4 {
-    order: 4;
-  }
-
 }
 
-.bigFilter {
-  display: flex;
-  flex-direction: column;
-
-  .categories {
-    font-size: 1rem;
-  }
-}
-
-
-.priceFilterModal {
-  background: white;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  z-index: 1000;
-  box-shadow: 0 5px 10px 2px rgba(195, 192, 192, .5);
-  border-radius: 10px;
-  width: 50px;
-  height: 100px;
-  left: calc(100% - 50px);
-}
-
-.bigModal {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  width: calc(100% - 40px);
-  height: calc(100% - 20px);
-  top: 0%;
-  left: 0%;
-  bottom: 0%;
-  z-index: 1000;
-  background: rgb(237, 234, 234);
-  color: rgb(51, 49, 49);
-  border-radius: 10px;
-  position: absolute;
-  box-shadow: 0 5px 10px 2px rgba(195, 192, 192, .5);
-  text-align: center;
-  font-size: 16px;
-  font-family: Verdana, sans-serif;
-
-  .bigFilterSection {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-  }
-
-  hr {
-    border: 0;
-    height: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(223, 220, 220, 0.3);
-  }
-
-
-}
 
 /*
 MAP COMPONENT
@@ -402,7 +342,9 @@ Add POI Component
 
   .filters{
     float: left;
-    width: 95%;
+    width: 100%;
+    margin-top: 10px;
+    background-color: #eeeeee;
   }
 
   .addPOI{

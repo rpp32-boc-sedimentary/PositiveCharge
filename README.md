@@ -1,4 +1,4 @@
-# PositiveCharge 
+# PositiveCharge
 
 Technologies used...
 <p>
@@ -14,50 +14,73 @@ Technologies used...
 <p/>
 
 <div>
-  Dakota Lust - Architecture Owner 
+  Dakota Lust - Architecture Owner
     <a href="https://www.linkedin.com/in/dakota-lust-06618a20a/">
       <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
     <a/>
+  <br>
+  <a href="https://github.com/ColonelKrust">Github: @ColonelKrust<a/>
 <div/>
-      
+
 <div>
-  Dominic Carullo - UI Owner 
+  Dominic Carullo - UI Owner
     <a href="https://www.linkedin.com/in/dominic-carullo/">
       <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
     <a/>
+  <br>
+  <a href="https://github.com/DominicCarullo">Github: @DomincCarullo<a/>
 <div/>
-      
+
 <div>
-  Dwight Doran - Software Engineer 
+  Dwight Doran - Software Engineer
     <a href="https://www.linkedin.com/in/dwightdoran">
       <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
     <a/>
+  <br>
+  <a href="https://github.com/dwightdoran">Github: @dwightdoran<a/>
 <div/>
-      
+
 <div>
   Jeff Fox - Program Lead
     <a href="https://www.linkedin.com/in/jeffox/">
       <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
     <a/>
+  <br>
+  <a href="https://github.com/jefffock">Github: @jefffock<a/>
 <div/>
-      
+
 <div>
-  Joseph Lee - Software Engineer 
+  Joseph Lee - Software Engineer
     <a href="https://www.linkedin.com/in/josephelee1/">
       <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
     <a/>
+  <br>
+  <a href="https://github.com/joseflee">Github: @joseflee<a/>
 <div/>
-      
+
 <div>
-  Justing Tat - Software Engineer 
+  Justing Tat - Software Engineer
     <a href="https://www.linkedin.com/in/justin-tat-30a994238/">
       <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
     <a/>
+  <br>
+  <a href="https://github.com/justin-tat">Github: @justin-tat<a/>
 <div/>
-      
+
 <div>
-  Mendel Hung - Software Engineer 
+  Mendel Hung - Software Engineer
     <a href="https://www.linkedin.com/in/mendel-hung-4a888b34/">
       <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
     <a/>
+  <br>
+  <a href="https://github.com/mendelorian">Github: @Mendelorian<a/>
 <div/>
+
+
+
+<img src="./positive_charge/public/demoGifs/loginFindCharger.gif" width="286" height="617"/>
+<img src="./positive_charge/public/demoGifs/poi.gif" width="286" height="617"/>
+<img src="./positive_charge/public/demoGifs/addPoi.gif" width="286" height="617"/>
+<img src="./positive_charge/public/demoGifs/details.gif" width="286" height="617"/>
+<img src="./positive_charge/public/demoGifs/sponsoring.gif" width="286" height="617"/>
+
