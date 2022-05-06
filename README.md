@@ -13,68 +13,17 @@ Technologies used...
 <img alt="Jenkins" src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white" />
 <p/>
 
-<div>
-  Dakota Lust - Architecture Owner
-    <a href="https://www.linkedin.com/in/dakota-lust-06618a20a/">
-      <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
-    <a/>
-  <br>
-  <a href="https://github.com/ColonelKrust">Github: @ColonelKrust<a/>
-<div/>
 
-<div>
-  Dominic Carullo - UI Owner
-    <a href="https://www.linkedin.com/in/dominic-carullo/">
-      <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
-    <a/>
-  <br>
-  <a href="https://github.com/DominicCarullo">Github: @DomincCarullo<a/>
-<div/>
+| Engineer | Titile | Linked In | Github |
+|:--------:|:------:|:----------:|:-----:|
+|Dakota Lust|Architecture Owner|<a href="https://www.linkedin.com/in/dakota-lust-06618a20a/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|<a href="https://github.com/ColonelKrust"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
+|Dominic Carullo|UI Owner|<a href="https://www.linkedin.com/in/dominic-carullo/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|<a href="https://github.com/DominicCarullo"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
+|Dwight Doran|Software Engineer| <a href="https://www.linkedin.com/in/dwightdoran"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|<a href="https://github.com/dwightdoran"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
+|Jeff Fox|Program Lead|<a href="https://www.linkedin.com/in/jeffox/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|    <a href="https://github.com/jefffock"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
+|Joseph Lee|Software Engineer|<a href="https://www.linkedin.com/in/josephelee1/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|    <a href="https://github.com/joseflee"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
+|Justing Tat|Software Engineer|<a href="https://www.linkedin.com/in/justin-tat-30a994238/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|    <a href="https://github.com/justin-tat"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
+|Mendel Hung|Software Engineer|<a href="https://www.linkedin.com/in/mendel-hung-4a888b34/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|    <a href="https://github.com/mendelorian"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
 
-<div>
-  Dwight Doran - Software Engineer
-    <a href="https://www.linkedin.com/in/dwightdoran">
-      <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
-    <a/>
-  <br>
-  <a href="https://github.com/dwightdoran">Github: @dwightdoran<a/>
-<div/>
-
-<div>
-  Jeff Fox - Program Lead
-    <a href="https://www.linkedin.com/in/jeffox/">
-      <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
-    <a/>
-  <br>
-  <a href="https://github.com/jefffock">Github: @jefffock<a/>
-<div/>
-
-<div>
-  Joseph Lee - Software Engineer
-    <a href="https://www.linkedin.com/in/josephelee1/">
-      <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
-    <a/>
-  <br>
-  <a href="https://github.com/joseflee">Github: @joseflee<a/>
-<div/>
-
-<div>
-  Justing Tat - Software Engineer
-    <a href="https://www.linkedin.com/in/justin-tat-30a994238/">
-      <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
-    <a/>
-  <br>
-  <a href="https://github.com/justin-tat">Github: @justin-tat<a/>
-<div/>
-
-<div>
-  Mendel Hung - Software Engineer
-    <a href="https://www.linkedin.com/in/mendel-hung-4a888b34/">
-      <img alt="linkedin" src="https://img.shields.io/badge/linkedin-0A66C2??style=for-the-badge&logo=linkedin&logoColor=white" />
-    <a/>
-  <br>
-  <a href="https://github.com/mendelorian">Github: @Mendelorian<a/>
-<div/>
 
 
 
