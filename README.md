@@ -14,22 +14,41 @@ Technologies used...
 <p/>
 
 
-| Engineer | Titile | Linked In | Github |
+| Engineer | Title | Linked In | Github |
 |:--------:|:------:|:----------:|:-----:|
-|Dakota Lust|Architecture Owner|<a href="https://www.linkedin.com/in/dakota-lust-06618a20a/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|<a href="https://github.com/ColonelKrust"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
-|Dominic Carullo|UI Owner|<a href="https://www.linkedin.com/in/dominic-carullo/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|<a href="https://github.com/DominicCarullo"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
+|Dakota Lust|Architecture Owner, Software Engineer|<a href="https://www.linkedin.com/in/dakota-lust-06618a20a/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|<a href="https://github.com/ColonelKrust"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
+|Dominic Carullo|UI Owner, Software Engineer|<a href="https://www.linkedin.com/in/dominic-carullo/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|<a href="https://github.com/DominicCarullo"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
 |Dwight Doran|Software Engineer| <a href="https://www.linkedin.com/in/dwightdoran"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|<a href="https://github.com/dwightdoran"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
-|Jeff Fox|Program Lead|<a href="https://www.linkedin.com/in/jeffox/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|    <a href="https://github.com/jefffock"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
+|Jeff Fox|Product Manager, Software Engineer|<a href="https://www.linkedin.com/in/jeffox/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|    <a href="https://github.com/jefffock"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
 |Joseph Lee|Software Engineer|<a href="https://www.linkedin.com/in/josephelee1/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|    <a href="https://github.com/joseflee"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
-|Justing Tat|Software Engineer|<a href="https://www.linkedin.com/in/justin-tat-30a994238/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|    <a href="https://github.com/justin-tat"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
+|Justin Tat|Software Engineer|<a href="https://www.linkedin.com/in/justin-tat-30a994238/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|    <a href="https://github.com/justin-tat"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
 |Mendel Hung|Software Engineer|<a href="https://www.linkedin.com/in/mendel-hung-4a888b34/"><img alt="linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /><a/>|    <a href="https://github.com/mendelorian"><img alt="github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><a/>|
 
+# Features
+- Find Charging Station: Dakota Lust
+- Mapping: Justin Tat
+- See Points of Interest - Dominic Carullo
+- Authentication and Sponsors - Mendel Hung
+- Add Points of Interest - Jeff Fox
+- Filter Points of Interest - Joseph Lee
+- Comment and Like Points of Interest - Dwight Doran
 
 
 
 <img src="./positive_charge/public/demoGifs/loginFindCharger.gif" width="286" height="617"/>
+- Authentication by Mendel Hung
+
 <img src="./positive_charge/public/demoGifs/poi.gif" width="286" height="617"/>
+- Find PoI by Dominic Carullo
+- Mapping by Justin Tat
+- Filtering by Joseph Lee
+
 <img src="./positive_charge/public/demoGifs/addPoi.gif" width="286" height="617"/>
+- Add PoI by Jeff Fox
+
 <img src="./positive_charge/public/demoGifs/details.gif" width="286" height="617"/>
+- Like and Comment on PoI by Dwight Doran
+
 <img src="./positive_charge/public/demoGifs/sponsoring.gif" width="286" height="617"/>
+- Sponsor a PoI by Mendel Hung
 
