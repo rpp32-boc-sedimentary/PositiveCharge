@@ -25,3 +25,5 @@ yarn-error.log*
 
 request.rest
 positive_charge/public/bundle.js
+
+*.pem
