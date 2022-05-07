@@ -34,25 +34,24 @@ Technologies used...
 - Comment and Like Points of Interest - Dwight Doran
 
 # Authentication
-
-<img src="./positive_charge/public/demoGifs/loginFindCharger.gif" width="286" height="617"/>
 - Authentication by Mendel Hung
+<img src="./positive_charge/public/demoGifs/loginFindCharger.gif" width="286" height="617"/>
 
 # Finding a Point of Interest
-<img src="./positive_charge/public/demoGifs/poi.gif" width="286" height="617"/>
 - Find PoI by Dominic Carullo
 - Mapping by Justin Tat
 - Filtering by Joseph Lee
+<img src="./positive_charge/public/demoGifs/poi.gif" width="286" height="617"/>
 
 # Adding a Point of Interest
-<img src="./positive_charge/public/demoGifs/addPoi.gif" width="286" height="617"/>
 - Add PoI by Jeff Fox
+<img src="./positive_charge/public/demoGifs/addPoi.gif" width="286" height="617"/>
 
 # Liking and Commenting on a Point of Interest
-<img src="./positive_charge/public/demoGifs/details.gif" width="286" height="617"/>
 - Like and Comment on PoI by Dwight Doran
+<img src="./positive_charge/public/demoGifs/details.gif" width="286" height="617"/>
 
 # Sponsoring a Point of Interest
-<img src="./positive_charge/public/demoGifs/sponsoring.gif" width="286" height="617"/>
 - Sponsor a PoI by Mendel Hung
+<img src="./positive_charge/public/demoGifs/sponsoring.gif" width="286" height="617"/>
 
