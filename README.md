@@ -28,7 +28,7 @@ Technologies used...
 - Find Charging Station: Dakota Lust
 - Mapping: Justin Tat
 - See Points of Interest - Dominic Carullo
-- Authentication and Sponsors - Mendel Hung
+- Authentication & Sponsoring Points of Interest - Mendel Hung
 - Add Points of Interest - Jeff Fox
 - Filter Points of Interest - Joseph Lee
 - Comment and Like Points of Interest - Dwight Doran
